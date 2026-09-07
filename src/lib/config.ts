@@ -360,43 +360,86 @@ export const testimonials = [
 
 export const faqs = [
   {
-    question: "Bagaimana cara booking?",
+    question: "Apakah WIMAH Photobooth terpercaya?",
     answer:
-      "Hubungi kami via WhatsApp, pilih paket yang diinginkan, dan tentukan tanggal acara. Kami akan mengirimkan konfirmasi dalam 24 jam.",
+      "Tentu. WIMAH Photobooth berkomitmen memberikan pelayanan yang profesional, ramah, dan berkualitas di setiap acara. Kami menggunakan peralatan berkualitas dan sistem yang dipersiapkan dengan baik untuk memberikan pengalaman photobooth yang nyaman dan berkesan.",
   },
   {
-    question: "Seberapa awal saya harus reservasi?",
+    question: "Apakah bisa konsultasi online?",
     answer:
-      "Kami sarankan untuk reservasi minimal 2-3 minggu sebelum acara untuk memastikan ketersediaan, terutama di musim pernikahan.",
+      "Bisa. Konsultasi dapat dilakukan melalui WhatsApp atau Google Meet dengan membuat appointment terlebih dahulu bersama Admin WIMAH.",
   },
   {
-    question: "Bisakah Anda melayani di luar kota?",
+    question: "Kenapa harus melakukan DP?",
     answer:
-      "Tentu! Kami melayani acara di seluruh wilayah Indonesia. Biaya transportasi akan disesuaikan dengan lokasi acara.",
+      "DP diperlukan untuk mengamankan tanggal dan waktu acara Anda. Setelah DP diterima, jadwal acara resmi kami amankan, slot tidak diberikan kepada client lain, dan persiapan tim serta peralatan mulai dilakukan.",
   },
   {
-    question: "Berapa lama proses setup?",
+    question: "Apakah DP tercatat dan aman?",
     answer:
-      "Setup biasanya memakan waktu 30-60 menit tergantung kompleksitas. Kami akan tiba lebih awal untuk memastikan segalanya sempurna.",
+      "Tentu. Setiap pembayaran akan tercatat dalam invoice sebagai bukti reservasi resmi.",
   },
   {
-    question: "Bisakah kami mem-custom frame foto?",
+    question: "Kapan pelunasan dilakukan?",
     answer:
-      "Ya! Kami menyediakan desain frame kustom sesuai tema acara Anda. Konsultasikan keinginan Anda kepada tim kami.",
+      "Pelunasan dilakukan maksimal H-1 acara, sehingga pada hari-H Anda dapat lebih tenang menikmati acara.",
   },
   {
-    question: "Kapan kami menerima file digital?",
+    question: "Bagaimana jika ada tambahan di hari-H?",
     answer:
-      "Galeri digital akan dikirimkan dalam 1-2 hari setelah acara. Semua foto bisa diakses dan diunduh melalui link privat.",
+      "Pembayaran untuk tambahan layanan dapat dilakukan setelah acara selesai atau maksimal H+1.",
   },
   {
-    question: "Apakah Anda menyediakan cetakan unlimited?",
+    question: "Apakah WIMAH datang tepat waktu?",
     answer:
-      "Ya, paket Unlimited Print dan VIP mencakup cetakan unlimited untuk semua tamu selama acara berlangsung.",
+      "Ya. Tim WIMAH akan datang minimal 1 jam sebelum sesi dimulai untuk melakukan setup dan pengecekan seluruh peralatan.",
   },
   {
-    question: "Bisa untuk acara korporat?",
+    question: "Bagaimana jika terjadi kendala teknis?",
     answer:
-      "Tentu! Kami berpengalaman melayani gala dinner, gathering, product launch, dan berbagai acara korporat lainnya.",
+      "Tim WIMAH akan langsung menangani kendala di lokasi. Kami juga menyiapkan sistem dan peralatan backup untuk meminimalkan gangguan selama acara berlangsung.",
+  },
+  {
+    question: "Bagaimana jika photobooth tidak dapat digunakan?",
+    answer:
+      "Apabila photobooth tidak dapat digunakan sama sekali karena kesalahan dari pihak WIMAH, 100% pembayaran akan kami kembalikan.",
+  },
+  {
+    question: "Bagaimana dengan kualitas foto?",
+    answer:
+      "Kami memastikan hasil foto tetap optimal. Jika hasil foto terlalu gelap, terlalu terang, atau terjadi kesalahan teknis, foto dapat diulang dan dicetak kembali.",
+  },
+  {
+    question: "Bagaimana jika QR Code atau file bermasalah?",
+    answer:
+      "Tenang. File akan tetap kami amankan melalui sistem backup. Jika terjadi masalah saat proses pengiriman file, kami akan membantu memastikan file tetap dapat diterima.",
+  },
+  {
+    question: "Bagaimana pelayanan crew WIMAH?",
+    answer:
+      "Crew WIMAH siap membantu selama acara dengan pelayanan yang ramah, profesional, responsif, dan fokus pada kenyamanan tamu.",
+  },
+];
+
+export const guarantees = [
+  {
+    title: "Datang tepat waktu",
+    description: "Tim hadir minimal 1 jam sebelum sesi dimulai.",
+  },
+  {
+    title: "Photobooth tidak beroperasi karena kesalahan kami",
+    description: "Uang kembali 100%.",
+  },
+  {
+    title: "Kendala teknis",
+    description: "Ditangani langsung oleh crew dan didukung sistem/peralatan backup.",
+  },
+  {
+    title: "Hasil foto kurang maksimal",
+    description: "Foto dapat diulang dan dicetak kembali.",
+  },
+  {
+    title: "QR Code / File bermasalah",
+    description: "File tetap kami amankan dan bantu proses hingga diterima.",
   },
 ];
