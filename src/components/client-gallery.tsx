@@ -1,63 +1,54 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { animated, useSpring, useInView, useTrail } from "@react-spring/web";
 import Image from "next/image";
 import { clientGalleries } from "@/lib/config";
 import { ExternalLink } from "lucide-react";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" as const },
-  },
-};
-
 export default function ClientGallery() {
+  const [titleRef, titleInView] = useInView(() => ({ triggerOnce: true }));
+  const [gridRef, gridInView] = useInView(() => ({
+    triggerOnce: true,
+    amount: 0.1,
+  }));
+
+  const titleSpring = useSpring({
+    opacity: titleInView ? 1 : 0,
+    y: titleInView ? 0 : 30,
+    config: { tension: 280, friction: 60 },
+  });
+
+  const cardSprings = useTrail(clientGalleries.length, {
+    opacity: gridInView ? 1 : 0,
+    y: gridInView ? 0 : 40,
+    config: { tension: 280, friction: 60 },
+  });
+
   return (
-    <section id="gallery" className="relative py-32">
+    <section id="gallery" className="relative py-20 lg:py-32 texture-noise">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      <div className="absolute inset-0 texture-lines opacity-30" />
+      <div className="absolute inset-0 " />
 
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+        <animated.div
+          ref={titleRef}
+          style={titleSpring}
           className="mb-16 text-center"
         >
-          <h2 className="font-elegant text-5xl font-bold text-text-primary md:text-6xl">
+          <h2 className="font-elegant text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary">
             Find and download your{" "}
             <span className="italic text-accent-light">memories.</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-text-secondary">
+          <p className="mx-auto mt-6 max-w-[480px] text-base text-text-secondary leading-normal">
             Every event receives its own private online gallery.
           </p>
-        </motion.div>
+        </animated.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {clientGalleries.map((gallery) => (
-            <motion.div
+        <div ref={gridRef} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {clientGalleries.map((gallery, index) => (
+            <animated.div
               key={gallery.name}
-              variants={cardVariants}
+              style={cardSprings[index]}
               className="group overflow-hidden rounded-3xl border border-border bg-surface/50"
             >
               <div className="relative aspect-[4/3] overflow-hidden">
@@ -84,9 +75,9 @@ export default function ClientGallery() {
                   <ExternalLink className="h-4 w-4" />
                 </button>
               </div>
-            </motion.div>
+            </animated.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -21,7 +21,7 @@ export default function ScrollProgress() {
     <div
       className="fixed left-0 top-0 z-50 h-[3px] origin-left"
       style={{
-        backgroundColor: "#A66A45",
+        backgroundColor: "#c87040",
         width: "100%",
         transform: `scaleX(${progress})`,
         transition: "transform 0.1s linear",

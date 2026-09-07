@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { animated, useSpring, useInView } from "@react-spring/web";
 import Image from "next/image";
 import { horizontalImages } from "@/lib/config";
 
@@ -40,34 +40,46 @@ function CarouselCard({
 }
 
 export default function HorizontalPortfolio() {
+  const [titleRef, titleInView] = useInView(() => ({ triggerOnce: true }));
+  const [row1Ref, row1InView] = useInView(() => ({ triggerOnce: true }));
+  const [row2Ref, row2InView] = useInView(() => ({ triggerOnce: true }));
+
+  const titleSpring = useSpring({
+    opacity: titleInView ? 1 : 0,
+    y: titleInView ? 0 : 30,
+    config: { tension: 280, friction: 60 },
+  });
+
+  const row1Spring = useSpring({
+    opacity: row1InView ? 1 : 0,
+    config: { tension: 280, friction: 60 },
+  });
+
+  const row2Spring = useSpring({
+    opacity: row2InView ? 1 : 0,
+    config: { tension: 280, friction: 60 },
+  });
+
   return (
-    <section className="relative py-32 overflow-hidden">
+    <section className="relative py-20 lg:py-32 overflow-hidden texture-grid">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      <div className="absolute inset-0 texture-dots opacity-30" />
+      <div className="absolute inset-0 " />
 
       <div className="relative mx-auto max-w-[1200px]">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+        <animated.div
+          ref={titleRef}
+          style={titleSpring}
           className="mb-16 px-6 text-center lg:px-8"
         >
-          <h2 className="font-elegant text-5xl font-bold text-text-primary md:text-6xl">
+          <h2 className="font-elegant text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary">
             Our work{" "}
             <span className="italic text-accent-light">speaks</span> for itself.
           </h2>
-        </motion.div>
+        </animated.div>
       </div>
 
       <div className="relative space-y-4">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="overflow-hidden"
-        >
+        <animated.div ref={row1Ref} style={row1Spring} className="overflow-hidden">
           <div className="flex gap-4 animate-marquee-left w-max">
             {[...row1, ...row1].map((image, i) => (
               <CarouselCard
@@ -78,15 +90,9 @@ export default function HorizontalPortfolio() {
               />
             ))}
           </div>
-        </motion.div>
+        </animated.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="overflow-hidden"
-        >
+        <animated.div ref={row2Ref} style={row2Spring} className="overflow-hidden">
           <div className="flex gap-4 animate-marquee-right w-max">
             {[...row2, ...row2].map((image, i) => (
               <CarouselCard
@@ -97,7 +103,7 @@ export default function HorizontalPortfolio() {
               />
             ))}
           </div>
-        </motion.div>
+        </animated.div>
       </div>
     </section>
   );

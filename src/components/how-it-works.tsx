@@ -1,78 +1,94 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { steps } from "@/lib/config"
+import { animated, useSpring, useInView, useTrail } from "@react-spring/web";
+import { steps } from "@/lib/config";
 
-const stepVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.15,
-      duration: 0.6,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
-  }),
+function StepConnector() {
+  return (
+    <div className="hidden lg:flex absolute top-10 left-[calc(50%+52px)] w-[calc(100%-44px)] items-center">
+      <div className="w-full h-px bg-gradient-to-r from-border via-accent/15 to-border" />
+    </div>
+  );
 }
 
 export default function HowItWorks() {
+  const [ref, inView] = useInView(() => ({ triggerOnce: true }));
+
+  const [titleSpring] = useSpring(() => ({
+    opacity: inView ? 1 : 0,
+    y: inView ? 0 : 30,
+    config: { tension: 280, friction: 60 },
+  }));
+
+  const trail = useTrail(steps.length, {
+    opacity: inView ? 1 : 0,
+    y: inView ? 0 : 30,
+    config: { tension: 280, friction: 60 },
+  });
+
   return (
-    <section className="relative py-32 overflow-hidden">
-      <div className="mx-auto max-w-[1200px] px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
-        >
-          <span className="text-sm font-medium uppercase tracking-[0.2em] text-accent">
-            Simple Process
-          </span>
-          <h2 className="mt-6 text-4xl md:text-5xl font-heading font-bold text-text-primary">
-            How it{" "}
-            <span className="font-elegant italic text-accent-light">
-              works.
-            </span>
-          </h2>
-        </motion.div>
+    <section className="relative py-20 lg:py-32 overflow-hidden texture-crosshatch">
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-accent/3 blur-[160px] pointer-events-none" />
 
-        <div className="relative">
-          {/* Connector line */}
-          <div className="hidden lg:block absolute top-[3.5rem] left-[10%] right-[10%] h-[2px] bg-accent/20" />
-          <div className="lg:hidden absolute top-0 bottom-0 left-[2rem] w-[2px] bg-accent/20" />
+      <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
+        <div ref={ref}>
+          <animated.div style={titleSpring} className="mb-20 text-center">
+            <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary tracking-tight">
+              How it{" "}
+              <span className="font-elegant italic text-accent-light">
+                works.
+              </span>
+            </h2>
+          </animated.div>
 
-          <div className="flex flex-col lg:flex-row lg:justify-between gap-12 lg:gap-0">
-            {steps.map((step, i) => (
-              <motion.div
-                key={step.number}
-                custom={i}
-                variants={stepVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
-                className="relative flex lg:flex-col items-start lg:items-center gap-6 lg:gap-0 lg:text-center lg:flex-1"
-              >
-                <div className="relative z-10 flex-shrink-0 w-16 h-16 rounded-full bg-background border-2 border-accent/30 flex items-center justify-center">
-                  <span className="text-xl font-heading font-black text-accent">
-                    {step.number}
-                  </span>
-                </div>
-
-                <div className="lg:mt-8">
-                  <h3 className="text-xl font-heading font-bold text-text-primary mb-2">
-                    {step.title}
+          {/* Desktop */}
+          <div className="hidden lg:grid lg:grid-cols-5 gap-6 relative">
+            {trail.map((style, i) => (
+              <animated.div key={steps[i].number} style={style} className="relative">
+                {i < steps.length - 1 && <StepConnector />}
+                <div className="flex flex-col items-center text-center px-2">
+                  <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-surface border border-border">
+                    <span className="text-4xl font-heading font-black text-accent/25">
+                      {steps[i].number}
+                    </span>
+                  </div>
+                  <h3 className="font-heading text-lg font-semibold text-text-primary mb-2">
+                    {steps[i].title}
                   </h3>
-                  <p className="text-text-secondary max-w-[200px] lg:max-w-none">
-                    {step.description}
+                  <p className="text-text-secondary text-sm leading-snug max-w-[180px]">
+                    {steps[i].description}
                   </p>
                 </div>
-              </motion.div>
+              </animated.div>
+            ))}
+          </div>
+
+          {/* Mobile */}
+          <div className="lg:hidden flex flex-col gap-0 relative">
+            <div className="absolute left-[29px] top-12 bottom-12 w-px bg-gradient-to-b from-border via-accent/15 to-border" />
+            {trail.map((style, i) => (
+              <animated.div key={steps[i].number} style={style}>
+                <div className="flex items-start gap-6 py-6 relative">
+                  <div className="shrink-0 w-14 h-14 rounded-full bg-surface border border-border flex items-center justify-center z-10">
+                    <span className="font-heading text-xs font-bold text-accent tracking-wider">
+                      {steps[i].number}
+                    </span>
+                  </div>
+                  <div className="pt-1">
+                    <h3 className="font-heading text-lg font-semibold text-text-primary mb-1">
+                      {steps[i].title}
+                    </h3>
+                    <p className="text-text-secondary leading-snug">
+                      {steps[i].description}
+                    </p>
+                  </div>
+                </div>
+              </animated.div>
             ))}
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

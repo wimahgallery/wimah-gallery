@@ -1,37 +1,39 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import Lenis from "lenis"
+import { useEffect } from "react";
+import Lenis from "lenis";
 
-import { Header } from "@/components/header"
-import Hero from "@/components/hero"
-import About from "@/components/about"
-import WhyUs from "@/components/why-us"
-import HowItWorks from "@/components/how-it-works"
-import Portfolio from "@/components/portfolio"
-import HorizontalPortfolio from "@/components/horizontal-portfolio"
-import ClientGallery from "@/components/client-gallery"
-import Pricing from "@/components/pricing"
-import Testimonials from "@/components/testimonials"
-import FAQ from "@/components/faq"
-import FinalCTA from "@/components/final-cta"
-import Footer from "@/components/footer"
-import CustomCursor from "@/components/custom-cursor"
-import ScrollProgress from "@/components/scroll-progress"
+import { Header } from "@/components/header";
+import Hero from "@/components/hero";
+import About from "@/components/about";
+import WhyUs from "@/components/why-us";
+import HowItWorks from "@/components/how-it-works";
+import Portfolio from "@/components/portfolio";
+import HorizontalPortfolio from "@/components/horizontal-portfolio";
+import ClientGallery from "@/components/client-gallery";
+import Pricing from "@/components/pricing";
+import Testimonials from "@/components/testimonials";
+import FAQ from "@/components/faq";
+import FinalCTA from "@/components/final-cta";
+import Footer from "@/components/footer";
+import CustomCursor from "@/components/custom-cursor";
+import ScrollProgress from "@/components/scroll-progress";
 
 export default function Home() {
   useEffect(() => {
-    if (typeof window === "undefined") return
+    if (typeof window === "undefined") return;
     if (window.matchMedia("(pointer: fine)").matches) {
-      const lenis = new Lenis()
+      const lenis = new Lenis();
       function raf(time: number) {
-        lenis.raf(time)
-        requestAnimationFrame(raf)
+        lenis.raf(time);
+        requestAnimationFrame(raf);
       }
-      requestAnimationFrame(raf)
-      return () => { lenis.destroy() }
+      requestAnimationFrame(raf);
+      return () => {
+        lenis.destroy();
+      };
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -41,9 +43,11 @@ export default function Home() {
         <div className="relative">
           <Header />
         </div>
+
         <div className="relative">
           <Hero />
         </div>
+
         <div className="relative">
           <About />
         </div>
@@ -79,5 +83,5 @@ export default function Home() {
         </div>
       </main>
     </>
-  )
+  );
 }

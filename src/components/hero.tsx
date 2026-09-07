@@ -1,17 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { animated, useSpring } from "@react-spring/web";
 import Image from "next/image";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { siteConfig } from "@/lib/config";
-
-const ease = [0.16, 1, 0.3, 1] as const;
-
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease },
-};
 
 const cards = [
   {
@@ -37,13 +29,15 @@ const cards = [
   },
 ];
 
-function FloatingCard({
+function AnimatedCard({
   src,
   rotate,
   x,
   y,
   delay,
   index,
+  w,
+  h,
 }: {
   src: string;
   rotate: number;
@@ -51,14 +45,29 @@ function FloatingCard({
   y: number;
   delay: number;
   index: number;
+  w: number;
+  h: number;
 }) {
-  const w = 200 + index * 10;
-  const h = 280 + index * 20;
+  const [style] = useSpring(
+    () => ({
+      from: {
+        opacity: 0,
+        scale: 0.85,
+        rotateZ: rotate - 10,
+      },
+      to: {
+        opacity: 1,
+        scale: 1,
+        rotateZ: rotate,
+      },
+      config: { tension: 280, friction: 60 },
+      delay: delay * 1000,
+    }),
+    [],
+  );
+
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.85, rotate: rotate - 10 }}
-      animate={{ opacity: 1, scale: 1, rotate }}
-      transition={{ duration: 0.5, ease, delay }}
+    <animated.div
       style={{
         position: "absolute",
         left: "50%",
@@ -69,6 +78,7 @@ function FloatingCard({
         height: h,
         zIndex: index,
         willChange: "transform, opacity",
+        ...style,
       }}
     >
       <div
@@ -85,11 +95,39 @@ function FloatingCard({
           sizes={`${w}px`}
         />
       </div>
-    </motion.div>
+    </animated.div>
   );
 }
 
 export default function Hero() {
+  const badgeStyle = useSpring({
+    from: { opacity: 0, y: 24 },
+    to: { opacity: 1, y: 0 },
+    config: { tension: 280, friction: 60 },
+    delay: 100,
+  });
+
+  const headlineStyle = useSpring({
+    from: { opacity: 0, y: 24 },
+    to: { opacity: 1, y: 0 },
+    config: { tension: 280, friction: 60 },
+    delay: 150,
+  });
+
+  const descStyle = useSpring({
+    from: { opacity: 0, y: 24 },
+    to: { opacity: 1, y: 0 },
+    config: { tension: 280, friction: 60 },
+    delay: 200,
+  });
+
+  const ctaStyle = useSpring({
+    from: { opacity: 0, y: 24 },
+    to: { opacity: 1, y: 0 },
+    config: { tension: 280, friction: 60 },
+    delay: 250,
+  });
+
   return (
     <section
       id="home"
@@ -99,29 +137,23 @@ export default function Hero() {
       <div className="absolute top-20 right-0 w-[400px] h-[400px] lg:w-[600px] lg:h-[600px] rounded-full bg-accent/5 blur-[80px] lg:blur-[120px]" />
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] rounded-full bg-accent/3 blur-[60px] lg:blur-[120px]" />
 
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-heading text-[20vw] font-black text-white/[0.03] pointer-events-none select-none whitespace-nowrap">
+      <div className="absolute [paint-order:stroke_fill] [-webkit-text-stroke:1px_rgba(107,112,92,0.2)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-heading text-[20vw] font-black text-text-primary/[0.04] pointer-events-none select-none whitespace-nowrap">
         MEMORIES
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8 py-24 lg:py-32 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
-            <motion.div
-              {...fadeUp}
-              transition={{ ...fadeUp.transition, delay: 0.1 }}
-            >
+            <animated.div style={badgeStyle}>
               <div className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-4 py-2 mb-6 lg:mb-8">
                 <Sparkles className="h-4 w-4 text-accent" />
                 <span className="text-sm font-medium tracking-wider uppercase text-accent">
                   Premium Photobooth Experience
                 </span>
               </div>
-            </motion.div>
+            </animated.div>
 
-            <motion.div
-              {...fadeUp}
-              transition={{ ...fadeUp.transition, delay: 0.15 }}
-            >
+            <animated.div style={headlineStyle}>
               <h1 className="font-heading text-[40px] sm:text-[56px] lg:text-[80px] font-bold leading-[1.05] tracking-tight">
                 Make every moment
                 <br />
@@ -130,27 +162,21 @@ export default function Hero() {
                   meaningful.
                 </span>
               </h1>
-            </motion.div>
+            </animated.div>
 
-            <motion.div
-              {...fadeUp}
-              transition={{ ...fadeUp.transition, delay: 0.2 }}
-            >
-              <p className="mt-6 lg:mt-8 max-w-[700px] text-base lg:text-lg text-text-secondary leading-relaxed">
+            <animated.div style={descStyle}>
+              <p className="mt-6 lg:mt-8 max-w-[520px] text-base text-text-secondary leading-normal">
                 {siteConfig.description}
               </p>
-            </motion.div>
+            </animated.div>
 
-            <motion.div
-              {...fadeUp}
-              transition={{ ...fadeUp.transition, delay: 0.25 }}
-            >
+            <animated.div style={ctaStyle}>
               <div className="mt-6 lg:mt-8 flex flex-col sm:flex-row gap-4">
                 <a
                   href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik untuk booking Wimah Gallery untuk acara saya.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-background transition-all duration-300 hover:bg-accent-light hover:shadow-[0_4px_24px_rgba(166,106,69,0.3)]"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-background transition-all duration-300 hover:bg-accent-light hover:shadow-[0_4px_24px_rgba(200,112,64,0.25)]"
                 >
                   Book via WhatsApp
                   <ArrowRight className="h-5 w-5" />
@@ -162,13 +188,13 @@ export default function Hero() {
                   View Packages
                 </a>
               </div>
-            </motion.div>
+            </animated.div>
           </div>
 
           <div className="hidden lg:flex relative items-center justify-center">
             <div className="relative w-full h-[500px]">
               {cards.map((card, i) => (
-                <FloatingCard
+                <AnimatedCard
                   key={i}
                   src={card.src}
                   rotate={card.rotate}
@@ -176,6 +202,8 @@ export default function Hero() {
                   y={card.y}
                   delay={card.delay}
                   index={i}
+                  w={200 + i * 10}
+                  h={280 + i * 20}
                 />
               ))}
             </div>

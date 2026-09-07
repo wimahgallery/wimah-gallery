@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { animated, useSpring, useInView, useTrail } from "@react-spring/web";
 import Image from "next/image";
 import { portfolioImages } from "@/lib/config";
 import { ExternalLink, X } from "lucide-react";
@@ -30,6 +30,42 @@ export default function Portfolio() {
     (typeof portfolioImages)[0] | null
   >(null);
 
+  const [titleRef, titleInView] = useInView(() => ({ triggerOnce: true }));
+  const [filtersRef, filtersInView] = useInView(() => ({ triggerOnce: true }));
+  const [gridRef, gridInView] = useInView(() => ({
+    triggerOnce: true,
+    amount: 0.1,
+  }));
+
+  const titleSpring = useSpring({
+    opacity: titleInView ? 1 : 0,
+    y: titleInView ? 0 : 30,
+    config: { tension: 280, friction: 60 },
+  });
+
+  const filtersSpring = useSpring({
+    opacity: filtersInView ? 1 : 0,
+    y: filtersInView ? 0 : 20,
+    config: { tension: 280, friction: 60 },
+  });
+
+  const cardSprings = useTrail(portfolioImages.length, {
+    opacity: gridInView ? 1 : 0,
+    scale: gridInView ? 1 : 0.9,
+    config: { tension: 280, friction: 60 },
+  });
+
+  const lightboxSpring = useSpring({
+    opacity: selectedImage ? 1 : 0,
+    config: { tension: 280, friction: 60 },
+  });
+
+  const lightboxImageSpring = useSpring({
+    scale: selectedImage ? 1 : 0.8,
+    opacity: selectedImage ? 1 : 0,
+    config: { tension: 280, friction: 60 },
+  });
+
   const filteredImages =
     activeCategory === "All"
       ? portfolioImages
@@ -38,28 +74,24 @@ export default function Portfolio() {
         );
 
   return (
-    <section id="portfolio" className="relative py-32">
+    <section id="portfolio" className="relative py-20 lg:py-32 texture-dots">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      <div className="absolute inset-0 texture-lines opacity-30" />
+      <div className="absolute inset-0 " />
 
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+        <animated.div
+          ref={titleRef}
+          style={titleSpring}
           className="mb-16 text-center"
         >
-          <h2 className="font-elegant text-5xl font-bold text-text-primary md:text-6xl">
+          <h2 className="font-elegant text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary">
             Our <span className="italic text-accent-light">portfolio.</span>
           </h2>
-        </motion.div>
+        </animated.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+        <animated.div
+          ref={filtersRef}
+          style={filtersSpring}
           className="mb-12 flex flex-wrap justify-center gap-3"
         >
           {categories.map((cat) => (
@@ -75,87 +107,77 @@ export default function Portfolio() {
               {cat}
             </button>
           ))}
-        </motion.div>
+        </animated.div>
 
-        <div className="columns-2 gap-4 lg:columns-3">
-          <AnimatePresence mode="popLayout">
-            {filteredImages.map((image) => (
-              <motion.div
-                key={image.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4 }}
-                className="mb-4 break-inside-avoid"
+        <div ref={gridRef} className="columns-2 gap-4 lg:columns-3">
+          {portfolioImages.map((image, index) => (
+            <animated.div
+              key={image.id}
+              style={cardSprings[index]}
+              className="mb-4 break-inside-avoid"
+            >
+              <div
+                className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-border ${
+                  filteredImages.some((fi) => fi.id === image.id)
+                    ? "block"
+                    : "hidden"
+                }`}
+                onClick={() => setSelectedImage(image)}
               >
-                <div
-                  className="group relative cursor-pointer overflow-hidden rounded-2xl border border-border"
-                  onClick={() => setSelectedImage(image)}
-                >
-                  <div className="overflow-hidden">
-                    <Image
-                      src={image.src}
-                      alt={image.title}
-                      width={800}
-                      height={1000}
-                      className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${image.aspect}`}
-                    />
-                  </div>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <span className="mb-2 text-xs font-medium uppercase tracking-widest text-accent-light">
-                      {image.category}
-                    </span>
-                    <span className="text-lg font-semibold text-text-primary">
-                      {image.title}
-                    </span>
-                    <ExternalLink className="mt-3 h-5 w-5 text-text-secondary" />
-                  </div>
+                <div className="overflow-hidden">
+                  <Image
+                    src={image.src}
+                    alt={image.title}
+                    width={800}
+                    height={1000}
+                    className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${image.aspect}`}
+                  />
                 </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="mb-2 text-xs font-medium uppercase tracking-widest text-accent-light">
+                    {image.category}
+                  </span>
+                  <span className="text-lg font-semibold text-text-primary">
+                    {image.title}
+                  </span>
+                  <ExternalLink className="mt-3 h-5 w-5 text-text-secondary" />
+                </div>
+              </div>
+            </animated.div>
+          ))}
         </div>
       </div>
 
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
-            onClick={() => setSelectedImage(null)}
+      {selectedImage && (
+        <animated.div
+          style={lightboxSpring}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          onClick={() => setSelectedImage(null)}
+        >
+          <animated.div
+            style={lightboxImageSpring}
+            className="relative max-h-[85vh] max-w-[85vw]"
+            onClick={(e) => e.stopPropagation()}
           >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="relative max-h-[85vh] max-w-[85vw]"
-              onClick={(e) => e.stopPropagation()}
+            <Image
+              src={selectedImage.src}
+              alt={selectedImage.title}
+              width={1200}
+              height={1500}
+              className="rounded-2xl object-contain"
+            />
+            <div className="absolute bottom-4 left-4 rounded-full bg-black/60 px-4 py-2 text-sm text-text-primary backdrop-blur-sm">
+              {selectedImage.title}
+            </div>
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute -right-3 -top-3 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-text-primary transition-colors hover:bg-accent hover:text-text-primary"
             >
-              <Image
-                src={selectedImage.src}
-                alt={selectedImage.title}
-                width={1200}
-                height={1500}
-                className="rounded-2xl object-contain"
-              />
-              <div className="absolute bottom-4 left-4 rounded-full bg-black/60 px-4 py-2 text-sm text-text-primary backdrop-blur-sm">
-                {selectedImage.title}
-              </div>
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="absolute -right-3 -top-3 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-text-primary transition-colors hover:bg-accent hover:text-text-primary"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <X className="h-5 w-5" />
+            </button>
+          </animated.div>
+        </animated.div>
+      )}
     </section>
   );
 }
