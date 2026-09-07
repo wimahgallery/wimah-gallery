@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Sparkles, ArrowRight } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-is-mobile";
 import { siteConfig } from "@/lib/config";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -91,8 +90,6 @@ function FloatingCard({
 }
 
 export default function Hero() {
-  const isMobile = useIsMobile();
-
   return (
     <section
       id="home"
@@ -168,23 +165,21 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* {!isMobile ? (
-            <div className="relative flex items-center justify-center">
-              <div className="relative w-full h-[500px]">
-                {cards.map((card, i) => (
-                  <FloatingCard
-                    key={i}
-                    src={card.src}
-                    rotate={card.rotate}
-                    x={card.x}
-                    y={card.y}
-                    delay={card.delay}
-                    index={i}
-                  />
-                ))}
-              </div>
+          <div className="hidden lg:flex relative items-center justify-center">
+            <div className="relative w-full h-[500px]">
+              {cards.map((card, i) => (
+                <FloatingCard
+                  key={i}
+                  src={card.src}
+                  rotate={card.rotate}
+                  x={card.x}
+                  y={card.y}
+                  delay={card.delay}
+                  index={i}
+                />
+              ))}
             </div>
-          ) : null} */}
+          </div>
         </div>
       </div>
     </section>
