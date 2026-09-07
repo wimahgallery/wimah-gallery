@@ -1,100 +1,83 @@
-"use client";
+"use client"
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { FadeIn, FadeInStagger } from "@/components/motion/reveal";
-import { Users, Sparkles, Image, Crown } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-is-mobile";
+import { motion } from "framer-motion"
+import { features } from "@/lib/config"
+import { Users, Sparkles, Image, Crown } from "lucide-react"
 
-const features = [
-  { icon: Users, title: "Tim Profesional", description: "Operator terlatih yang memastikan setiap momen terabadikan dengan sempurna." },
-  { icon: Sparkles, title: "Cetakan Kualitas Lab", description: "Cetakan jernih menggunakan peralatan dan kertas kualitas profesional." },
-  { icon: Image, title: "Galeri Digital Instan", description: "Akses foto Anda secara online dalam hitungan jam — bagikan dan unduh kapan saja." },
-  { icon: Crown, title: "Pengalaman Acara Elegan", description: "Setup premium yang meningkatkan suasana acara dan pengalaman tamu Anda." },
-];
-
-function FeatureCards() {
-  return (
-    <FadeInStagger className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" stagger={0.1}>
-      {features.map((feature) => (
-        <div
-          key={feature.title}
-          className="group relative rounded-3xl border border-border bg-surface/50 p-8 card-lift hover:border-accent/20"
-        >
-          <div className="absolute top-0 right-0 w-24 h-24 rounded-full bg-accent/5 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          <div className="relative mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-accent/10 border border-accent/10 transition-all duration-500 group-hover:bg-accent/15 group-hover:border-accent/20 group-hover:scale-110">
-            <feature.icon className="h-8 w-8 text-accent" />
-          </div>
-          <h3 className="relative font-heading text-xl font-semibold mb-3">{feature.title}</h3>
-          <p className="relative text-sm text-text-secondary leading-relaxed">{feature.description}</p>
-        </div>
-      ))}
-    </FadeInStagger>
-  );
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Users,
+  Sparkles,
+  Image,
+  Crown,
 }
 
-function AboutMobile() {
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.15,
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  }),
+}
+
+export default function About() {
   return (
     <section id="services" className="relative py-32 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-accent/8 blur-[80px]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" />
 
-      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
-        <FadeIn className="text-center max-w-[700px] mx-auto mb-16">
-          <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">
-            Pengalaman Kami
-          </p>
-          <h2 className="font-heading text-[40px] sm:text-[56px] font-bold tracking-tight">
-            Lebih dari sekadar{" "}
-            <span className="font-elegant italic text-accent-light">cetak foto.</span>
+      <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          <span className="text-sm font-medium uppercase tracking-[0.2em] text-accent">
+            Our Experience
+          </span>
+          <h2 className="mt-6 text-4xl md:text-5xl font-heading font-bold text-text-primary">
+            More than just{" "}
+            <span className="font-elegant italic text-accent-light">
+              photo printing.
+            </span>
           </h2>
-          <p className="mt-8 text-lg text-text-secondary leading-relaxed">
-            Kami menciptakan pengalaman yangikenang tamu jauh setelah acara berakhir.
+          <p className="mt-6 text-lg text-text-secondary max-w-2xl mx-auto">
+            We create experiences that guests remember long after the event ends.
           </p>
-        </FadeIn>
-        <FeatureCards />
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((feature, i) => {
+            const Icon = iconMap[feature.icon]
+            return (
+              <motion.div
+                key={feature.title}
+                custom={i}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+                className="group bg-surface/50 border border-border rounded-3xl p-8 hover:card-lift transition-all duration-300"
+              >
+                <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  {Icon && <Icon className="w-7 h-7 text-accent" />}
+                </div>
+                <h3 className="text-xl font-heading font-bold text-text-primary mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-text-secondary leading-relaxed">
+                  {feature.description}
+                </p>
+              </motion.div>
+            )
+          })}
+        </div>
       </div>
     </section>
-  );
-}
-
-function AboutDesktop() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const glowScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.2, 0.9]);
-  const glowOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 0.6, 0.3]);
-
-  return (
-    <section ref={sectionRef} id="services" className="relative py-32 overflow-hidden texture-dots">
-      <motion.div style={{ y: bgY, scale: glowScale, opacity: glowOpacity }} className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full bg-accent/8 blur-[140px]" />
-      <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], ["10%", "-20%"]) }} className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent-light/5 blur-[100px]" />
-      <div className="absolute top-20 left-10 w-32 h-32 organic-blob bg-accent/5 animate-warm-pulse" />
-      <div className="absolute bottom-20 right-16 w-24 h-24 organic-blob bg-accent/8 animate-warm-pulse" style={{ animationDelay: "2s" }} />
-
-      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
-        <FadeIn className="text-center max-w-[700px] mx-auto mb-16">
-          <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">
-            Pengalaman Kami
-          </p>
-          <h2 className="font-heading text-[40px] sm:text-[56px] font-bold tracking-tight">
-            Lebih dari sekadar{" "}
-            <span className="font-elegant italic text-accent-light">cetak foto.</span>
-          </h2>
-          <p className="mt-8 text-lg text-text-secondary leading-relaxed">
-            Kami menciptakan pengalaman yangikenang tamu jauh setelah acara berakhir.
-          </p>
-        </FadeIn>
-        <FeatureCards />
-      </div>
-    </section>
-  );
-}
-
-export function About() {
-  const isMobile = useIsMobile();
-  return isMobile ? <AboutMobile /> : <AboutDesktop />;
+  )
 }

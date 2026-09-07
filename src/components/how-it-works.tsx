@@ -1,114 +1,78 @@
-"use client";
+"use client"
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { MessageCircle, Calendar, Settings, Camera, Send } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-is-mobile";
+import { motion } from "framer-motion"
+import { steps } from "@/lib/config"
 
-const steps = [
-  { icon: MessageCircle, number: "01", title: "Konsultasi", description: "Chat dengan kami via WhatsApp." },
-  { icon: Calendar, number: "02", title: "Perencanaan", description: "Pilih paket, desain, dan jadwal." },
-  { icon: Settings, number: "03", title: "Setup", description: "Kami menyiapkan segalanya sebelum tamu datang." },
-  { icon: Camera, number: "04", title: "Sesi Foto", description: "Tamu menikmati keseruan unlimited." },
-  { icon: Send, number: "05", title: "Pengiriman", description: "Terima cetakan dan galeri digital." },
-];
-
-function StepCards() {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-4">
-      {steps.map((step, i) => (
-        <motion.div
-          key={step.number}
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ delay: i * 0.12, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="relative flex flex-col items-center text-center group"
-        >
-          <div className="relative z-10 mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-surface border border-border transition-all duration-500 group-hover:border-accent/30 group-hover:bg-accent/10 group-hover:shadow-[0_8px_32px_rgba(191,67,66,0.12)] group-hover:scale-110">
-            <step.icon className="h-8 w-8 text-accent transition-transform duration-500 group-hover:scale-110" />
-          </div>
-          <span className="mb-2 font-heading text-sm font-bold tracking-widest text-accent/60 uppercase">
-            Langkah {step.number}
-          </span>
-          <h3 className="font-heading text-xl font-semibold mb-2">{step.title}</h3>
-          <p className="text-sm text-text-secondary leading-relaxed">{step.description}</p>
-        </motion.div>
-      ))}
-    </div>
-  );
+const stepVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.15,
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  }),
 }
 
-function HowItWorksMobile() {
+export default function HowItWorks() {
   return (
     <section className="relative py-32 overflow-hidden">
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-accent/4 blur-[80px]" />
-
-      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
+      <div className="mx-auto max-w-[1200px] px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 32 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-96px" }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-[700px] mx-auto mb-16"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
         >
-          <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">Cara Kerja</p>
-          <h2 className="font-heading text-[40px] sm:text-[56px] font-bold tracking-tight">
-            Mudah{" "}
-            <span className="font-elegant italic text-accent-light">dari awal hingga akhir.</span>
-          </h2>
-        </motion.div>
-        <StepCards />
-      </div>
-    </section>
-  );
-}
-
-function HowItWorksDesktop() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  const lineProgress = useTransform(scrollYProgress, [0.1, 0.7], [0, 100]);
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-
-  return (
-    <section ref={sectionRef} className="relative py-32 overflow-hidden texture-dots">
-      <motion.div style={{ y: bgY }} className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-accent/4 blur-[120px]" />
-      <div className="absolute top-20 right-32 w-16 h-16 organic-blob bg-accent/5 animate-warm-pulse" style={{ animationDelay: "0.5s" }} />
-      <div className="absolute bottom-24 left-20 w-12 h-12 organic-blob bg-accent/6 animate-warm-pulse" style={{ animationDelay: "3.5s" }} />
-
-      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-96px" }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-[700px] mx-auto mb-16"
-        >
-          <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">Cara Kerja</p>
-          <h2 className="font-heading text-[40px] sm:text-[56px] font-bold tracking-tight">
-            Mudah{" "}
-            <span className="font-elegant italic text-accent-light">dari awal hingga akhir.</span>
+          <span className="text-sm font-medium uppercase tracking-[0.2em] text-accent">
+            Simple Process
+          </span>
+          <h2 className="mt-6 text-4xl md:text-5xl font-heading font-bold text-text-primary">
+            How it{" "}
+            <span className="font-elegant italic text-accent-light">
+              works.
+            </span>
           </h2>
         </motion.div>
 
         <div className="relative">
-          <div className="hidden lg:block absolute top-16 left-[10%] right-[10%] h-px bg-border">
-            <motion.div
-              style={{ width: lineProgress }}
-              className="h-full bg-gradient-to-r from-accent/20 via-accent/40 to-accent/20"
-            />
+          {/* Connector line */}
+          <div className="hidden lg:block absolute top-[3.5rem] left-[10%] right-[10%] h-[2px] bg-accent/20" />
+          <div className="lg:hidden absolute top-0 bottom-0 left-[2rem] w-[2px] bg-accent/20" />
+
+          <div className="flex flex-col lg:flex-row lg:justify-between gap-12 lg:gap-0">
+            {steps.map((step, i) => (
+              <motion.div
+                key={step.number}
+                custom={i}
+                variants={stepVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+                className="relative flex lg:flex-col items-start lg:items-center gap-6 lg:gap-0 lg:text-center lg:flex-1"
+              >
+                <div className="relative z-10 flex-shrink-0 w-16 h-16 rounded-full bg-background border-2 border-accent/30 flex items-center justify-center">
+                  <span className="text-xl font-heading font-black text-accent">
+                    {step.number}
+                  </span>
+                </div>
+
+                <div className="lg:mt-8">
+                  <h3 className="text-xl font-heading font-bold text-text-primary mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-text-secondary max-w-[200px] lg:max-w-none">
+                    {step.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
-          <StepCards />
         </div>
       </div>
     </section>
-  );
-}
-
-export function HowItWorks() {
-  const isMobile = useIsMobile();
-  return isMobile ? <HowItWorksMobile /> : <HowItWorksDesktop />;
+  )
 }

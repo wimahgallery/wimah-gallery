@@ -1,110 +1,68 @@
-"use client";
+"use client"
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { FadeIn, FadeInStagger } from "@/components/motion/reveal";
-import { Check } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-is-mobile";
+import { motion } from "framer-motion"
+import { benefits } from "@/lib/config"
+import { Check } from "lucide-react"
 
-const benefits = [
-  "Cetakan Instan", "Galeri Digital", "GIF & Boomerang", "Desain Frame Kustom",
-  "Operator Ramah", "Setup Cepat", "Fun Unlimited", "Peralatan Berkualitas Tinggi",
-];
-
-function BenefitGrid() {
-  return (
-    <FadeInStagger className="grid grid-cols-2 gap-4" stagger={0.08}>
-      {benefits.map((benefit) => (
-        <div
-          key={benefit}
-          className="group flex items-center gap-3 rounded-3xl border border-border bg-surface/30 px-6 py-4 card-lift hover:border-accent/20"
-        >
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-3xl bg-accent/15 transition-all duration-500 group-hover:bg-accent/25 group-hover:scale-110">
-            <Check className="h-4 w-4 text-accent" />
-          </div>
-          <span className="text-sm font-medium text-text-primary">{benefit}</span>
-        </div>
-      ))}
-    </FadeInStagger>
-  );
+const benefitVariants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: i * 0.08,
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  }),
 }
 
-function WhyUsMobile() {
+export default function WhyUs() {
   return (
     <section className="relative py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" />
-      <div className="absolute top-1/3 left-0 w-[300px] h-[300px] rounded-full bg-accent/5 blur-[80px]" />
+      <div className="absolute inset-0 texture-dots" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background/80" />
 
-      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <FadeIn>
-            <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">
-              Mengapa Pilih Kami
-            </p>
-            <h2 className="font-heading text-[40px] sm:text-[56px] font-bold tracking-tight">
-              Mengapa klien{" "}
-              <span className="font-elegant italic text-accent-light">menyukai kami.</span>
-            </h2>
-            <p className="mt-8 text-lg text-text-secondary leading-relaxed max-w-[700px]">
-              Kami memperhatikan setiap detail sehingga acara Anda sempurna. Dari
-              konsultasi pertama hingga cetakan terakhir, kami menghadirkan pengalaman yang
-              melampaui ekspektasi.
-            </p>
-          </FadeIn>
-          <BenefitGrid />
+      <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          <span className="text-sm font-medium uppercase tracking-[0.2em] text-accent">
+            The Difference
+          </span>
+          <h2 className="mt-6 text-4xl md:text-5xl font-heading font-bold text-text-primary">
+            Why clients{" "}
+            <span className="font-elegant italic text-accent-light">
+              love us.
+            </span>
+          </h2>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-x-16 gap-y-5 max-w-4xl mx-auto">
+          {benefits.map((benefit, i) => (
+            <motion.div
+              key={benefit}
+              custom={i}
+              variants={benefitVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              className="flex items-center gap-4"
+            >
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center">
+                <Check className="w-4 h-4 text-accent" />
+              </div>
+              <span className="text-lg text-text-primary font-medium">
+                {benefit}
+              </span>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
-  );
-}
-
-function WhyUsDesktop() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const leftY = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  const rightY = useTransform(scrollYProgress, [0, 1], [30, -30]);
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-
-  return (
-    <section ref={sectionRef} className="relative py-32 overflow-hidden texture-lines">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" />
-      <motion.div style={{ y: bgY }} className="absolute top-1/3 left-0 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[120px]" />
-      <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], ["-10%", "20%"]) }} className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent-light/5 blur-[100px]" />
-      <div className="absolute top-32 right-20 w-20 h-20 organic-blob bg-accent/5 animate-warm-pulse" style={{ animationDelay: "1s" }} />
-
-      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div style={{ y: leftY }}>
-            <FadeIn>
-              <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">
-                Mengapa Pilih Kami
-              </p>
-              <h2 className="font-heading text-[40px] sm:text-[56px] font-bold tracking-tight">
-                Mengapa klien{" "}
-                <span className="font-elegant italic text-accent-light">menyukai kami.</span>
-              </h2>
-              <p className="mt-8 text-lg text-text-secondary leading-relaxed max-w-[700px]">
-                Kami memperhatikan setiap detail sehingga acara Anda sempurna. Dari
-                konsultasi pertama hingga cetakan terakhir, kami menghadirkan pengalaman yang
-                melampaui ekspektasi.
-              </p>
-            </FadeIn>
-          </motion.div>
-
-          <motion.div style={{ y: rightY }}>
-            <BenefitGrid />
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function WhyUs() {
-  const isMobile = useIsMobile();
-  return isMobile ? <WhyUsMobile /> : <WhyUsDesktop />;
+  )
 }

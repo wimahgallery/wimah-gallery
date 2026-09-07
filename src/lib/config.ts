@@ -1,213 +1,375 @@
 export const siteConfig = {
   name: "Wimah Gallery",
-  tagline: "Pengalaman Photobooth Premium",
+  tagline: "Premium Photobooth Experience",
   description:
-    "Abadikan momen tak terlupakan dengan cetakan instan, galeri digital, GIF, boomerang, dan pengalaman premium yang tidak akan pernah tamu Anda lupakan.",
-  whatsappNumber: "6281234567890",
+    "Capture unforgettable memories with instant prints, digital galleries, GIFs, boomerangs, and a premium guest experience your guests will never forget.",
   whatsappLink: "https://wa.me/6281234567890",
   email: "hello@wimahgallery.com",
   instagram: "https://instagram.com/wimahgallery",
   tiktok: "https://tiktok.com/@wimahgallery",
   navLinks: [
-    { label: "Beranda", href: "#home" },
-    { label: "Layanan", href: "#services" },
-    { label: "Portofolio", href: "#portfolio" },
-    { label: "Galeri", href: "#gallery" },
-    { label: "Harga", href: "#pricing" },
-    { label: "FAQ", href: "#faq" },
+    { href: "#home", label: "Home" },
+    { href: "#services", label: "Services" },
+    { href: "#portfolio", label: "Portfolio" },
+    { href: "#gallery", label: "Gallery" },
+    { href: "#pricing", label: "Pricing" },
+    { href: "#faq", label: "FAQ" },
   ],
-} as const;
+};
+
+export const features = [
+  {
+    icon: "Users",
+    title: "Tim Profesional",
+    description:
+      "Operator terlatih yang memastikan setiap momen terabadikan dengan sempurna.",
+  },
+  {
+    icon: "Sparkles",
+    title: "Cetakan Kualitas Lab",
+    description:
+      "Cetakan jernih menggunakan peralatan dan kertas kualitas profesional.",
+  },
+  {
+    icon: "Image",
+    title: "Galeri Digital Instan",
+    description:
+      "Akses foto Anda secara online dalam hitungan jam — bagikan dan unduh kapan saja.",
+  },
+  {
+    icon: "Crown",
+    title: "Pengalaman Acara Elegan",
+    description:
+      "Setup premium yang meningkatkan suasana acara dan pengalaman tamu Anda.",
+  },
+];
+
+export const benefits = [
+  "Cetakan Instan",
+  "Galeri Digital",
+  "GIF & Boomerang",
+  "Desain Frame Kustom",
+  "Operator Ramah",
+  "Setup Cepat",
+  "Fun Unlimited",
+  "Peralatan Berkualitas Tinggi",
+];
+
+export const steps = [
+  {
+    number: "01",
+    title: "Konsultasi",
+    description: "Chat dengan kami via WhatsApp.",
+  },
+  {
+    number: "02",
+    title: "Perencanaan",
+    description: "Pilih paket, desain, dan jadwal.",
+  },
+  {
+    number: "03",
+    title: "Setup",
+    description: "Kami menyiapkan segalanya sebelum tamu datang.",
+  },
+  {
+    number: "04",
+    title: "Sesi Foto",
+    description: "Tamu menikmati keseruan unlimited.",
+  },
+  {
+    number: "05",
+    title: "Pengiriman",
+    description: "Terima cetakan dan galeri digital.",
+  },
+];
 
 export const portfolioImages = [
   {
     id: 1,
+    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=1000&fit=crop",
+    title: "Pernikahan Agung",
     category: "Pernikahan",
-    title: "Sarah & Michael",
-    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop",
-    aspect: "aspect-[4/3]",
+    aspect: "aspect-[4/5]",
   },
   {
     id: 2,
-    category: "Korporat",
-    title: "Annual Gala Night",
     src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop",
-    aspect: "aspect-[3/4]",
-  },
-  {
-    id: 3,
-    category: "Ulang Tahun",
-    title: "Sweet 17 Angela",
-    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=600&fit=crop",
+    title: "Gala Korporat",
+    category: "Korporat",
     aspect: "aspect-[4/3]",
   },
   {
+    id: 3,
+    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=800&fit=crop",
+    title: "Ulang Tahun Mewah",
+    category: "Ulang Tahun",
+    aspect: "aspect-square",
+  },
+  {
     id: 4,
-    category: "Pernikahan",
-    title: "Dewi & Raka",
-    src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&h=600&fit=crop",
-    aspect: "aspect-[3/4]",
+    src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&h=1000&fit=crop",
+    title: "Wisuda Bahagia",
+    category: "Wisuda",
+    aspect: "aspect-[4/5]",
   },
   {
     id: 5,
-    category: "Wisuda",
-    title: "Angkatan 2026",
-    src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&h=600&fit=crop",
+    src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=600&fit=crop",
+    title: "Resepsi Pantai",
+    category: "Pernikahan",
     aspect: "aspect-[4/3]",
   },
   {
     id: 6,
-    category: "Lamaran",
-    title: "Luna & Andre",
-    src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=600&fit=crop",
-    aspect: "aspect-[3/4]",
+    src: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=800&fit=crop",
+    title: "Pesta Kemerdekaan",
+    category: "Korporat",
+    aspect: "aspect-square",
   },
   {
     id: 7,
-    category: "Korporat",
-    title: "Peluncuran Produk",
-    src: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&h=600&fit=crop",
-    aspect: "aspect-[4/3]",
+    src: "https://images.unsplash.com/photo-1529636798458-92182e662485?w=800&h=1000&fit=crop",
+    title: "Lamaran Romantis",
+    category: "Lamaran",
+    aspect: "aspect-[4/5]",
   },
   {
     id: 8,
-    category: "Pernikahan",
-    title: "Rina & David",
-    src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&h=600&fit=crop",
-    aspect: "aspect-[3/4]",
+    src: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&h=600&fit=crop",
+    title: "Gathering Keluarga",
+    category: "Ulang Tahun",
+    aspect: "aspect-[4/3]",
   },
   {
     id: 9,
-    category: "Ulang Tahun",
-    title: "Baby Shower",
-    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=600&fit=crop&q=80",
-    aspect: "aspect-[4/3]",
+    src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&h=800&fit=crop",
+    title: "Akad Nikah",
+    category: "Pernikahan",
+    aspect: "aspect-square",
   },
-] as const;
+];
 
 export const horizontalImages = [
-  { id: 1, category: "Pernikahan", title: "Sarah & Michael", src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=1000&fit=crop", aspect: "aspect-[3/4]" },
-  { id: 2, category: "Korporat", title: "Annual Gala Night", src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop", aspect: "aspect-[4/3]" },
-  { id: 3, category: "Ulang Tahun", title: "Sweet 17 Angela", src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=1000&fit=crop", aspect: "aspect-[3/4]" },
-  { id: 4, category: "Wisuda", title: "Angkatan 2026", src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&h=600&fit=crop", aspect: "aspect-[4/3]" },
-  { id: 5, category: "Pernikahan", title: "Dewi & Raka", src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&h=1000&fit=crop", aspect: "aspect-[3/4]" },
-  { id: 6, category: "Korporat", title: "Peluncuran Produk", src: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&h=600&fit=crop", aspect: "aspect-[4/3]" },
-  { id: 7, category: "Pernikahan", title: "Rina & David", src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&h=1000&fit=crop", aspect: "aspect-[3/4]" },
-  { id: 8, category: "Ulang Tahun", title: "Baby Shower", src: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800&h=600&fit=crop", aspect: "aspect-[4/3]" },
-] as const;
+  {
+    id: 1,
+    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=800&fit=crop",
+    title: "Pernikahan Mewah",
+    category: "Pernikahan",
+    aspect: "aspect-[3/4]",
+  },
+  {
+    id: 2,
+    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=450&fit=crop",
+    title: "Acara Korporat",
+    category: "Korporat",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    id: 3,
+    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=600&fit=crop",
+    title: "Pesta Ulang Tahun",
+    category: "Ulang Tahun",
+    aspect: "aspect-square",
+  },
+  {
+    id: 4,
+    src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&h=800&fit=crop",
+    title: "Wisuda Ceria",
+    category: "Wisuda",
+    aspect: "aspect-[3/4]",
+  },
+  {
+    id: 5,
+    src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&h=450&fit=crop",
+    title: "Resepsi Indah",
+    category: "Pernikahan",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    id: 6,
+    src: "https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&h=800&fit=crop",
+    title: "Lamaran Bahagia",
+    category: "Lamaran",
+    aspect: "aspect-[3/4]",
+  },
+];
+
+export const pinnedStoryImages = [
+  {
+    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=640&h=480&fit=crop",
+    label: "Konsultasi",
+    sub: "Langkah 01",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=640&h=480&fit=crop",
+    label: "Perencanaan",
+    sub: "Langkah 02",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=640&h=480&fit=crop",
+    label: "Setup",
+    sub: "Langkah 03",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=640&h=480&fit=crop",
+    label: "Sesi Foto",
+    sub: "Langkah 04",
+  },
+];
 
 export const clientGalleries = [
   {
     name: "Sarah & Michael",
-    event: "Pernikahan",
+    event: "Wedding Celebration",
     date: "Agustus 2026",
     location: "Ubud, Bali",
-    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop",
-  },
-  {
-    name: "Dewi & Raka",
-    event: "Pertunangan",
-    date: "Juli 2026",
-    location: "Seminyak, Bali",
-    src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&h=400&fit=crop",
+    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=450&fit=crop",
   },
   {
     name: "PT. Maju Bersama",
-    event: "Gala Korporat Tahunan",
-    date: "Juni 2026",
-    location: "Nusa Dua, Bali",
-    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop",
+    event: "Corporate Gala",
+    date: "Juli 2026",
+    location: "Jakarta Selatan",
+    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=450&fit=crop",
   },
   {
-    name: "Angela Putri",
-    event: "Sweet Seventeen",
-    date: "Mei 2026",
-    location: "Sanur, Bali",
-    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop",
+    name: "Keluarga Wijaya",
+    event: "Family Gathering",
+    date: "Juni 2026",
+    location: "Bandung",
+    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=450&fit=crop",
   },
-] as const;
-
-export const pinnedStoryImages = [
-  { src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=640&h=480&fit=crop", label: "Sebuah momen bersama.", sub: "Pernikahan", color: "from-accent/20 via-accent/10 to-surface" },
-  { src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=640&h=480&fit=crop", label: "Sebuah kenangan tercipta.", sub: "Ulang Tahun", color: "from-surface-secondary via-accent/10 to-surface" },
-  { src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=640&h=480&fit=crop", label: "Sebuah perayaan dikenang.", sub: "Korporat", color: "from-accent/15 via-surface to-surface-secondary" },
-  { src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=640&h=480&fit=crop", label: "Sebuah cerita selamanya.", sub: "Galeri", color: "from-surface via-accent/10 to-accent/5" },
-] as const;
+  {
+    name: "Putri & Raka",
+    event: "Engagement Party",
+    date: "Mei 2026",
+    location: "Surabaya",
+    src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&h=450&fit=crop",
+  },
+];
 
 export const packages = [
   {
     id: "digital",
-    name: "Pengalaman Digital",
-    price: "Rp 1.300.000",
+    name: "Digital Experience",
     subtitle: "Mulai dari",
-    features: ["Galeri Digital", "GIF", "Boomerang", "Unduh QR"],
+    price: "Rp 1.300.000",
     popular: false,
+    features: [
+      "Digital Gallery",
+      "GIF",
+      "Boomerang",
+      "QR Download",
+    ],
   },
   {
     id: "limited",
-    name: "Pengalaman Cetak Terbatas",
-    price: "Rp 1.800.000",
+    name: "Limited Print Experience",
     subtitle: "Mulai dari",
-    features: ["Cetak Terbatas", "Galeri Digital", "GIF", "Unduh QR"],
+    price: "Rp 1.800.000",
     popular: false,
+    features: [
+      "Limited Prints",
+      "Digital Gallery",
+      "GIF",
+      "QR Download",
+    ],
   },
   {
     id: "unlimited",
-    name: "Pengalaman Cetak Unlimited",
-    price: "Rp 2.600.000",
+    name: "Unlimited Print Experience",
     subtitle: "Mulai dari",
-    features: ["Cetak Unlimited", "Galeri Digital", "GIF", "Unduh QR"],
+    price: "Rp 2.600.000",
     popular: true,
+    features: [
+      "Unlimited Prints",
+      "Digital Gallery",
+      "GIF",
+      "QR Download",
+    ],
   },
   {
     id: "vip",
-    name: "Pengalaman VIP Luxury",
+    name: "Luxury VIP Experience",
+    subtitle: "Harga Kustom",
     price: "Custom",
-    subtitle: "Disesuaikan untuk Anda",
-    features: ["Cetak Unlimited", "Backdrop Premium", "Desain Kustom", "Setup VIP", "Galeri Digital Lengkap"],
     popular: false,
+    features: [
+      "Unlimited Prints",
+      "Premium Backdrop",
+      "Custom Design",
+      "VIP Setup",
+      "Full Digital Gallery",
+    ],
   },
-] as const;
+];
 
 export const testimonials = [
   {
-    name: "Sarah & Michael",
+    name: "Angela & David",
     event: "Pernikahan",
-    rating: 5,
-    review: "Wimah Gallery membuat resepsi pernikahan kami sangat seru! Tamu kami tidak berhenti membicarakan photobooth-nya. Cetakannya cantik dan galeri digitalnya sudah siap malam itu juga.",
+    review:
+      "Wimah Gallery membuat pesta pernikahan kami semakin berkesan. Para tamu sangat menyukai cetakan instan dan galeri digitalnya. Pelayanan yang luar biasa!",
   },
   {
-    name: "Dewi & Raka",
-    event: "Pertunangan",
-    rating: 5,
-    review: "Timnya sangat profesional dan setup-nya luar biasa. Setiap tamu pulang dengan cetakan yang indah dan senyum di wajah. Sangat worth it!",
+    name: "PT. Nusantara Sejahtera",
+    event: "Corporate Event",
+    review:
+      "Setup yang profesional dan hasil cetakan yang sangat berkualitas. Tim mereka ramah dan sigap. Sangat recommended untuk acara korporat.",
   },
   {
-    name: "PT. Maju Bersama",
-    event: "Gala Korporat",
-    rating: 5,
-    review: "Kami booking Wimah Gallery untuk gala korporat tahunan kami dan itu menjadi highlight malam itu. Backdrop kustomnya sangat cocok dengan branding kami.",
+    name: "Keluarga Putra",
+    event: "Ulang Tahun",
+    review:
+      "Pesta ulang tahun anak kami jadi lebih meriah berkat Wimah Gallery. GIF dan boomerang-nya seru banget! Terima kasih Wimah!",
   },
   {
-    name: "Angela Putri",
-    event: "Sweet Seventeen",
-    rating: 5,
-    review: "Pesta ulang tahun ke-17 saya benar-benar sempurna berkat Wimah Gallery! GIF dan boomerang-nya hits banget di semua teman saya. Ulang tahun terbaik!",
+    name: "Luna & Kevin",
+    event: "Lamaran",
+    review:
+      "Momen lamaran kami jadi lebih spesial. Foto-foto yang diambil sangat indah dan gallery digitalnya langsung bisa diakses. Perfect!",
   },
-  {
-    name: "Keluarga Wijaya",
-    event: "Kumpul Keluarga",
-    rating: 5,
-    review: "Kami ingin sesuatu yang spesial untuk reuni keluarga dan Wimah Gallery melebihi ekspektasi. Tiga generasi keluarga kami menghabiskan waktu yang paling menyenangkan bersama.",
-  },
-] as const;
+];
 
 export const faqs = [
-  { question: "Bagaimana cara booking?", answer: "Cukup ketuk tombol Booking via WhatsApp dan chat dengan kami. Kami akan memandu Anda melalui seluruh proses, mulai dari memilih paket yang tepat hingga mengonfirmasi detail acara Anda." },
-  { question: "Seberapa awal harus reservasi?", answer: "Kami sarankan booking minimal 2-4 minggu sebelumnya untuk akhir pekan dan hari libur. Tanggal musim puncak (terutama musim pernikahan) cepat penuh, jadi lebih awal selalu lebih baik." },
-  { question: "Bisakah melayani di luar kota?", answer: "Tentu saja! Kami melayani acara di seluruh Bali dan tersedia untuk acara destination di seluruh Indonesia. Biaya perjalanan mungkin berlaku untuk lokasi di luar area layanan standar kami." },
-  { question: "Berapa lama setup memakan waktu?", answer: "Tim kami biasanya tiba 60-90 menit sebelum acara Anda dimulai untuk memastikan semuanya tersetup sempurna dan sudah diuji sebelum tamu Anda datang." },
-  { question: "Bisakah kustomisasi frame foto?", answer: "Bisa! Semua paket kami termasuk desain frame kustom dengan tema acara, warna, nama, dan tanggal. Kami bekerja sama dengan Anda untuk menciptakan desain yang sempurna." },
-  { question: "Kapan kami menerima file digital?", answer: "Galeri digital Anda tersedia dalam 24 jam setelah acara. Anda akan menerima tautan pribadi untuk melihat dan mengunduh semua foto, GIF, dan boomerang." },
-  { question: "Apakah menyediakan cetakan unlimited?", answer: "Paket Cetak Unlimited dan VIP Luxury kami termasuk cetakan unlimited untuk setiap tamu. Paket Digital dan Cetak Terbatas memiliki kuota cetak yang berbeda." },
-  { question: "Bisakah melayani acara korporat?", answer: "Tentu saja! Kami senang melayani acara korporat. Kami bisa mengkustomisasi segalanya dari backdrop hingga frame foto agar sesuai dengan branding perusahaan dan tema acara Anda." },
-] as const;
+  {
+    question: "Bagaimana cara booking?",
+    answer:
+      "Hubungi kami via WhatsApp, pilih paket yang diinginkan, dan tentukan tanggal acara. Kami akan mengirimkan konfirmasi dalam 24 jam.",
+  },
+  {
+    question: "Seberapa awal saya harus reservasi?",
+    answer:
+      "Kami sarankan untuk reservasi minimal 2-3 minggu sebelum acara untuk memastikan ketersediaan, terutama di musim pernikahan.",
+  },
+  {
+    question: "Bisakah Anda melayani di luar kota?",
+    answer:
+      "Tentu! Kami melayani acara di seluruh wilayah Indonesia. Biaya transportasi akan disesuaikan dengan lokasi acara.",
+  },
+  {
+    question: "Berapa lama proses setup?",
+    answer:
+      "Setup biasanya memakan waktu 30-60 menit tergantung kompleksitas. Kami akan tiba lebih awal untuk memastikan segalanya sempurna.",
+  },
+  {
+    question: "Bisakah kami mem-custom frame foto?",
+    answer:
+      "Ya! Kami menyediakan desain frame kustom sesuai tema acara Anda. Konsultasikan keinginan Anda kepada tim kami.",
+  },
+  {
+    question: "Kapan kami menerima file digital?",
+    answer:
+      "Galeri digital akan dikirimkan dalam 1-2 hari setelah acara. Semua foto bisa diakses dan diunduh melalui link privat.",
+  },
+  {
+    question: "Apakah Anda menyediakan cetakan unlimited?",
+    answer:
+      "Ya, paket Unlimited Print dan VIP mencakup cetakan unlimited untuk semua tamu selama acara berlangsung.",
+  },
+  {
+    question: "Bisa untuk acara korporat?",
+    answer:
+      "Tentu! Kami berpengalaman melayani gala dinner, gathering, product launch, dan berbagai acara korporat lainnya.",
+  },
+];
