@@ -65,7 +65,7 @@ export function Header() {
         <div className="mx-auto max-w-350 px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <a href="#home" className="flex items-center gap-3 group">
-              <div className="flex size-16 md:size-24 lg:size-28 items-center justify-center overflow-hidden transition-all duration-300 group-hover:scale-105">
+              <div className="flex size-16 md:size-24 lg:size-28 items-center justify-center transition-all duration-300 group-hover:scale-105">
                 <Image
                   src="/wimah.png"
                   width={1024}

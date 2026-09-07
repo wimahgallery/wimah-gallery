@@ -2,7 +2,8 @@
 
 import { animated, useSpring, useInView } from "@react-spring/web";
 import { siteConfig } from "@/lib/config";
-import { MessageCircle, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
+import { WhatsApp } from "@/components/whatsapp-icon";
 import Image from "next/image";
 
 export default function Footer() {
@@ -22,7 +23,7 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex size-16 md:size-20 lg:size-24 items-center justify-center overflow-hidden rounded-3xl">
+              <div className="flex size-16 md:size-20 lg:size-24 items-center justify-center">
                 <Image
                   width={1024}
                   height={1024}
@@ -116,7 +117,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-all duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
-                <MessageCircle className="h-[18px] w-[18px]" />
+                <WhatsApp className="h-[18px] w-[18px]" />
               </a>
             </div>
           </div>
@@ -151,7 +152,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-text-secondary transition-all duration-300 hover:text-accent hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                 >
-                  <MessageCircle className="h-4 w-4" />
+                  <WhatsApp className="h-4 w-4" />
                   WhatsApp
                 </a>
               </li>
