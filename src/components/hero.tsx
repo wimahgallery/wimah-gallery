@@ -16,30 +16,24 @@ const fadeUp = {
 
 const cards = [
   {
-    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=560&fit=crop",
+    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=200&h=280&fit=crop&q=60",
     rotate: -8,
     x: -60,
     y: -20,
-    w: 200,
-    h: 280,
     delay: 0.3,
   },
   {
-    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=440&h=640&fit=crop",
+    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=220&h=320&fit=crop&q=60",
     rotate: 3,
     x: 40,
     y: -40,
-    w: 220,
-    h: 320,
     delay: 0.5,
   },
   {
-    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=380&h=520&fit=crop",
+    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=190&h=260&fit=crop&q=60",
     rotate: -2,
     x: -20,
     y: 20,
-    w: 190,
-    h: 260,
     delay: 0.7,
   },
 ];
@@ -49,8 +43,6 @@ function FloatingCard({
   rotate,
   x,
   y,
-  w,
-  h,
   delay,
   index,
 }: {
@@ -58,16 +50,16 @@ function FloatingCard({
   rotate: number;
   x: number;
   y: number;
-  w: number;
-  h: number;
   delay: number;
   index: number;
 }) {
+  const w = 200 + index * 10;
+  const h = 280 + index * 20;
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8, rotate: rotate - 10 }}
+      initial={{ opacity: 0, scale: 0.85, rotate: rotate - 10 }}
       animate={{ opacity: 1, scale: 1, rotate }}
-      transition={{ duration: 0.6, ease, delay }}
+      transition={{ duration: 0.5, ease, delay }}
       style={{
         position: "absolute",
         left: "50%",
@@ -80,28 +72,20 @@ function FloatingCard({
         willChange: "transform, opacity",
       }}
     >
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{
-          duration: 4 + index * 0.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="rounded-[32px] border border-white/10 shadow-[0_8px_48px_rgba(0,0,0,0.25)] overflow-hidden"
-        style={{
-          transform: `translate(${x}px, ${y}px) rotate(${rotate}deg)`,
-          willChange: "transform",
-        }}
+      <div
+        className="rounded-[28px] border border-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.3)] overflow-hidden"
+        style={{ transform: `translate(${x}px, ${y}px) rotate(${rotate}deg)` }}
       >
         <Image
           src={src}
           alt="Photobooth moment"
           width={w}
           height={h}
+          priority
           className="object-cover"
           sizes={`${w}px`}
         />
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
@@ -139,7 +123,7 @@ export default function Hero() {
 
             <motion.div
               {...fadeUp}
-              transition={{ ...fadeUp.transition, delay: 0.2 }}
+              transition={{ ...fadeUp.transition, delay: 0.15 }}
             >
               <h1 className="font-heading text-[40px] sm:text-[56px] lg:text-[80px] font-bold leading-[1.05] tracking-tight">
                 Make every moment
@@ -153,7 +137,7 @@ export default function Hero() {
 
             <motion.div
               {...fadeUp}
-              transition={{ ...fadeUp.transition, delay: 0.3 }}
+              transition={{ ...fadeUp.transition, delay: 0.2 }}
             >
               <p className="mt-6 lg:mt-8 max-w-[700px] text-base lg:text-lg text-text-secondary leading-relaxed">
                 {siteConfig.description}
@@ -162,7 +146,7 @@ export default function Hero() {
 
             <motion.div
               {...fadeUp}
-              transition={{ ...fadeUp.transition, delay: 0.4 }}
+              transition={{ ...fadeUp.transition, delay: 0.25 }}
             >
               <div className="mt-6 lg:mt-8 flex flex-col sm:flex-row gap-4">
                 <a
@@ -184,7 +168,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {!isMobile && (
+          {/* {!isMobile ? (
             <div className="relative flex items-center justify-center">
               <div className="relative w-full h-[500px]">
                 {cards.map((card, i) => (
@@ -194,15 +178,13 @@ export default function Hero() {
                     rotate={card.rotate}
                     x={card.x}
                     y={card.y}
-                    w={card.w}
-                    h={card.h}
                     delay={card.delay}
                     index={i}
                   />
                 ))}
               </div>
             </div>
-          )}
+          ) : null} */}
         </div>
       </div>
     </section>
