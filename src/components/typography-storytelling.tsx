@@ -19,9 +19,9 @@ export default function TypographyStorytelling() {
 
     function onScroll() {
       const rect = el.getBoundingClientRect()
-      const top = window.scrollY + rect.top
-      const height = el.offsetHeight - window.innerHeight
-      const p = height > 0 ? (window.scrollY - top) / height : 0
+      const vh = window.innerHeight
+      const h = el.offsetHeight
+      const p = (vh - rect.top) / (vh + h)
       const clamped = Math.max(0, Math.min(1, p))
       raw.set(clamped)
       api.start({ value: clamped })
