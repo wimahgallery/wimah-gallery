@@ -39,62 +39,58 @@ export default function TypographyStorytelling() {
           <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" />
           <div className="absolute inset-0 texture-noise opacity-20" />
 
-          <div className="relative z-10 text-center">
-            {words.map((word, i) => {
-              const segStart = i * 0.25
-              const segEnd = segStart + 0.25
+          <div className="relative z-10 w-full">
+            {/* Giant words that cross-fade */}
+            <div className="relative h-[200px] sm:h-[260px] md:h-[300px] flex items-center justify-center">
+              {words.map((word, i) => {
+                const segStart = i * 0.25
+                const segEnd = segStart + 0.25
 
-              const wordOpacity = to(smooth.value, [
-                Math.max(0, segStart),
-                segStart + 0.08,
-                segEnd - 0.08,
-                Math.min(1, segEnd),
-              ], [0, 1, 1, 0])
+                const wordOpacity = to(smooth.value, [
+                  Math.max(0, segStart),
+                  segStart + 0.1,
+                  segEnd - 0.1,
+                  Math.min(1, segEnd),
+                ], [0, 1, 1, 0])
 
-              const wordScale = to(smooth.value, [
-                Math.max(0, segStart),
-                segStart + 0.08,
-                segEnd - 0.08,
-                Math.min(1, segEnd),
-              ], [0.7, 1, 1, 1.15])
+                const wordScale = to(smooth.value, [
+                  Math.max(0, segStart),
+                  segStart + 0.1,
+                  segEnd - 0.1,
+                  Math.min(1, segEnd),
+                ], [0.85, 1, 1, 1.05])
 
-              const wordY = to(smooth.value, [
-                Math.max(0, segStart),
-                segStart + 0.08,
-                segEnd - 0.08,
-                Math.min(1, segEnd),
-              ], [60, 0, 0, -60])
+                const wordY = to(smooth.value, [
+                  Math.max(0, segStart),
+                  segStart + 0.1,
+                  segEnd - 0.1,
+                  Math.min(1, segEnd),
+                ], [50, 0, 0, -50])
 
-              const blur = to(smooth.value, [
-                Math.max(0, segStart),
-                segStart + 0.1,
-                segEnd - 0.1,
-                Math.min(1, segEnd),
-              ], [12, 0, 0, 12])
+                return (
+                  <animated.div
+                    key={word}
+                    style={{
+                      opacity: wordOpacity,
+                      scale: wordScale,
+                      y: wordY,
+                    }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <span className="font-heading text-[60px] sm:text-[80px] md:text-[100px] lg:text-[120px] font-black uppercase tracking-tight text-text-primary">
+                      {word}
+                    </span>
+                  </animated.div>
+                )
+              })}
+            </div>
 
-              return (
-                <animated.div
-                  key={word}
-                  style={{
-                    opacity: wordOpacity,
-                    scale: wordScale,
-                    y: wordY,
-                    filter: to(blur, (v: number) => `blur(${v}px)`),
-                  }}
-                  className="absolute inset-0 flex items-center justify-center"
-                >
-                  <span className="font-heading text-[80px] sm:text-[120px] md:text-[160px] lg:text-[200px] font-black uppercase tracking-tighter text-text-primary/5">
-                    {word}
-                  </span>
-                </animated.div>
-              )
-            })}
-
+            {/* Subtitle */}
             <animated.div
               style={{
                 opacity: to(smooth.value, [0, 0.05, 0.95, 1], [1, 1, 1, 0]),
               }}
-              className="relative z-20"
+              className="mt-8 text-center"
             >
               <p className="mb-4 text-sm font-medium tracking-wider uppercase text-accent">
                 The Journey
@@ -105,6 +101,21 @@ export default function TypographyStorytelling() {
                   to forever.
                 </span>
               </h2>
+            </animated.div>
+
+            {/* Scroll hint */}
+            <animated.div
+              style={{
+                opacity: to(smooth.value, [0, 0.05, 0.9, 1], [0.8, 0.4, 0.4, 0]),
+              }}
+              className="mt-16 flex justify-center"
+            >
+              <div className="flex flex-col items-center">
+                <span className="text-xs text-text-secondary mb-2 tracking-wider uppercase">
+                  Scroll down
+                </span>
+                <div className="w-px h-10 bg-gradient-to-b from-accent/50 to-transparent" />
+              </div>
             </animated.div>
           </div>
         </div>
