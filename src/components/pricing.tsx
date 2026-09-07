@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
 import { Check, MessageCircle, ChevronDown } from "lucide-react";
 import { packages, siteConfig } from "@/lib/config";
 
@@ -10,41 +10,54 @@ export function Pricing() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const cardsY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+
   return (
     <section ref={sectionRef} id="pricing" className="relative py-32 overflow-hidden texture-noise">
-      <div className="absolute top-1/2 left-0 w-[600px] h-[600px] -translate-y-1/2 rounded-full bg-accent/5 blur-[120px]" />
+      {/* Parallax warm glows */}
+      <motion.div style={{ y: bgY }} className="absolute top-1/2 left-0 w-[700px] h-[700px] -translate-y-1/2 rounded-full bg-accent/5 blur-[140px]" />
+      <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]) }} className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-accent-light/4 blur-[120px]" />
+
+      {/* Organic decorative elements */}
+      <div className="absolute bottom-20 left-16 w-28 h-28 organic-blob bg-accent/4 animate-warm-pulse" style={{ animationDelay: "3s" }} />
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-96px" }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-[700px] mx-auto mb-16"
         >
-          <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">Pricing</p>
+          <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">Harga</p>
           <h2 className="font-heading text-[40px] sm:text-[56px] font-bold tracking-tight">
-            Choose your{" "}
-            <span className="font-elegant italic text-accent-light">experience.</span>
+            Pilih{" "}
+            <span className="font-elegant italic text-accent-light">pengalaman Anda.</span>
           </h2>
           <p className="mt-8 text-lg text-text-secondary leading-relaxed">
-            Every package is crafted to create unforgettable memories.
+            Setiap paket dirancang untuk menciptakan kenangan tak terlupakan.
           </p>
         </motion.div>
 
-        <div className="max-w-[700px] mx-auto space-y-4">
+        <motion.div style={{ y: cardsY }} className="max-w-[700px] mx-auto space-y-4">
           {packages.map((pkg, i) => (
             <motion.div
               key={pkg.id}
               initial={{ opacity: 0, y: 48 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.12, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.12, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             >
               <div
-                className={`rounded-3xl border transition-all duration-200 ${
+                className={`rounded-3xl border transition-all duration-500 ${
                   openId === pkg.id
-                    ? "border-accent/30 bg-surface/80 shadow-[0_4px_24px_rgba(61,43,37,0.08)]"
-                    : "border-border bg-surface/30 hover:border-accent/15"
+                    ? "border-accent/30 bg-surface/80 shadow-[0_8px_40px_rgba(61,43,37,0.1)]"
+                    : "border-border bg-surface/30 hover:border-accent/15 hover:shadow-[0_4px_24px_rgba(61,43,37,0.06)]"
                 } ${pkg.popular ? "ring-1 ring-accent/20" : ""}`}
               >
                 <button
@@ -52,7 +65,7 @@ export function Pricing() {
                   className="w-full p-6 flex items-center justify-between text-left"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-accent/10 border border-accent/15 shrink-0">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-accent/10 border border-accent/15 shrink-0 transition-all duration-500 group-hover:bg-accent/15">
                       <span className="font-heading text-sm font-bold text-accent">
                         {String(i + 1).padStart(2, "0")}
                       </span>
@@ -62,7 +75,7 @@ export function Pricing() {
                         {pkg.name}
                         {pkg.popular && (
                           <span className="ml-3 inline-flex items-center rounded-3xl bg-accent/15 px-3 py-1 text-xs font-medium text-accent">
-                            Most Popular
+                            Paling Populer
                           </span>
                         )}
                       </h3>
@@ -74,7 +87,7 @@ export function Pricing() {
                   </div>
                   <motion.div
                     animate={{ rotate: openId === pkg.id ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     className="shrink-0 ml-4"
                   >
                     <ChevronDown className="h-5 w-5 text-text-secondary" />
@@ -87,7 +100,7 @@ export function Pricing() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                       className="overflow-hidden"
                     >
                       <div className="px-6 pb-8 pt-2 border-t border-border">
@@ -102,13 +115,13 @@ export function Pricing() {
                           ))}
                         </div>
                         <a
-                          href={`${siteConfig.whatsappLink}?text=Hi! I'm interested in the ${pkg.name} package.`}
+                          href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik dengan paket ${pkg.name}.`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 rounded-3xl bg-accent px-6 py-3 text-sm font-semibold text-background transition-all duration-200 hover:bg-accent-light hover:shadow-[0_4px_24px_rgba(191,67,66,0.3)]"
+                          className="inline-flex items-center gap-2 rounded-3xl bg-accent px-6 py-3 text-sm font-semibold text-background transition-all duration-500 hover:bg-accent-light hover:shadow-[0_8px_32px_rgba(191,67,66,0.3)] hover:scale-[1.02]"
                         >
                           <MessageCircle className="h-5 w-5" />
-                          Book via WhatsApp
+                          Booking via WhatsApp
                         </a>
                       </div>
                     </motion.div>
@@ -117,7 +130,7 @@ export function Pricing() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

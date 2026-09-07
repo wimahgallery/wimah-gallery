@@ -1,75 +1,169 @@
 export const siteConfig = {
   name: "Wimah Gallery",
-  tagline: "Premium Photobooth Experience",
+  tagline: "Pengalaman Photobooth Premium",
   description:
-    "Capture unforgettable memories with instant prints, digital galleries, GIFs, boomerangs, and a premium guest experience your guests will never forget.",
+    "Abadikan momen tak terlupakan dengan cetakan instan, galeri digital, GIF, boomerang, dan pengalaman premium yang tidak akan pernah tamu Anda lupakan.",
   whatsappNumber: "6281234567890",
   whatsappLink: "https://wa.me/6281234567890",
   email: "hello@wimahgallery.com",
   instagram: "https://instagram.com/wimahgallery",
   tiktok: "https://tiktok.com/@wimahgallery",
   navLinks: [
-    { label: "Home", href: "#home" },
-    { label: "Services", href: "#services" },
-    { label: "Portfolio", href: "#portfolio" },
-    { label: "Gallery", href: "#gallery" },
-    { label: "Pricing", href: "#pricing" },
+    { label: "Beranda", href: "#home" },
+    { label: "Layanan", href: "#services" },
+    { label: "Portofolio", href: "#portfolio" },
+    { label: "Galeri", href: "#gallery" },
+    { label: "Harga", href: "#pricing" },
     { label: "FAQ", href: "#faq" },
   ],
 } as const;
 
+export const portfolioImages = [
+  {
+    id: 1,
+    category: "Pernikahan",
+    title: "Sarah & Michael",
+    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    id: 2,
+    category: "Korporat",
+    title: "Annual Gala Night",
+    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop",
+    aspect: "aspect-[3/4]",
+  },
+  {
+    id: 3,
+    category: "Ulang Tahun",
+    title: "Sweet 17 Angela",
+    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=600&fit=crop",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    id: 4,
+    category: "Pernikahan",
+    title: "Dewi & Raka",
+    src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&h=600&fit=crop",
+    aspect: "aspect-[3/4]",
+  },
+  {
+    id: 5,
+    category: "Wisuda",
+    title: "Angkatan 2026",
+    src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&h=600&fit=crop",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    id: 6,
+    category: "Lamaran",
+    title: "Luna & Andre",
+    src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=600&fit=crop",
+    aspect: "aspect-[3/4]",
+  },
+  {
+    id: 7,
+    category: "Korporat",
+    title: "Peluncuran Produk",
+    src: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&h=600&fit=crop",
+    aspect: "aspect-[4/3]",
+  },
+  {
+    id: 8,
+    category: "Pernikahan",
+    title: "Rina & David",
+    src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&h=600&fit=crop",
+    aspect: "aspect-[3/4]",
+  },
+  {
+    id: 9,
+    category: "Ulang Tahun",
+    title: "Baby Shower",
+    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=600&fit=crop&q=80",
+    aspect: "aspect-[4/3]",
+  },
+] as const;
+
+export const horizontalImages = [
+  { id: 1, category: "Pernikahan", title: "Sarah & Michael", src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=1000&fit=crop", aspect: "aspect-[3/4]" },
+  { id: 2, category: "Korporat", title: "Annual Gala Night", src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop", aspect: "aspect-[4/3]" },
+  { id: 3, category: "Ulang Tahun", title: "Sweet 17 Angela", src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=1000&fit=crop", aspect: "aspect-[3/4]" },
+  { id: 4, category: "Wisuda", title: "Angkatan 2026", src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&h=600&fit=crop", aspect: "aspect-[4/3]" },
+  { id: 5, category: "Pernikahan", title: "Dewi & Raka", src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&h=1000&fit=crop", aspect: "aspect-[3/4]" },
+  { id: 6, category: "Korporat", title: "Peluncuran Produk", src: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&h=600&fit=crop", aspect: "aspect-[4/3]" },
+  { id: 7, category: "Pernikahan", title: "Rina & David", src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&h=1000&fit=crop", aspect: "aspect-[3/4]" },
+  { id: 8, category: "Ulang Tahun", title: "Baby Shower", src: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800&h=600&fit=crop", aspect: "aspect-[4/3]" },
+] as const;
+
+export const clientGalleries = [
+  {
+    name: "Sarah & Michael",
+    event: "Pernikahan",
+    date: "Agustus 2026",
+    location: "Ubud, Bali",
+    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop",
+  },
+  {
+    name: "Dewi & Raka",
+    event: "Pertunangan",
+    date: "Juli 2026",
+    location: "Seminyak, Bali",
+    src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&h=400&fit=crop",
+  },
+  {
+    name: "PT. Maju Bersama",
+    event: "Gala Korporat Tahunan",
+    date: "Juni 2026",
+    location: "Nusa Dua, Bali",
+    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop",
+  },
+  {
+    name: "Angela Putri",
+    event: "Sweet Seventeen",
+    date: "Mei 2026",
+    location: "Sanur, Bali",
+    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop",
+  },
+] as const;
+
+export const pinnedStoryImages = [
+  { src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=640&h=480&fit=crop", label: "Sebuah momen bersama.", sub: "Pernikahan", color: "from-accent/20 via-accent/10 to-surface" },
+  { src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=640&h=480&fit=crop", label: "Sebuah kenangan tercipta.", sub: "Ulang Tahun", color: "from-surface-secondary via-accent/10 to-surface" },
+  { src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=640&h=480&fit=crop", label: "Sebuah perayaan dikenang.", sub: "Korporat", color: "from-accent/15 via-surface to-surface-secondary" },
+  { src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=640&h=480&fit=crop", label: "Sebuah cerita selamanya.", sub: "Galeri", color: "from-surface via-accent/10 to-accent/5" },
+] as const;
+
 export const packages = [
   {
     id: "digital",
-    name: "Digital Experience",
+    name: "Pengalaman Digital",
     price: "Rp 1.300.000",
-    subtitle: "Starting from",
-    features: [
-      "Digital Gallery",
-      "GIF",
-      "Boomerang",
-      "QR Download",
-    ],
+    subtitle: "Mulai dari",
+    features: ["Galeri Digital", "GIF", "Boomerang", "Unduh QR"],
     popular: false,
   },
   {
     id: "limited",
-    name: "Limited Print Experience",
+    name: "Pengalaman Cetak Terbatas",
     price: "Rp 1.800.000",
-    subtitle: "Starting from",
-    features: [
-      "Limited Prints",
-      "Digital Gallery",
-      "GIF",
-      "QR Download",
-    ],
+    subtitle: "Mulai dari",
+    features: ["Cetak Terbatas", "Galeri Digital", "GIF", "Unduh QR"],
     popular: false,
   },
   {
     id: "unlimited",
-    name: "Unlimited Print Experience",
+    name: "Pengalaman Cetak Unlimited",
     price: "Rp 2.600.000",
-    subtitle: "Starting from",
-    features: [
-      "Unlimited Prints",
-      "Digital Gallery",
-      "GIF",
-      "QR Download",
-    ],
+    subtitle: "Mulai dari",
+    features: ["Cetak Unlimited", "Galeri Digital", "GIF", "Unduh QR"],
     popular: true,
   },
   {
     id: "vip",
-    name: "Luxury VIP Experience",
+    name: "Pengalaman VIP Luxury",
     price: "Custom",
-    subtitle: "Tailored for you",
-    features: [
-      "Unlimited Prints",
-      "Premium Backdrop",
-      "Custom Design",
-      "VIP Setup",
-      "Full Digital Gallery",
-    ],
+    subtitle: "Disesuaikan untuk Anda",
+    features: ["Cetak Unlimited", "Backdrop Premium", "Desain Kustom", "Setup VIP", "Galeri Digital Lengkap"],
     popular: false,
   },
 ] as const;
@@ -77,107 +171,43 @@ export const packages = [
 export const testimonials = [
   {
     name: "Sarah & Michael",
-    event: "Wedding Celebration",
+    event: "Pernikahan",
     rating: 5,
-    review:
-      "Wimah Gallery made our wedding reception so much fun! Our guests couldn't stop talking about the photobooth. The prints were gorgeous and the digital gallery was ready the same night.",
+    review: "Wimah Gallery membuat resepsi pernikahan kami sangat seru! Tamu kami tidak berhenti membicarakan photobooth-nya. Cetakannya cantik dan galeri digitalnya sudah siap malam itu juga.",
   },
   {
     name: "Dewi & Raka",
-    event: "Engagement Party",
+    event: "Pertunangan",
     rating: 5,
-    review:
-      "The team was incredibly professional and the setup was stunning. Every guest left with a beautiful print and a smile. Worth every rupiah!",
+    review: "Timnya sangat profesional dan setup-nya luar biasa. Setiap tamu pulang dengan cetakan yang indah dan senyum di wajah. Sangat worth it!",
   },
   {
     name: "PT. Maju Bersama",
-    event: "Corporate Gala",
+    event: "Gala Korporat",
     rating: 5,
-    review:
-      "We booked Wimah Gallery for our annual corporate gala and it was the highlight of the evening. The custom backdrop perfectly matched our branding.",
+    review: "Kami booking Wimah Gallery untuk gala korporat tahunan kami dan itu menjadi highlight malam itu. Backdrop kustomnya sangat cocok dengan branding kami.",
   },
   {
     name: "Angela Putri",
     event: "Sweet Seventeen",
     rating: 5,
-    review:
-      "My 17th birthday party was absolutely perfect thanks to Wimah Gallery! The GIFs and boomerangs were a hit with all my friends. Best birthday ever!",
+    review: "Pesta ulang tahun ke-17 saya benar-benar sempurna berkat Wimah Gallery! GIF dan boomerang-nya hits banget di semua teman saya. Ulang tahun terbaik!",
   },
   {
     name: "Keluarga Wijaya",
-    event: "Family Gathering",
+    event: "Kumpul Keluarga",
     rating: 5,
-    review:
-      "We wanted something special for our family reunion and Wimah Gallery delivered beyond expectations. Three generations of our family had the most wonderful time together.",
+    review: "Kami ingin sesuatu yang spesial untuk reuni keluarga dan Wimah Gallery melebihi ekspektasi. Tiga generasi keluarga kami menghabiskan waktu yang paling menyenangkan bersama.",
   },
 ] as const;
 
 export const faqs = [
-  {
-    question: "How do I book?",
-    answer:
-      "Simply tap the Book via WhatsApp button and chat with us. We'll guide you through the entire process, from choosing the right package to confirming your event details.",
-  },
-  {
-    question: "How early should I reserve?",
-    answer:
-      "We recommend booking at least 2-4 weeks in advance for weekends and holidays. Peak season dates (especially wedding season) fill up fast, so earlier is always better.",
-  },
-  {
-    question: "Can you travel outside the city?",
-    answer:
-      "Absolutely! We serve events across Bali and are available for destination events throughout Indonesia. Travel fees may apply for locations outside our standard service area.",
-  },
-  {
-    question: "How long does setup take?",
-    answer:
-      "Our team typically arrives 60-90 minutes before your event starts to ensure everything is perfectly set up and tested before your guests arrive.",
-  },
-  {
-    question: "Can we customize the photo frame?",
-    answer:
-      "Yes! All our packages include custom frame design with your event theme, colors, names, and dates. We work with you to create the perfect design.",
-  },
-  {
-    question: "When do we receive digital files?",
-    answer:
-      "Your digital gallery is available within 24 hours after the event. You'll receive a private link to view and download all photos, GIFs, and boomerangs.",
-  },
-  {
-    question: "Do you provide unlimited prints?",
-    answer:
-      "Our Unlimited Print and Luxury VIP packages include unlimited prints for every guest. Our Digital and Limited Print packages have different print allowances.",
-  },
-  {
-    question: "Can you support corporate events?",
-    answer:
-      "Of course! We love corporate events. We can customize everything from the backdrop to the photo frames to match your company branding and event theme.",
-  },
-] as const;
-
-export const clientGalleries = [
-  {
-    name: "Sarah & Michael",
-    event: "Wedding Celebration",
-    date: "August 2026",
-    location: "Ubud, Bali",
-  },
-  {
-    name: "Dewi & Raka",
-    event: "Engagement Party",
-    date: "July 2026",
-    location: "Seminyak, Bali",
-  },
-  {
-    name: "PT. Maju Bersama",
-    event: "Annual Corporate Gala",
-    date: "June 2026",
-    location: "Nusa Dua, Bali",
-  },
-  {
-    name: "Angela Putri",
-    event: "Sweet Seventeen",
-    date: "May 2026",
-    location: "Sanur, Bali",
-  },
+  { question: "Bagaimana cara booking?", answer: "Cukup ketuk tombol Booking via WhatsApp dan chat dengan kami. Kami akan memandu Anda melalui seluruh proses, mulai dari memilih paket yang tepat hingga mengonfirmasi detail acara Anda." },
+  { question: "Seberapa awal harus reservasi?", answer: "Kami sarankan booking minimal 2-4 minggu sebelumnya untuk akhir pekan dan hari libur. Tanggal musim puncak (terutama musim pernikahan) cepat penuh, jadi lebih awal selalu lebih baik." },
+  { question: "Bisakah melayani di luar kota?", answer: "Tentu saja! Kami melayani acara di seluruh Bali dan tersedia untuk acara destination di seluruh Indonesia. Biaya perjalanan mungkin berlaku untuk lokasi di luar area layanan standar kami." },
+  { question: "Berapa lama setup memakan waktu?", answer: "Tim kami biasanya tiba 60-90 menit sebelum acara Anda dimulai untuk memastikan semuanya tersetup sempurna dan sudah diuji sebelum tamu Anda datang." },
+  { question: "Bisakah kustomisasi frame foto?", answer: "Bisa! Semua paket kami termasuk desain frame kustom dengan tema acara, warna, nama, dan tanggal. Kami bekerja sama dengan Anda untuk menciptakan desain yang sempurna." },
+  { question: "Kapan kami menerima file digital?", answer: "Galeri digital Anda tersedia dalam 24 jam setelah acara. Anda akan menerima tautan pribadi untuk melihat dan mengunduh semua foto, GIF, dan boomerang." },
+  { question: "Apakah menyediakan cetakan unlimited?", answer: "Paket Cetak Unlimited dan VIP Luxury kami termasuk cetakan unlimited untuk setiap tamu. Paket Digital dan Cetak Terbatas memiliki kuota cetak yang berbeda." },
+  { question: "Bisakah melayani acara korporat?", answer: "Tentu saja! Kami senang melayani acara korporat. Kami bisa mengkustomisasi segalanya dari backdrop hingga frame foto agar sesuai dengan branding perusahaan dan tema acara Anda." },
 ] as const;

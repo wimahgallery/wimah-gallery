@@ -6,10 +6,10 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 export function CustomCursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  const springX = useSpring(cursorX, { stiffness: 100, damping: 40 });
-  const springY = useSpring(cursorY, { stiffness: 100, damping: 40 });
-  const glowX = useSpring(cursorX, { stiffness: 200, damping: 30 });
-  const glowY = useSpring(cursorY, { stiffness: 200, damping: 30 });
+  const springX = useSpring(cursorX, { stiffness: 60, damping: 20, mass: 0.5 });
+  const springY = useSpring(cursorY, { stiffness: 60, damping: 20, mass: 0.5 });
+  const glowX = useSpring(cursorX, { stiffness: 40, damping: 15, mass: 0.8 });
+  const glowY = useSpring(cursorY, { stiffness: 40, damping: 15, mass: 0.8 });
   const [hovering, setHovering] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
@@ -72,11 +72,11 @@ export function CustomCursor() {
       >
         <motion.div
           animate={{
-            width: hovering ? 64 : 12,
-            height: hovering ? 64 : 12,
-            opacity: hovering ? 0.8 : 0.6,
+            width: hovering ? 56 : 10,
+            height: hovering ? 56 : 10,
+            opacity: hovering ? 0.7 : 0.5,
           }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.3 }}
           className="rounded-full bg-accent -translate-x-1/2 -translate-y-1/2"
         />
       </motion.div>
@@ -86,11 +86,11 @@ export function CustomCursor() {
       >
         <motion.div
           animate={{
-            width: hovering ? 120 : 40,
-            height: hovering ? 120 : 40,
-            opacity: hovering ? 0.15 : 0.08,
+            width: hovering ? 100 : 36,
+            height: hovering ? 100 : 36,
+            opacity: hovering ? 0.12 : 0.06,
           }}
-          transition={{ type: "spring", stiffness: 150, damping: 20 }}
+          transition={{ type: "spring", stiffness: 80, damping: 12, mass: 0.5 }}
           className="rounded-full bg-accent blur-xl -translate-x-1/2 -translate-y-1/2"
         />
       </motion.div>

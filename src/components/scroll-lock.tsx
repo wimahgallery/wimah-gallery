@@ -5,10 +5,10 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Camera, Printer, Image, Crown } from "lucide-react";
 
 const cardData = [
-  { icon: Crown, title: "Premium Experience", description: "Every detail curated for elegance and delight.", color: "from-accent/20 to-surface" },
-  { icon: Printer, title: "Instant Prints", description: "Lab-quality prints in seconds your guests treasure forever.", color: "from-surface-secondary to-accent/10" },
-  { icon: Image, title: "Digital Gallery", description: "Every moment captured, organized, and delivered online.", color: "from-accent/15 to-surface" },
-  { icon: Camera, title: "Luxury Service", description: "Professional operators, premium setup, unforgettable experience.", color: "from-surface to-accent/20" },
+  { icon: Crown, title: "Pengalaman Premium", description: "Setiap detail dikurasi untuk keeleganan dan kepuasan.", color: "from-accent/20 to-surface" },
+  { icon: Printer, title: "Cetakan Instan", description: "Cetakan kualitas lab dalam hitungan detik yang tamu Anda hargai selamanya.", color: "from-surface-secondary to-accent/10" },
+  { icon: Image, title: "Galeri Digital", description: "Setiap momen tertangkap, terorganisir, dan dikirimkan secara online.", color: "from-accent/15 to-surface" },
+  { icon: Camera, title: "Layanan Luxury", description: "Operator profesional, setup premium, pengalaman tak terlupakan.", color: "from-surface to-accent/20" },
 ];
 
 function ScrollLockCard({
@@ -66,9 +66,9 @@ export function ScrollLock() {
 
         <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8 w-full">
           <div className="text-center mb-12">
-            <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">The Wimah Difference</p>
+            <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">Keunggulan Wimah</p>
             <h2 className="font-heading text-[40px] sm:text-[56px] font-bold tracking-tight">
-              Designed for <span className="font-elegant italic text-accent-light">excellence.</span>
+              Dirancang untuk <span className="font-elegant italic text-accent-light">kesempurnaan.</span>
             </h2>
           </div>
 

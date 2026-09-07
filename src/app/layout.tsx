@@ -28,12 +28,12 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: [
     "photobooth",
-    "premium photobooth",
-    "wedding photobooth",
-    "event photography",
-    "instant prints",
-    "digital gallery",
-    "Bali photobooth",
+    "photobooth premium",
+    "photobooth pernikahan",
+    "fotografi acara",
+    "cetak instan",
+    "galeri digital",
+    "photobooth Bali",
   ],
   openGraph: {
     title: `${siteConfig.name} — ${siteConfig.tagline}`,

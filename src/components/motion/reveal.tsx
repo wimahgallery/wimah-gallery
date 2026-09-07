@@ -4,13 +4,13 @@ import { motion, type Variants } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 import { useInView } from "framer-motion";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const ease = [0.16, 1, 0.3, 1] as const;
 
 export function FadeIn({
   children,
   className,
   delay = 0,
-  y = 32,
+  y = 40,
 }: {
   children: ReactNode;
   className?: string;
@@ -18,14 +18,14 @@ export function FadeIn({
   y?: number;
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-96px" });
+  const isInView = useInView(ref, { once: true, margin: "-120px" });
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y }}
-      transition={{ duration: 0.8, delay, ease }}
+      transition={{ duration: 1.2, delay, ease }}
       className={className}
     >
       {children}
@@ -37,7 +37,7 @@ export function FadeInStagger({
   children,
   className,
   delay = 0,
-  stagger = 0.1,
+  stagger = 0.15,
 }: {
   children: ReactNode;
   className?: string;
@@ -45,7 +45,7 @@ export function FadeInStagger({
   stagger?: number;
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-96px" });
+  const isInView = useInView(ref, { once: true, margin: "-120px" });
 
   const container: Variants = {
     hidden: { opacity: 0 },
@@ -53,8 +53,8 @@ export function FadeInStagger({
   };
 
   const item: Variants = {
-    hidden: { opacity: 0, y: 24 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
+    hidden: { opacity: 0, y: 32 },
+    show: { opacity: 1, y: 0, transition: { duration: 1.0, ease } },
   };
 
   return (

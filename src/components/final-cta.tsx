@@ -6,14 +6,14 @@ import { MessageCircle } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 
 const words = [
-  { text: "Because", special: false },
-  { text: "every", special: false },
-  { text: "meaningful", special: true },
-  { text: "moment", special: false },
-  { text: "deserves", special: false },
-  { text: "to", special: false },
-  { text: "be", special: false },
-  { text: "remembered.", special: true },
+  { text: "Karena", special: false },
+  { text: "setiap", special: false },
+  { text: "moment", special: true },
+  { text: "yang", special: false },
+  { text: "bermakna", special: false },
+  { text: "layak", special: false },
+  { text: "untuk", special: false },
+  { text: "dikenang.", special: true },
 ];
 
 function WordByWord({
@@ -58,9 +58,13 @@ export function FinalCTA() {
       <motion.div style={{ scale: bgScale, opacity: bgOpacity }} className="absolute inset-0 bg-gradient-to-b from-background via-surface to-background" />
       <motion.div style={{ scale: bgScale }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-accent/5 blur-[120px]" />
 
+      {/* Organic warm decorative elements */}
+      <div className="absolute top-24 left-20 w-20 h-20 organic-blob bg-accent/5 animate-warm-pulse" style={{ animationDelay: "1s" }} />
+      <div className="absolute bottom-32 right-16 w-28 h-28 organic-blob bg-accent-light/4 animate-warm-pulse" style={{ animationDelay: "3s" }} />
+
       <div className="relative z-10 mx-auto max-w-[700px] px-6 lg:px-8 text-center py-32 w-full">
         <p className="text-sm font-medium tracking-wider uppercase text-accent mb-8">
-          Ready to Create Memories?
+          Siap Menciptakan Kenangan?
         </p>
 
         <h2 className="font-heading text-[40px] sm:text-[56px] lg:text-[72px] font-bold tracking-tight leading-tight mb-8">
@@ -73,26 +77,26 @@ export function FinalCTA() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.8, duration: 0.4 }}
+          transition={{ delay: 0.8, duration: 1.2 }}
           className="text-lg text-text-secondary leading-relaxed mb-12"
         >
-          Reserve your date today and create unforgettable memories with your guests.
+          Reservasi tanggal Anda hari ini dan ciptakan kenangan tak terlupakan bersama tamu Anda.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 32, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 1, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <a
-            href={`${siteConfig.whatsappLink}?text=Hi! I'd like to book Wimah Gallery for my upcoming event.`}
+            href={`${siteConfig.whatsappLink}?text=Halo! Saya ingin booking Wimah Gallery untuk acara saya.`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-3xl bg-accent px-8 py-4 text-base font-semibold text-background transition-all duration-200 hover:bg-accent-light hover:shadow-[0_4px_24px_rgba(191,67,66,0.35)]"
+            className="inline-flex items-center gap-2 rounded-3xl bg-accent px-8 py-4 text-base font-semibold text-background transition-all duration-300 hover:bg-accent-light hover:shadow-[0_4px_24px_rgba(191,67,66,0.35)]"
           >
             <MessageCircle className="h-5 w-5" />
-            Book Your Date
+            Reservasi Sekarang
           </a>
         </motion.div>
       </div>
