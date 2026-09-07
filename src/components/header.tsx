@@ -56,16 +56,16 @@ export function Header() {
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-          "[transition-timing-function:cubic-bezier(0.16,1,0.3,1)]",
+          "ease-[cubic-bezier(0.16,1,0.3,1)]",
           scrolled
             ? "bg-glass/80 backdrop-blur-xl border-b border-glass-border shadow-[0_1px_24px_rgba(84,82,77,0.08)]"
             : "bg-transparent shadow-none",
         )}
       >
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-8">
+        <div className="mx-auto max-w-350 px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <a href="#home" className="flex items-center gap-3 group">
-              <div className="flex size-28 items-center justify-center overflow-hidden transition-all duration-300 group-hover:scale-105">
+              <div className="flex size-16 md:size-24 lg:size-28 items-center justify-center overflow-hidden transition-all duration-300 group-hover:scale-105">
                 <Image
                   src="/wimah.png"
                   width={1024}

@@ -16,16 +16,13 @@ export default function Footer() {
   return (
     <footer
       ref={ref}
-      className="border-t border-border bg-gradient-to-b from-surface/50 to-background py-16"
+      className="border-t border-border bg-linear-to-b from-surface/50 to-background py-16"
     >
-      <animated.div
-        style={spring}
-        className="mx-auto max-w-[1200px] px-6 lg:px-8"
-      >
+      <animated.div style={spring} className="mx-auto max-w-300 px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex size-24 items-center justify-center overflow-hidden rounded-3xl">
+              <div className="flex size-16 md:size-20 lg:size-24 items-center justify-center overflow-hidden rounded-3xl">
                 <Image
                   width={1024}
                   height={1024}
