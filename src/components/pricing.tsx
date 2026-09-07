@@ -2,7 +2,8 @@
 
 import { animated, useSpring, useInView } from "@react-spring/web";
 import { packages, siteConfig } from "@/lib/config";
-import { Check, MessageCircle, Star, Crown, Sparkles, Zap } from "lucide-react";
+import { Check, Star, Crown, Sparkles, Zap } from "lucide-react";
+import { WhatsApp } from "@/components/whatsapp-icon";
 
 const packageIcons = [Zap, Star, Crown, Sparkles];
 
@@ -102,7 +103,7 @@ function PricingCard({
             : "border border-border bg-background/50 text-text-primary hover:border-accent/30 hover:bg-accent/5"
         }`}
       >
-        <MessageCircle className="h-4 w-4" />
+        <WhatsApp className="h-4 w-4" />
         Book via WhatsApp
       </a>
     </animated.div>

@@ -4,8 +4,9 @@ export const siteConfig = {
   description:
     "Capture unforgettable memories with instant prints, digital galleries, GIFs, boomerangs, and a premium guest experience your guests will never forget.",
   whatsappLink: "https://wa.me/6281234567890",
-  email: "hello@wimahgallery.com",
+  email: "wimahgallery@gmail.com",
   instagram: "https://www.instagram.com/wimah.photobooth",
+  x: "https://x.com/wimah.photobooth",
   tiktok: "https://www.tiktok.com/@wimah.photobooth",
   facebook: "https://www.facebook.com/share/1ErSHgv2nu/",
   threads: "https://www.threads.com/@wimah.photobooth",

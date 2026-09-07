@@ -141,18 +141,9 @@ export default function Hero() {
         MEMORIES
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8 py-24 lg:py-32 w-full">
+      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8 py-28 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
-            <animated.div style={badgeStyle}>
-              <div className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-4 py-2 mb-6 lg:mb-8">
-                <Sparkles className="h-4 w-4 text-accent" />
-                <span className="text-sm font-medium tracking-wider uppercase text-accent">
-                  Premium Photobooth Experience
-                </span>
-              </div>
-            </animated.div>
-
             <animated.div style={headlineStyle}>
               <h1 className="font-heading text-[52px] sm:text-[68px] md:text-[84px] font-normal leading-[1.05] tracking-tight">
                 Make every moment

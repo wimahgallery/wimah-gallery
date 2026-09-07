@@ -3,7 +3,8 @@
 import { useState } from "react"
 import { animated, useSpring, useInView } from "@react-spring/web"
 import { faqs } from "@/lib/config"
-import { Plus, Minus, MessageCircle } from "lucide-react"
+import { Plus, Minus } from "lucide-react"
+import { WhatsApp } from "@/components/whatsapp-icon"
 import { siteConfig } from "@/lib/config"
 
 function FaqItem({
@@ -129,7 +130,7 @@ export default function Faq() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-6 py-3 text-sm font-medium text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
           >
-            <MessageCircle className="h-4 w-4 text-accent" />
+            <WhatsApp className="h-4 w-4 text-accent" />
             Ask us on WhatsApp
           </a>
         </div>
