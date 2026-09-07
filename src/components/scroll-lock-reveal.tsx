@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { animated, useSpringValue, to } from "@react-spring/web"
+import { animated, useSpring, useSpringValue, to } from "@react-spring/web"
 import { Camera, Image, Wifi, Palette, Crown } from "lucide-react"
 
 const cards = [
@@ -39,7 +39,11 @@ const cards = [
 
 export default function ScrollLockReveal() {
   const containerRef = useRef<HTMLDivElement>(null!)
-  const progress = useSpringValue(0)
+  const raw = useSpringValue(0)
+  const [smooth, api] = useSpring(() => ({
+    value: 0,
+    config: { tension: 120, friction: 30 },
+  }))
 
   useEffect(() => {
     const el = containerRef.current
@@ -50,13 +54,15 @@ export default function ScrollLockReveal() {
       const top = window.scrollY + rect.top
       const height = el.offsetHeight - window.innerHeight
       const p = height > 0 ? (window.scrollY - top) / height : 0
-      progress.set(Math.max(0, Math.min(1, p)))
+      const clamped = Math.max(0, Math.min(1, p))
+      raw.set(clamped)
+      api.start({ value: clamped })
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener("scroll", onScroll)
-  }, [progress])
+  }, [raw, api])
 
   return (
     <section className="relative">
@@ -81,19 +87,19 @@ export default function ScrollLockReveal() {
                 const segStart = i * 0.2
                 const segEnd = segStart + 0.2
 
-                const cardOpacity = to(progress, [
+                const cardOpacity = to(smooth.value, [
                   Math.max(0, segStart),
                   segStart + 0.08,
                   segEnd - 0.08,
                   Math.min(1, segEnd),
                 ], [0, 1, 1, 0])
 
-                const cardY = to(progress, [
+                const cardY = to(smooth.value, [
                   Math.max(0, segStart),
                   segStart + 0.08,
                 ], [80, 0])
 
-                const cardScale = to(progress, [
+                const cardScale = to(smooth.value, [
                   Math.max(0, segStart),
                   segStart + 0.08,
                   segEnd - 0.08,

@@ -1,13 +1,17 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { animated, useSpringValue, to } from "@react-spring/web"
+import { animated, useSpring, useSpringValue, to } from "@react-spring/web"
 
 const words = ["Moments", "Memories", "Stories", "Forever"]
 
 export default function TypographyStorytelling() {
   const containerRef = useRef<HTMLDivElement>(null!)
-  const progress = useSpringValue(0)
+  const raw = useSpringValue(0)
+  const [smooth, api] = useSpring(() => ({
+    value: 0,
+    config: { tension: 120, friction: 30 },
+  }))
 
   useEffect(() => {
     const el = containerRef.current
@@ -18,13 +22,15 @@ export default function TypographyStorytelling() {
       const top = window.scrollY + rect.top
       const height = el.offsetHeight - window.innerHeight
       const p = height > 0 ? (window.scrollY - top) / height : 0
-      progress.set(Math.max(0, Math.min(1, p)))
+      const clamped = Math.max(0, Math.min(1, p))
+      raw.set(clamped)
+      api.start({ value: clamped })
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener("scroll", onScroll)
-  }, [progress])
+  }, [raw, api])
 
   return (
     <section className="relative">
@@ -38,28 +44,28 @@ export default function TypographyStorytelling() {
               const segStart = i * 0.25
               const segEnd = segStart + 0.25
 
-              const wordOpacity = to(progress, [
+              const wordOpacity = to(smooth.value, [
                 Math.max(0, segStart),
                 segStart + 0.08,
                 segEnd - 0.08,
                 Math.min(1, segEnd),
               ], [0, 1, 1, 0])
 
-              const wordScale = to(progress, [
+              const wordScale = to(smooth.value, [
                 Math.max(0, segStart),
                 segStart + 0.08,
                 segEnd - 0.08,
                 Math.min(1, segEnd),
               ], [0.7, 1, 1, 1.15])
 
-              const wordY = to(progress, [
+              const wordY = to(smooth.value, [
                 Math.max(0, segStart),
                 segStart + 0.08,
                 segEnd - 0.08,
                 Math.min(1, segEnd),
               ], [60, 0, 0, -60])
 
-              const blur = to(progress, [
+              const blur = to(smooth.value, [
                 Math.max(0, segStart),
                 segStart + 0.1,
                 segEnd - 0.1,
@@ -86,7 +92,7 @@ export default function TypographyStorytelling() {
 
             <animated.div
               style={{
-                opacity: to(progress, [0, 0.05, 0.95, 1], [1, 1, 1, 0]),
+                opacity: to(smooth.value, [0, 0.05, 0.95, 1], [1, 1, 1, 0]),
               }}
               className="relative z-20"
             >

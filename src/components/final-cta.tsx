@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { animated, useSpringValue, to } from "@react-spring/web"
+import { animated, useSpring, useSpringValue, to } from "@react-spring/web"
 import { siteConfig } from "@/lib/config"
 import { ArrowRight } from "lucide-react"
 
@@ -10,7 +10,11 @@ const italicWords = ["deserves", "to", "be", "remembered"]
 
 export default function FinalCTA() {
   const containerRef = useRef<HTMLDivElement>(null!)
-  const progress = useSpringValue(0)
+  const raw = useSpringValue(0)
+  const [smooth, api] = useSpring(() => ({
+    value: 0,
+    config: { tension: 120, friction: 30 },
+  }))
 
   useEffect(() => {
     const el = containerRef.current
@@ -21,16 +25,18 @@ export default function FinalCTA() {
       const top = window.scrollY + rect.top
       const height = el.offsetHeight - window.innerHeight
       const p = height > 0 ? (window.scrollY - top) / height : 0
-      progress.set(Math.max(0, Math.min(1, p)))
+      const clamped = Math.max(0, Math.min(1, p))
+      raw.set(clamped)
+      api.start({ value: clamped })
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener("scroll", onScroll)
-  }, [progress])
+  }, [raw, api])
 
-  const bgScale = to(progress, [0, 1], [1, 1.15])
-  const bgOpacity = to(progress, [0, 0.3], [0.3, 1])
+  const bgScale = to(smooth.value, [0, 1], [1, 1.15])
+  const bgOpacity = to(smooth.value, [0, 0.3], [0.3, 1])
 
   return (
     <section className="relative">
@@ -51,11 +57,11 @@ export default function FinalCTA() {
             <h2 className="mb-8 font-heading text-[32px] sm:text-[44px] lg:text-[56px] font-bold leading-tight text-text-primary">
               {headlineWords.map((word, i) => {
                 const wordStart = 0.05 + i * 0.06
-                const wordOpacity = to(progress, [
+                const wordOpacity = to(smooth.value, [
                   wordStart,
                   wordStart + 0.08,
                 ], [0, 1])
-                const wordY = to(progress, [
+                const wordY = to(smooth.value, [
                   wordStart,
                   wordStart + 0.08,
                 ], [20, 0])
@@ -73,11 +79,11 @@ export default function FinalCTA() {
               <br />
               {italicWords.map((word, i) => {
                 const wordStart = 0.3 + i * 0.06
-                const wordOpacity = to(progress, [
+                const wordOpacity = to(smooth.value, [
                   wordStart,
                   wordStart + 0.08,
                 ], [0, 1])
-                const wordY = to(progress, [
+                const wordY = to(smooth.value, [
                   wordStart,
                   wordStart + 0.08,
                 ], [20, 0])
@@ -96,8 +102,8 @@ export default function FinalCTA() {
 
             <animated.p
               style={{
-                opacity: to(progress, [0.5, 0.6], [0, 1]),
-                y: to(progress, [0.5, 0.6], [30, 0]),
+                opacity: to(smooth.value, [0.5, 0.6], [0, 1]),
+                y: to(smooth.value, [0.5, 0.6], [30, 0]),
               }}
               className="mx-auto mb-12 max-w-[480px] text-base text-text-secondary leading-normal"
             >
@@ -110,9 +116,9 @@ export default function FinalCTA() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                opacity: to(progress, [0.6, 0.7], [0, 1]),
-                y: to(progress, [0.6, 0.7], [30, 0]),
-                scale: to(progress, [0.6, 0.7], [0.9, 1]),
+                opacity: to(smooth.value, [0.6, 0.7], [0, 1]),
+                y: to(smooth.value, [0.6, 0.7], [30, 0]),
+                scale: to(smooth.value, [0.6, 0.7], [0.9, 1]),
               }}
               className="inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 text-base font-semibold text-background transition-all duration-300 hover:bg-accent-light hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_4px_24px_rgba(200,112,64,0.3)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >

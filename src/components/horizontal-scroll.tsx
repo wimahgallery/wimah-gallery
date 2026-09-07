@@ -1,13 +1,17 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { animated, useSpringValue, to } from "@react-spring/web"
+import { animated, useSpring, useSpringValue, to } from "@react-spring/web"
 import Image from "next/image"
 import { horizontalImages } from "@/lib/config"
 
 export default function HorizontalScroll() {
   const sectionRef = useRef<HTMLDivElement>(null!)
-  const progress = useSpringValue(0)
+  const raw = useSpringValue(0)
+  const [smooth, api] = useSpring(() => ({
+    value: 0,
+    config: { tension: 120, friction: 30 },
+  }))
 
   useEffect(() => {
     const el = sectionRef.current
@@ -18,15 +22,17 @@ export default function HorizontalScroll() {
       const top = window.scrollY + rect.top
       const height = el.offsetHeight - window.innerHeight
       const p = height > 0 ? (window.scrollY - top) / height : 0
-      progress.set(Math.max(0, Math.min(1, p)))
+      const clamped = Math.max(0, Math.min(1, p))
+      raw.set(clamped)
+      api.start({ value: clamped })
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener("scroll", onScroll)
-  }, [progress])
+  }, [raw, api])
 
-  const x = to(progress, [0, 1], ["0%", "-65%"])
+  const x = to(smooth.value, [0, 1], ["0%", "-65%"])
 
   return (
     <section ref={sectionRef} className="relative h-[250vh] texture-grid">
@@ -46,11 +52,11 @@ export default function HorizontalScroll() {
 
           <animated.div style={{ x }} className="flex gap-6 pl-6 lg:pl-8">
             {horizontalImages.map((image, i) => {
-              const cardScale = to(progress,
+              const cardScale = to(smooth.value,
                 [i * 0.08, Math.min(1, i * 0.08 + 0.3)],
                 [0.92, 1]
               )
-              const cardRotate = to(progress,
+              const cardRotate = to(smooth.value,
                 [i * 0.08, Math.min(1, i * 0.08 + 0.15)],
                 [2, 0]
               )

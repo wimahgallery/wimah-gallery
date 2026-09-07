@@ -1,12 +1,16 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { animated, useSpringValue, to } from "@react-spring/web"
+import { animated, useSpring, useSpringValue, to } from "@react-spring/web"
 import { steps } from "@/lib/config"
 
 export default function HowItWorks() {
   const containerRef = useRef<HTMLDivElement>(null!)
-  const progress = useSpringValue(0)
+  const raw = useSpringValue(0)
+  const [smooth, api] = useSpring(() => ({
+    value: 0,
+    config: { tension: 120, friction: 30 },
+  }))
 
   useEffect(() => {
     const el = containerRef.current
@@ -17,15 +21,17 @@ export default function HowItWorks() {
       const top = window.scrollY + rect.top
       const height = el.offsetHeight - window.innerHeight
       const p = height > 0 ? (window.scrollY - top) / height : 0
-      progress.set(Math.max(0, Math.min(1, p)))
+      const clamped = Math.max(0, Math.min(1, p))
+      raw.set(clamped)
+      api.start({ value: clamped })
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener("scroll", onScroll)
-  }, [progress])
+  }, [raw, api])
 
-  const lineHeight = to(progress, [0.05, 0.85], ["0%", "100%"])
+  const lineHeight = to(smooth.value, [0.05, 0.85], ["0%", "100%"])
 
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden texture-crosshatch">
@@ -68,15 +74,15 @@ export default function HowItWorks() {
           <div className="space-y-12 lg:space-y-0">
             {steps.map((step, i) => {
               const stepStart = 0.05 + (i / steps.length) * 0.8
-              const stepOpacity = to(progress, [
+              const stepOpacity = to(smooth.value, [
                 Math.max(0, stepStart - 0.05),
                 stepStart + 0.05,
               ], [0, 1])
-              const stepY = to(progress, [
+              const stepY = to(smooth.value, [
                 Math.max(0, stepStart - 0.05),
                 stepStart + 0.05,
               ], [40, 0])
-              const stepScale = to(progress, [
+              const stepScale = to(smooth.value, [
                 Math.max(0, stepStart - 0.05),
                 stepStart + 0.05,
               ], [0.9, 1])

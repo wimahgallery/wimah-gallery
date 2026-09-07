@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { animated, useSpringValue, to } from "@react-spring/web"
+import { animated, useSpring, useSpringValue, to } from "@react-spring/web"
 import Image from "next/image"
 import { pinnedStoryImages } from "@/lib/config"
 
@@ -14,7 +14,11 @@ const storyTexts = [
 
 export default function PinnedStory() {
   const containerRef = useRef<HTMLDivElement>(null!)
-  const progress = useSpringValue(0)
+  const raw = useSpringValue(0)
+  const [smooth, api] = useSpring(() => ({
+    value: 0,
+    config: { tension: 120, friction: 30 },
+  }))
 
   useEffect(() => {
     const el = containerRef.current
@@ -25,13 +29,15 @@ export default function PinnedStory() {
       const top = window.scrollY + rect.top
       const height = el.offsetHeight - window.innerHeight
       const p = height > 0 ? (window.scrollY - top) / height : 0
-      progress.set(Math.max(0, Math.min(1, p)))
+      const clamped = Math.max(0, Math.min(1, p))
+      raw.set(clamped)
+      api.start({ value: clamped })
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener("scroll", onScroll)
-  }, [progress])
+  }, [raw, api])
 
   return (
     <section className="relative">
@@ -44,28 +50,28 @@ export default function PinnedStory() {
             const segStart = i * 0.25
             const segEnd = segStart + 0.25
 
-            const opacity = to(progress, [
+            const opacity = to(smooth.value, [
               Math.max(0, segStart - 0.05),
               segStart + 0.05,
               segEnd - 0.05,
               Math.min(1, segEnd + 0.05),
             ], [0, 1, 1, 0])
 
-            const scale = to(progress, [
+            const scale = to(smooth.value, [
               Math.max(0, segStart - 0.05),
               segStart + 0.05,
               segEnd - 0.05,
               Math.min(1, segEnd + 0.05),
             ], [0.85, 1, 1, 1.1])
 
-            const textOpacity = to(progress, [
+            const textOpacity = to(smooth.value, [
               segStart + 0.03,
               segStart + 0.1,
               segEnd - 0.1,
               segEnd - 0.03,
             ], [0, 1, 1, 0])
 
-            const textY = to(progress, [
+            const textY = to(smooth.value, [
               segStart + 0.03,
               segStart + 0.1,
             ], [30, 0])
@@ -112,7 +118,7 @@ export default function PinnedStory() {
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
             <animated.div
               style={{
-                opacity: to(progress, [0, 0.05, 0.9, 1], [1, 0.6, 0.6, 0]),
+                opacity: to(smooth.value, [0, 0.05, 0.9, 1], [1, 0.6, 0.6, 0]),
               }}
               className="flex flex-col items-center"
             >
