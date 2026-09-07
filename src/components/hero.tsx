@@ -176,14 +176,14 @@ export default function Hero() {
                   href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik untuk booking Wimah Gallery untuk acara saya.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-background transition-all duration-300 hover:bg-accent-light hover:shadow-[0_4px_24px_rgba(200,112,64,0.25)]"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-background transition-all duration-300 hover:bg-accent-light hover:shadow-[0_4px_24px_rgba(200,112,64,0.25)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                 >
                   Book via WhatsApp
                   <ArrowRight className="h-5 w-5" />
                 </a>
                 <a
                   href="#pricing"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-8 py-4 text-base font-medium text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-8 py-4 text-base font-medium text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_4px_20px_rgba(74,53,40,0.08)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                 >
                   View Packages
                 </a>

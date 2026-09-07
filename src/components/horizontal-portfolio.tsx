@@ -17,7 +17,7 @@ function CarouselCard({
   category: string;
 }) {
   return (
-    <div className="group relative shrink-0 w-[340px] sm:w-[420px] lg:w-[520px]">
+    <div className="group relative shrink-0 w-[340px] sm:w-[420px] lg:w-[520px] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
       <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] aspect-video">
         <Image
           src={src}

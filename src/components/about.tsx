@@ -34,7 +34,7 @@ function FeatureCard({
 
   return (
     <animated.div ref={ref} style={style}>
-      <div className="group relative h-full bg-surface/50 border border-border rounded-3xl p-8 transition-all duration-500 hover:border-accent/20 hover:bg-surface/80 hover:shadow-[0_8px_40px_rgba(200,112,64,0.06)]">
+      <div className="group relative h-full bg-surface/50 border border-border rounded-3xl p-8 transition-all duration-500 hover:border-accent/20 hover:bg-surface/80 hover:shadow-[0_8px_40px_rgba(200,112,64,0.06)] hover:scale-[1.02] active:scale-[0.98]">
         <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
         <div className="relative">

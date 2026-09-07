@@ -98,7 +98,7 @@ export default function Portfolio() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`rounded-full border px-5 py-2 text-sm font-medium transition-all duration-300 ${
+              className={`rounded-full border px-5 py-2 text-sm font-medium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
                 activeCategory === cat
                   ? "border-accent bg-accent/20 text-accent-light"
                   : "border-border bg-surface/50 text-text-secondary hover:border-accent/50 hover:text-text-primary"
@@ -117,7 +117,7 @@ export default function Portfolio() {
               className="mb-4 break-inside-avoid"
             >
               <div
-                className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-border ${
+                className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-border hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(74,53,40,0.08)] transition-all duration-300 ${
                   filteredImages.some((fi) => fi.id === image.id)
                     ? "block"
                     : "hidden"
@@ -171,7 +171,7 @@ export default function Portfolio() {
             </div>
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute -right-3 -top-3 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-text-primary transition-colors hover:bg-accent hover:text-text-primary"
+              className="absolute -right-3 -top-3 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-text-primary transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent hover:text-text-primary"
             >
               <X className="h-5 w-5" />
             </button>

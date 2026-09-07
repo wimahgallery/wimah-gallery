@@ -5,11 +5,14 @@ import Lenis from "lenis";
 
 import { Header } from "@/components/header";
 import Hero from "@/components/hero";
+import PinnedStory from "@/components/pinned-story";
 import About from "@/components/about";
 import WhyUs from "@/components/why-us";
+import TypographyStorytelling from "@/components/typography-storytelling";
 import HowItWorks from "@/components/how-it-works";
 import Portfolio from "@/components/portfolio";
-import HorizontalPortfolio from "@/components/horizontal-portfolio";
+import HorizontalScroll from "@/components/horizontal-scroll";
+import ScrollLockReveal from "@/components/scroll-lock-reveal";
 import ClientGallery from "@/components/client-gallery";
 import Pricing from "@/components/pricing";
 import Testimonials from "@/components/testimonials";
@@ -49,35 +52,57 @@ export default function Home() {
         </div>
 
         <div className="relative">
+          <PinnedStory />
+        </div>
+
+        <div className="relative">
           <About />
         </div>
+
         <div className="relative">
           <WhyUs />
         </div>
+
+        <div className="relative">
+          <TypographyStorytelling />
+        </div>
+
         <div className="relative">
           <HowItWorks />
         </div>
+
         <div className="relative">
           <Portfolio />
         </div>
+
         <div className="relative">
-          <HorizontalPortfolio />
+          <HorizontalScroll />
         </div>
+
+        <div className="relative">
+          <ScrollLockReveal />
+        </div>
+
         <div className="relative">
           <ClientGallery />
         </div>
+
         <div className="relative">
           <Pricing />
         </div>
+
         <div className="relative">
           <Testimonials />
         </div>
+
         <div className="relative">
           <FAQ />
         </div>
+
         <div className="relative">
           <FinalCTA />
         </div>
+
         <div className="relative">
           <Footer />
         </div>

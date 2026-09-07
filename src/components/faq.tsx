@@ -46,7 +46,7 @@ function FaqItem({
       }`}>
         <button
           onClick={onClick}
-          className="flex w-full items-center gap-4 py-5 text-left transition-colors duration-300 group"
+          className="flex w-full items-center gap-4 py-5 text-left transition-colors duration-300 group active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-xl"
         >
           <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl transition-colors duration-300 ${
             isOpen
@@ -126,7 +126,7 @@ export default function Faq() {
             href={`${siteConfig.whatsappLink}?text=Halo! Saya punya pertanyaan tentang layanan Wimah Gallery.`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-6 py-3 text-sm font-medium text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-6 py-3 text-sm font-medium text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
           >
             <MessageCircle className="h-4 w-4 text-accent" />
             Ask us on WhatsApp
