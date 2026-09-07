@@ -25,14 +25,14 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   return (
     <div
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
-      style={{ backgroundColor: "#faf6f1" }}
+      style={{ backgroundColor: "#F5F3EE" }}
     >
       {/* Growing line */}
-      <div className="relative mb-8 h-[2px] w-48 overflow-hidden rounded-full bg-surface-secondary">
+      <div className="relative mb-8 h-[2px] w-48 overflow-hidden rounded-full bg-surface">
         <div
           className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out"
           style={{
-            backgroundColor: "#c87040",
+            backgroundColor: "#7C8472",
             width: phase === "line" || phase === "text" || phase === "exit" ? "100%" : "0%",
           }}
         />
@@ -54,7 +54,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       <div
         className="pointer-events-none absolute inset-0 transition-opacity duration-800"
         style={{
-          backgroundColor: "#faf6f1",
+          backgroundColor: "#F5F3EE",
           opacity: phase === "exit" ? 1 : 0,
         }}
       />

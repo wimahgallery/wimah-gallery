@@ -5,8 +5,10 @@ export const siteConfig = {
     "Capture unforgettable memories with instant prints, digital galleries, GIFs, boomerangs, and a premium guest experience your guests will never forget.",
   whatsappLink: "https://wa.me/6281234567890",
   email: "hello@wimahgallery.com",
-  instagram: "https://instagram.com/wimahgallery",
-  tiktok: "https://tiktok.com/@wimahgallery",
+  instagram: "https://www.instagram.com/wimah.photobooth",
+  tiktok: "https://www.tiktok.com/@wimah.photobooth",
+  facebook: "https://www.facebook.com/share/1ErSHgv2nu/",
+  threads: "https://www.threads.com/@wimah.photobooth",
   navLinks: [
     { href: "#home", label: "Home" },
     { href: "#services", label: "Services" },
@@ -44,15 +46,39 @@ export const features = [
   },
 ];
 
-export const benefits = [
-  "Cetakan Instan",
-  "Galeri Digital",
-  "GIF & Boomerang",
-  "Desain Frame Kustom",
-  "Operator Ramah",
-  "Setup Cepat",
-  "Fun Unlimited",
-  "Peralatan Berkualitas Tinggi",
+export const commitments = [
+  {
+    title: "Tim Profesional & Tepat Waktu",
+    description: "Operator terlatih hadir lebih awal untuk memastikan acara berjalan lancar dan setiap momen terabadikan dengan sempurna.",
+  },
+  {
+    title: "Hasil Foto Berkualitas",
+    description: "Foto cerah, tajam, dan nyaman dilihat. Kami hanya menggunakan kertas dan tinta original untuk hasil warna stabil dan tajam.",
+  },
+  {
+    title: "Template Design & Tema bisa Request",
+    description: "Desain photobooth dapat disesuaikan dengan konsep dan tema acara Anda.",
+  },
+  {
+    title: "Pelayanan Ramah & Responsif",
+    description: "Kami siap membantu dengan pelayanan yang nyaman dan komunikatif.",
+  },
+  {
+    title: "Galeri Digital Instan",
+    description: "Akses foto Anda secara online dalam hitungan jam — bagikan dan unduh kapan saja.",
+  },
+  {
+    title: "Pengalaman Acara Elegan",
+    description: "Setup premium yang meningkatkan suasana acara dan pengalaman tamu Anda.",
+  },
+  {
+    title: "Foto Ulang Sepuasnya",
+    description: "Hasil kurang sesuai? Tim kami siap membantu foto ulang.",
+  },
+  {
+    title: "Garansi Uang Kembali",
+    description: "Kalau tim kami tidak datang sesuai jadwal, uang kamu akan kami kembalikan penuh tanpa ribet.",
+  },
 ];
 
 export const steps = [

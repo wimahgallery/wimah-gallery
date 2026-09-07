@@ -27,7 +27,7 @@ export default function ClientGallery() {
   return (
     <section id="gallery" className="relative py-20 lg:py-32 texture-noise">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      <div className="absolute inset-0 " />
+      <div className="absolute inset-0 bg-accent/5" />
 
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
         <animated.div
@@ -35,7 +35,7 @@ export default function ClientGallery() {
           style={titleSpring}
           className="mb-16 text-center"
         >
-          <h2 className="font-elegant text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary">
+          <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
             Find and download your{" "}
             <span className="italic text-accent-light">memories.</span>
           </h2>
@@ -49,7 +49,7 @@ export default function ClientGallery() {
             <animated.div
               key={gallery.name}
               style={cardSprings[index]}
-              className="group overflow-hidden rounded-3xl border border-border bg-surface/50 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(74,53,40,0.08)] hover:border-accent/20 transition-all duration-300"
+              className="group overflow-hidden rounded-3xl border border-border bg-surface/50 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-all duration-300"
             >
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
@@ -61,7 +61,7 @@ export default function ClientGallery() {
                 />
               </div>
               <div className="p-5">
-                <h3 className="text-lg font-semibold text-text-primary">
+                <h3 className="text-lg font-heading font-normal text-text-primary">
                   {gallery.name}
                 </h3>
                 <p className="mt-1 text-sm font-medium text-accent-light">
@@ -70,7 +70,7 @@ export default function ClientGallery() {
                 <p className="mt-2 text-xs text-text-secondary">
                   {gallery.date} &middot; {gallery.location}
                 </p>
-                <button className="mt-4 flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-text-primary transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:border-accent hover:bg-accent/20 hover:text-accent-light">
+                <button className="mt-4 flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-text-primary transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:border-accent hover:bg-accent/15 hover:text-accent">
                   View Gallery
                   <ExternalLink className="h-4 w-4" />
                 </button>

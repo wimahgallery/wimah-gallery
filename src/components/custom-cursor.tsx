@@ -58,8 +58,8 @@ export default function CustomCursor() {
         display: "none",
         width: "40px",
         height: "40px",
-        borderColor: "rgba(74, 53, 40, 0.3)",
-        backgroundColor: "rgba(200, 112, 64, 0.06)",
+        borderColor: "rgba(84, 82, 77, 0.3)",
+        backgroundColor: "rgba(124, 132, 114, 0.06)",
       }}
       className="pointer-events-none fixed z-[9999] -translate-x-1/2 -translate-y-1/2 rounded-full border mix-blend-difference transition-[width,height] duration-300 ease-out"
     />

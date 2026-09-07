@@ -24,7 +24,7 @@ function TestimonialCard({
     <animated.div
       ref={ref}
       style={cardSpring}
-      className="rounded-3xl border border-border bg-surface/50 p-8 transition-all duration-300 hover:border-accent/30 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(74,53,40,0.06)]"
+      className="rounded-3xl border border-border bg-surface/50 p-8 transition-all duration-300 hover:border-accent/30 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)]"
     >
       <Quote className="mb-4 h-8 w-8 text-accent/40" />
 
@@ -46,7 +46,7 @@ function TestimonialCard({
             .join("")}
         </div>
         <div>
-          <p className="text-sm font-semibold text-text-primary">
+          <p className="text-sm font-medium text-text-primary">
             {testimonial.name}
           </p>
           <p className="text-xs text-text-secondary">
@@ -70,12 +70,13 @@ export default function Testimonials() {
     <section className="relative overflow-hidden py-20 lg:py-32 texture-wave">
       <div className="absolute inset-0" />
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
+      <div className="absolute inset-0 bg-accent/5 blur-3xl" />
 
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
         <animated.div ref={ref} style={titleSpring} className="mb-20 text-center">
-          <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary">
+          <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
             What our{" "}
-            <span className="font-elegant italic text-accent-light">
+            <span className="font-elegant italic text-accent">
               clients say
             </span>
           </h2>

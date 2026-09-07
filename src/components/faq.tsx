@@ -51,13 +51,13 @@ function FaqItem({
           <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl transition-colors duration-300 ${
             isOpen
               ? "bg-accent text-background"
-              : "bg-surface-secondary/50 text-text-secondary group-hover:bg-accent/10 group-hover:text-accent"
+              : "bg-accent/10 text-accent group-hover:bg-accent/15"
           }`}>
             <animated.div style={{ rotate: iconSpring.rotate }}>
               {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
             </animated.div>
           </div>
-          <span className={`flex-1 font-heading text-base font-semibold transition-colors duration-300 ${
+          <span className={`flex-1 font-heading text-base font-normal transition-colors duration-300 ${
             isOpen ? "text-accent" : "text-text-primary group-hover:text-accent"
           }`}>
             {question}
@@ -88,19 +88,20 @@ export default function Faq() {
   return (
     <section id="faq" className="relative py-20 lg:py-32 texture-grid">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" />
+      <div className="absolute inset-0 bg-accent/5 blur-3xl" />
 
       <div className="relative mx-auto max-w-[800px] px-6 lg:px-8">
         <animated.div ref={ref} style={titleSpring} className="mb-16 text-center">
-          <p className="mb-4 text-sm font-medium tracking-wider uppercase text-accent">
+          <p className="mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
             FAQ
           </p>
-          <h2 className="mb-6 font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary">
+          <h2 className="mb-6 font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
             Frequently asked{" "}
             <span className="font-elegant italic text-accent">
               questions
             </span>
           </h2>
-          <p className="mx-auto max-w-[480px] text-base text-text-secondary leading-normal">
+          <p className="mx-auto max-w-[480px] text-base text-text-secondary leading-relaxed">
             Everything you need to know about our photobooth services. Can&apos;t find what you&apos;re looking for?
           </p>
         </animated.div>

@@ -36,7 +36,7 @@ export default function TypographyStorytelling() {
     <section className="relative">
       <div ref={containerRef} className="h-[400vh]">
         <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
           <div className="absolute inset-0 texture-noise opacity-20" />
 
           <div className="relative z-10 w-full">
@@ -77,7 +77,7 @@ export default function TypographyStorytelling() {
                     }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <span className="font-heading text-[60px] sm:text-[80px] md:text-[100px] lg:text-[120px] font-black uppercase tracking-tight text-text-primary">
+                    <span className="font-heading text-[64px] sm:text-[80px] md:text-[100px] lg:text-[120px] font-normal uppercase tracking-tight text-text-primary">
                       {word}
                     </span>
                   </animated.div>
@@ -92,10 +92,10 @@ export default function TypographyStorytelling() {
               }}
               className="mt-8 text-center"
             >
-              <p className="mb-4 text-sm font-medium tracking-wider uppercase text-accent">
+              <p className="mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
                 The Journey
               </p>
-              <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary">
+              <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
                 From first click{" "}
                 <span className="font-elegant italic text-accent">
                   to forever.

@@ -41,12 +41,12 @@ export default function HorizontalScroll() {
 
         <div className="relative z-10 w-full">
           <div className="mb-12 px-6 lg:px-8 max-w-[1200px] mx-auto">
-            <p className="mb-3 text-sm font-medium tracking-wider uppercase text-accent">
+            <p className="mb-3 text-xs font-medium tracking-[0.2em] uppercase text-accent">
               Portfolio
             </p>
-            <h2 className="font-elegant text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary">
+            <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
               Our work{" "}
-              <span className="italic text-accent-light">speaks</span> for itself.
+              <span className="font-elegant italic text-accent-light">speaks</span> for itself.
             </h2>
           </div>
 
@@ -67,7 +67,7 @@ export default function HorizontalScroll() {
                   style={{ scale: cardScale, rotate: cardRotate }}
                   className="shrink-0 w-[300px] sm:w-[400px] lg:w-[520px]"
                 >
-                  <div className="group relative overflow-hidden rounded-3xl border border-white/[0.06]">
+                  <div className="group relative overflow-hidden rounded-3xl border border-border">
                     <div className="relative aspect-video">
                       <Image
                         src={image.src}
@@ -81,7 +81,7 @@ export default function HorizontalScroll() {
                         <span className="mb-1 block text-xs font-medium uppercase tracking-widest text-accent-light/70">
                           {image.category}
                         </span>
-                        <span className="text-lg font-heading font-semibold text-white">
+                        <span className="text-lg font-heading font-normal text-white">
                           {image.title}
                         </span>
                       </div>

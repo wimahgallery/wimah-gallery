@@ -73,10 +73,10 @@ export default function ScrollLockReveal() {
 
           <div className="relative z-10 w-full max-w-[1200px] px-6 lg:px-8">
             <div className="mb-12 text-center">
-              <p className="mb-3 text-sm font-medium tracking-wider uppercase text-accent">
+              <p className="mb-3 text-xs font-medium tracking-[0.2em] uppercase text-accent">
                 Our Services
               </p>
-              <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary">
+              <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
                 Everything{" "}
                 <span className="font-elegant italic text-accent">included.</span>
               </h2>
@@ -127,11 +127,11 @@ export default function ScrollLockReveal() {
                             <Icon className="h-8 w-8 text-accent" />
                           </div>
 
-                          <h3 className="mb-3 font-heading text-2xl sm:text-3xl font-bold text-text-primary">
+                          <h3 className="mb-3 font-heading text-2xl font-normal text-text-primary">
                             {card.title}
                           </h3>
 
-                          <p className="text-base text-text-secondary leading-relaxed max-w-[360px]">
+                          <p className="text-sm text-text-secondary leading-relaxed max-w-[360px]">
                             {card.description}
                           </p>
 

@@ -1,18 +1,27 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-background: #faf6f1;
-  --color-surface: #f0e0d0;
-  --color-surface-secondary: #e8d0bc;
-  --color-accent: #c87040;
-  --color-accent-light: #d4a06c;
-  --color-text-primary: #4a3528;
-  --color-text-secondary: #7a6555;
-  --color-border: rgba(74, 53, 40, 0.12);
-  --color-glass: rgba(250, 246, 241, 0.85);
-  --color-glass-border: rgba(74, 53, 40, 0.08);
+@font-face {
+  font-family: 'Marcellus';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/marcellus-webfont/Marcellus-Regular.woff') format('woff');
+}
 
-  --font-heading: var(--font-poppins);
+@theme inline {
+  --color-background: #F5F3EE;
+  --color-surface: #E8E3D8;
+  --color-surface-secondary: #DDD8CC;
+  --color-accent: #7C8472;
+  --color-accent-light: #9AA391;
+  --color-accent-dark: #5F6558;
+  --color-text-primary: #54524D;
+  --color-text-secondary: #8D8A82;
+  --color-border: rgba(84, 82, 77, 0.12);
+  --color-glass: rgba(245, 243, 238, 0.85);
+  --color-glass-border: rgba(84, 82, 77, 0.08);
+
+  --font-heading: 'Marcellus', var(--font-cormorant);
   --font-body: var(--font-inter);
   --font-elegant: var(--font-playfair);
 }
@@ -42,7 +51,7 @@ body {
   color: var(--color-text-primary);
   font-family: var(--font-body), system-ui, sans-serif;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -67,7 +76,7 @@ img {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -75,7 +84,7 @@ img {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--color-accent), var(--color-accent-light));
+  background: var(--color-accent);
   border-radius: 3px;
 }
 
@@ -88,7 +97,7 @@ img {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
   pointer-events: none;
@@ -99,7 +108,7 @@ img {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(200, 112, 64, 0.06) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(124, 132, 114, 0.05) 1px, transparent 1px);
   background-size: 24px 24px;
   pointer-events: none;
   z-index: 1;
@@ -112,9 +121,9 @@ img {
   background-image: repeating-linear-gradient(
     0deg,
     transparent,
-    transparent 23px,
-    rgba(74, 53, 40, 0.03) 23px,
-    rgba(74, 53, 40, 0.03) 24px
+    transparent 31px,
+    rgba(84, 82, 77, 0.025) 31px,
+    rgba(84, 82, 77, 0.025) 32px
   );
   pointer-events: none;
   z-index: 1;
@@ -127,9 +136,9 @@ img {
   background-image: repeating-linear-gradient(
     45deg,
     transparent,
-    transparent 20px,
-    rgba(200, 112, 64, 0.03) 20px,
-    rgba(200, 112, 64, 0.03) 21px
+    transparent 28px,
+    rgba(124, 132, 114, 0.025) 28px,
+    rgba(124, 132, 114, 0.025) 29px
   );
   pointer-events: none;
   z-index: 1;
@@ -143,16 +152,16 @@ img {
     repeating-linear-gradient(
       45deg,
       transparent,
-      transparent 10px,
-      rgba(74, 53, 40, 0.02) 10px,
-      rgba(74, 53, 40, 0.02) 11px
+      transparent 14px,
+      rgba(84, 82, 77, 0.018) 14px,
+      rgba(84, 82, 77, 0.018) 15px
     ),
     repeating-linear-gradient(
       -45deg,
       transparent,
-      transparent 10px,
-      rgba(74, 53, 40, 0.02) 10px,
-      rgba(74, 53, 40, 0.02) 11px
+      transparent 14px,
+      rgba(84, 82, 77, 0.018) 14px,
+      rgba(84, 82, 77, 0.018) 15px
     );
   pointer-events: none;
   z-index: 1;
@@ -163,9 +172,9 @@ img {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(200, 112, 64, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200, 112, 64, 0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
+    linear-gradient(rgba(124, 132, 114, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 132, 114, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
   pointer-events: none;
   z-index: 1;
 }
@@ -174,8 +183,8 @@ img {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q25 0 50 10 T100 10' fill='none' stroke='rgba(200,112,64,0.04)' stroke-width='1'/%3E%3C/svg%3E");
-  background-size: 100px 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='24' viewBox='0 0 120 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12 Q30 0 60 12 T120 12' fill='none' stroke='rgba(124,132,114,0.035)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 120px 24px;
   pointer-events: none;
   z-index: 1;
 }
@@ -193,7 +202,7 @@ img {
   left: -5%;
   right: -5%;
   height: 100%;
-  background: radial-gradient(ellipse at 50% 0%, rgba(203, 153, 126, 0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(124, 132, 114, 0.04) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -216,7 +225,7 @@ img {
 
 .card-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(107, 112, 92, 0.12);
+  box-shadow: 0 20px 60px rgba(95, 101, 88, 0.1);
 }
 
 .gradient-text {
@@ -333,11 +342,11 @@ img {
 }
 
 .animate-marquee-left {
-  animation: marquee-left 40s linear infinite;
+  animation: marquee-left 50s linear infinite;
 }
 
 .animate-marquee-right {
-  animation: marquee-right 40s linear infinite;
+  animation: marquee-right 50s linear infinite;
 }
 
 .animate-marquee-left:hover,

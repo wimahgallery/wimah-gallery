@@ -33,8 +33,8 @@ function PricingCard({
       style={cardSpring}
       className={`relative group rounded-3xl border p-8 transition-all duration-500 ${
         pkg.popular
-          ? "border-accent bg-gradient-to-b from-accent/10 via-surface/80 to-surface/50 shadow-[0_8px_40px_rgba(200,112,64,0.12)] scale-[1.02] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300"
-          : "border-border bg-surface/40 hover:border-accent/20 hover:bg-surface/60 hover:shadow-[0_8px_32px_rgba(74,53,40,0.06)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+          ? "border-accent bg-gradient-to-b from-accent/10 via-surface/80 to-surface/50 shadow-[0_8px_40px_rgba(124,132,114,0.12)] scale-[1.02] hover:scale-[1.03] active:scale-[0.98]"
+          : "border-border bg-surface/40 hover:border-accent/20 hover:bg-surface/60 hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98]"
       }`}
     >
       {pkg.popular && (
@@ -55,7 +55,7 @@ function PricingCard({
           <Icon className="h-6 w-6" />
         </div>
 
-        <h3 className="mb-2 font-heading text-xl font-semibold text-text-primary">
+        <h3 className="mb-2 font-heading text-xl font-normal text-text-primary">
           {pkg.name}
         </h3>
 
@@ -66,7 +66,7 @@ function PricingCard({
 
       <div className="mb-8">
         <div className="flex items-baseline gap-1">
-          <span className={`font-heading text-4xl font-bold tracking-tight ${
+          <span className={`font-heading text-3xl font-normal tracking-tight ${
             pkg.popular ? "text-accent" : "text-text-primary"
           }`}>
             {pkg.price}
@@ -98,7 +98,7 @@ function PricingCard({
         rel="noopener noreferrer"
         className={`flex w-full items-center justify-center gap-2.5 rounded-2xl py-3.5 text-sm font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
           pkg.popular
-            ? "bg-accent text-background hover:bg-accent-light hover:shadow-[0_4px_20px_rgba(200,112,64,0.3)]"
+            ? "bg-accent text-background hover:bg-accent-light hover:shadow-[0_4px_20px_rgba(124,132,114,0.3)]"
             : "border border-border bg-background/50 text-text-primary hover:border-accent/30 hover:bg-accent/5"
         }`}
       >
@@ -120,6 +120,7 @@ export default function Pricing() {
   return (
     <section id="pricing" className="relative py-20 lg:py-32 texture-diagonal">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
+      <div className="absolute inset-0 bg-accent/5 blur-3xl" />
 
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
         <animated.div
@@ -127,16 +128,16 @@ export default function Pricing() {
           style={titleSpring}
           className="mb-16 text-center"
         >
-          <p className="mb-4 text-sm font-medium tracking-wider uppercase text-accent">
+          <p className="mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
             Pricing
           </p>
-          <h2 className="mb-6 font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary">
+          <h2 className="mb-6 font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
             Simple, transparent{" "}
             <span className="font-elegant italic text-accent">
               pricing
             </span>
           </h2>
-          <p className="mx-auto max-w-[480px] text-base text-text-secondary leading-normal">
+          <p className="mx-auto max-w-[480px] text-base text-text-secondary leading-relaxed">
             Choose the perfect package for your event. All packages include professional setup and premium equipment.
           </p>
         </animated.div>

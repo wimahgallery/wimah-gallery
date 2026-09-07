@@ -43,7 +43,7 @@ export default function PinnedStory() {
     <section className="relative">
       <div ref={containerRef} className="h-[400vh]">
         <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
           <div className="absolute inset-0 texture-noise opacity-30" />
 
           {pinnedStoryImages.map((image, i) => {
@@ -102,7 +102,7 @@ export default function PinnedStory() {
                     <p className="mb-2 text-sm font-medium uppercase tracking-widest text-accent-light/80">
                       {image.sub}
                     </p>
-                    <h3 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                    <h3 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-white leading-snug">
                       {storyTexts[i].line1}
                       <br />
                       <span className="font-elegant italic text-accent-light">

@@ -18,7 +18,7 @@ function CarouselCard({
 }) {
   return (
     <div className="group relative shrink-0 w-[340px] sm:w-[420px] lg:w-[520px] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
-      <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] aspect-video">
+      <div className="relative overflow-hidden rounded-3xl border border-border aspect-video">
         <Image
           src={src}
           alt={title}
@@ -26,11 +26,11 @@ function CarouselCard({
           height={800}
           className="w-full object-cover transition-transform duration-700 group-hover:scale-105 aspect-video"
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <span className="mb-2 text-xs font-medium uppercase tracking-widest text-accent-light">
             {category}
           </span>
-          <span className="text-lg font-semibold text-text-primary">
+          <span className="text-lg font-semibold text-white">
             {title}
           </span>
         </div>
@@ -63,7 +63,7 @@ export default function HorizontalPortfolio() {
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden texture-grid">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      <div className="absolute inset-0 " />
+      <div className="absolute inset-0 bg-accent/5" />
 
       <div className="relative mx-auto max-w-[1200px]">
         <animated.div
@@ -71,7 +71,7 @@ export default function HorizontalPortfolio() {
           style={titleSpring}
           className="mb-16 px-6 text-center lg:px-8"
         >
-          <h2 className="font-elegant text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary">
+          <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
             Our work{" "}
             <span className="italic text-accent-light">speaks</span> for itself.
           </h2>

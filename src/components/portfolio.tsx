@@ -76,7 +76,7 @@ export default function Portfolio() {
   return (
     <section id="portfolio" className="relative py-20 lg:py-32 texture-dots">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      <div className="absolute inset-0 " />
+      <div className="absolute inset-0 bg-accent/5" />
 
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
         <animated.div
@@ -84,7 +84,7 @@ export default function Portfolio() {
           style={titleSpring}
           className="mb-16 text-center"
         >
-          <h2 className="font-elegant text-4xl sm:text-5xl md:text-6xl font-bold text-text-primary">
+          <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
             Our <span className="italic text-accent-light">portfolio.</span>
           </h2>
         </animated.div>
@@ -100,7 +100,7 @@ export default function Portfolio() {
               onClick={() => setActiveCategory(cat)}
               className={`rounded-full border px-5 py-2 text-sm font-medium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
                 activeCategory === cat
-                  ? "border-accent bg-accent/20 text-accent-light"
+                  ? "border-accent bg-accent/15 text-accent"
                   : "border-border bg-surface/50 text-text-secondary hover:border-accent/50 hover:text-text-primary"
               }`}
             >
@@ -117,7 +117,7 @@ export default function Portfolio() {
               className="mb-4 break-inside-avoid"
             >
               <div
-                className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-border hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(74,53,40,0.08)] transition-all duration-300 ${
+                className={`group relative cursor-pointer overflow-hidden rounded-3xl border border-border hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-all duration-300 ${
                   filteredImages.some((fi) => fi.id === image.id)
                     ? "block"
                     : "hidden"
@@ -133,14 +133,14 @@ export default function Portfolio() {
                     className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${image.aspect}`}
                   />
                 </div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <span className="mb-2 text-xs font-medium uppercase tracking-widest text-accent-light">
                     {image.category}
                   </span>
-                  <span className="text-lg font-semibold text-text-primary">
+                  <span className="text-lg font-semibold text-white">
                     {image.title}
                   </span>
-                  <ExternalLink className="mt-3 h-5 w-5 text-text-secondary" />
+                  <ExternalLink className="mt-3 h-5 w-5 text-white/80" />
                 </div>
               </div>
             </animated.div>
@@ -164,14 +164,14 @@ export default function Portfolio() {
               alt={selectedImage.title}
               width={1200}
               height={1500}
-              className="rounded-2xl object-contain"
+              className="rounded-3xl object-contain"
             />
-            <div className="absolute bottom-4 left-4 rounded-full bg-black/60 px-4 py-2 text-sm text-text-primary backdrop-blur-sm">
+            <div className="absolute bottom-4 left-4 rounded-full bg-black/60 px-4 py-2 text-sm text-white backdrop-blur-sm">
               {selectedImage.title}
             </div>
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute -right-3 -top-3 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-text-primary transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent hover:text-text-primary"
+              className="absolute -right-3 -top-3 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-text-primary transition-all duration-300 hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent hover:text-white"
             >
               <X className="h-5 w-5" />
             </button>

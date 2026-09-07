@@ -7,9 +7,9 @@ import { Header } from "@/components/header";
 import Hero from "@/components/hero";
 import PinnedStory from "@/components/pinned-story";
 import About from "@/components/about";
-import WhyUs from "@/components/why-us";
 import TypographyStorytelling from "@/components/typography-storytelling";
 import HowItWorks from "@/components/how-it-works";
+import Availability from "@/components/availability";
 import Portfolio from "@/components/portfolio";
 import HorizontalScroll from "@/components/horizontal-scroll";
 import ScrollLockReveal from "@/components/scroll-lock-reveal";
@@ -60,15 +60,15 @@ export default function Home() {
         </div>
 
         <div className="relative">
-          <WhyUs />
-        </div>
-
-        <div className="relative">
           <TypographyStorytelling />
         </div>
 
         <div className="relative">
           <HowItWorks />
+        </div>
+
+        <div className="relative">
+          <Availability />
         </div>
 
         <div className="relative">
