@@ -21,17 +21,15 @@ import ScrollProgress from "@/components/scroll-progress"
 
 export default function Home() {
   useEffect(() => {
-    const lenis = new Lenis()
-
-    function raf(time: number) {
-      lenis.raf(time)
+    if (typeof window === "undefined") return
+    if (window.matchMedia("(pointer: fine)").matches) {
+      const lenis = new Lenis()
+      function raf(time: number) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+      }
       requestAnimationFrame(raf)
-    }
-
-    requestAnimationFrame(raf)
-
-    return () => {
-      lenis.destroy()
+      return () => { lenis.destroy() }
     }
   }, [])
 
