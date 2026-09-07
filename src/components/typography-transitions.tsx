@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
 const wordData = [
   { word: "KENANGAN", display: "Kenangan.", special: false },
@@ -9,6 +10,37 @@ const wordData = [
   { word: "CERITA", display: "Cerita.", special: false },
   { word: "SELAMANYA", display: "selamanya.", special: true },
 ];
+
+function TypographyTransitionsMobile() {
+  return (
+    <section className="relative py-20 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/50 to-background" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-accent/5 blur-[80px]" />
+
+      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
+        <div className="space-y-8 text-center">
+          {wordData.map((w) => (
+            <div key={w.word} className="flex flex-col items-center">
+              <span className="font-heading text-[15vw] sm:text-[12vw] font-black tracking-tighter text-text-primary select-none leading-none">
+                {w.word}
+              </span>
+              <span className="font-heading text-[40px] sm:text-[56px] font-bold tracking-tight text-text-primary/30 mt-2">
+                {w.special ? (
+                  <>
+                    {w.display.slice(0, -1)}
+                    <span className="font-elegant italic text-accent-light"></span>
+                  </>
+                ) : (
+                  w.display
+                )}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function TypographyWord({
   word,
@@ -66,7 +98,7 @@ function TypographyWord({
   );
 }
 
-export function TypographyTransitions() {
+function TypographyTransitionsDesktop() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -94,4 +126,9 @@ export function TypographyTransitions() {
       </div>
     </section>
   );
+}
+
+export function TypographyTransitions() {
+  const isMobile = useIsMobile();
+  return isMobile ? <TypographyTransitionsMobile /> : <TypographyTransitionsDesktop />;
 }

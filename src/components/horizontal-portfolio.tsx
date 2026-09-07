@@ -4,8 +4,39 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { horizontalImages } from "@/lib/config";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
-export function HorizontalPortfolio() {
+function HorizontalPortfolioMobile() {
+  return (
+    <section className="relative py-20 overflow-hidden">
+      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8 mb-8">
+        <p className="text-sm font-medium tracking-wider uppercase text-accent mb-3">Portofolio</p>
+        <h2 className="font-heading text-[32px] font-bold tracking-tight">
+          Karya kami <span className="font-elegant italic text-accent-light">berbicara.</span>
+        </h2>
+      </div>
+
+      <div className="flex gap-4 overflow-x-auto px-6 snap-x snap-mandatory scrollbar-hide pb-4">
+        {horizontalImages.map((item) => (
+          <div
+            key={item.id}
+            className={`shrink-0 w-[260px] ${item.aspect} rounded-3xl overflow-hidden border border-border relative snap-center`}
+          >
+            <Image
+              src={item.src}
+              alt={item.title}
+              fill
+              className="object-cover"
+              sizes="260px"
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function HorizontalPortfolioDesktop() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
@@ -58,4 +89,9 @@ export function HorizontalPortfolio() {
       </div>
     </section>
   );
+}
+
+export function HorizontalPortfolio() {
+  const isMobile = useIsMobile();
+  return isMobile ? <HorizontalPortfolioMobile /> : <HorizontalPortfolioDesktop />;
 }

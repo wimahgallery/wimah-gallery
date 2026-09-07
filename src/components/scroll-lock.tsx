@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Camera, Printer, Image, Crown } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
 const cardData = [
   { icon: Crown, title: "Pengalaman Premium", description: "Setiap detail dikurasi untuk keeleganan dan kepuasan.", color: "from-accent/20 to-surface" },
@@ -10,6 +11,38 @@ const cardData = [
   { icon: Image, title: "Galeri Digital", description: "Setiap momen tertangkap, terorganisir, dan dikirimkan secara online.", color: "from-accent/15 to-surface" },
   { icon: Camera, title: "Layanan Luxury", description: "Operator profesional, setup premium, pengalaman tak terlupakan.", color: "from-surface to-accent/20" },
 ];
+
+function ScrollLockMobile() {
+  return (
+    <section className="relative py-20 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
+
+      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">Keunggulan Wimah</p>
+          <h2 className="font-heading text-[32px] sm:text-[40px] font-bold tracking-tight">
+            Dirancang untuk <span className="font-elegant italic text-accent-light">kesempurnaan.</span>
+          </h2>
+        </div>
+
+        <div className="space-y-4">
+          {cardData.map((card) => {
+            const Icon = card.icon;
+            return (
+              <div key={card.title} className="w-full rounded-3xl border border-border bg-surface/80 p-8 text-center shadow-[0_8px_48px_rgba(61,43,37,0.12)]">
+                <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-accent/10 border border-accent/10 mx-auto mb-8">
+                  <Icon className="h-8 w-8 text-accent" />
+                </div>
+                <h3 className="font-heading text-[24px] font-bold mb-4">{card.title}</h3>
+                <p className="text-text-secondary leading-relaxed">{card.description}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function ScrollLockCard({
   card,
@@ -54,7 +87,7 @@ function DotIndicator({
   return <motion.div style={{ opacity: dotOpacity }} className="h-2 w-2 rounded-full bg-accent" />;
 }
 
-export function ScrollLock() {
+function ScrollLockDesktop() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
 
@@ -87,4 +120,9 @@ export function ScrollLock() {
       </div>
     </section>
   );
+}
+
+export function ScrollLock() {
+  const isMobile = useIsMobile();
+  return isMobile ? <ScrollLockMobile /> : <ScrollLockDesktop />;
 }

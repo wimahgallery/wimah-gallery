@@ -4,8 +4,38 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { pinnedStoryImages } from "@/lib/config";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
-export function PinnedStory() {
+function PinnedStoryMobile() {
+  return (
+    <section className="relative py-20 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-surface to-background" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-accent/5 blur-[80px]" />
+
+      <div className="relative z-10 mx-auto max-w-[1200px] px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <p className="text-sm font-medium tracking-wider uppercase text-accent mb-4">Cerita Kami</p>
+          <h2 className="font-heading text-[32px] sm:text-[40px] font-bold tracking-tight">
+            Setiap kenangan menceritakan <span className="font-elegant italic text-accent-light">sebuah kisah.</span>
+          </h2>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {pinnedStoryImages.map((step, i) => (
+            <div key={i} className="flex flex-col items-center text-center">
+              <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden border border-border shadow-[0_8px_48px_rgba(61,43,37,0.12)] mb-4">
+                <Image src={step.src} alt={step.sub} fill className="object-cover" sizes="50vw" />
+              </div>
+              <p className="text-xs font-medium tracking-wider uppercase text-accent mb-1">{step.sub}</p>
+              <p className="font-heading text-base font-semibold text-text-primary">{step.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PinnedStoryDesktop() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
 
@@ -71,4 +101,9 @@ export function PinnedStory() {
       </div>
     </section>
   );
+}
+
+export function PinnedStory() {
+  const isMobile = useIsMobile();
+  return isMobile ? <PinnedStoryMobile /> : <PinnedStoryDesktop />;
 }
