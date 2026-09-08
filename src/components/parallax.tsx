@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect, ReactNode } from "react"
+import { useRef, useEffect, useMemo, ReactNode } from "react"
 import { animated, useSpringValue, to } from "@react-spring/web"
 
 interface ParallaxSectionProps {
@@ -30,11 +30,11 @@ export function ParallaxSection({ children, speed = 0.5, className = "" }: Paral
     return () => window.removeEventListener("scroll", onScroll)
   }, [yVal, speed])
 
-  const y = to(yVal, (v: number) => `${-v}px`)
+  const y = useMemo(() => to(yVal, (v: number) => `${-v}px`), [yVal])
 
   return (
     <div ref={ref} className={`relative overflow-hidden ${className}`}>
-      <animated.div style={{ y }}>
+      <animated.div style={{ y, willChange: "transform" }}>
         {children}
       </animated.div>
     </div>
@@ -71,11 +71,11 @@ export function FloatingElement({ children, speed = 0.3, rotateSpeed = 0.1, clas
     return () => window.removeEventListener("scroll", onScroll)
   }, [yVal, rotateVal, speed, rotateSpeed])
 
-  const y = to(yVal, (v: number) => `${-v}px`)
-  const rotate = to(rotateVal, (v: number) => `${-v}deg`)
+  const y = useMemo(() => to(yVal, (v: number) => `${-v}px`), [yVal])
+  const rotate = useMemo(() => to(rotateVal, (v: number) => `${-v}deg`), [rotateVal])
 
   return (
-    <animated.div ref={ref} style={{ y, rotate }} className={`pointer-events-none ${className}`}>
+    <animated.div ref={ref} style={{ y, rotate, willChange: "transform" }} className={`pointer-events-none ${className}`}>
       {children}
     </animated.div>
   )

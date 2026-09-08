@@ -6,16 +6,40 @@ export default function ScrollProgress() {
   const barRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!barRef.current) return
-      const scrollTop = window.scrollY
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0
-      barRef.current.style.transform = `scaleX(${scrollPercent})`
+    let ticking = false
+    let docHeight = 0
+
+    function recalcHeight() {
+      docHeight = document.documentElement.scrollHeight - window.innerHeight
     }
 
+    const handleScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        if (!barRef.current) {
+          ticking = false
+          return
+        }
+        if (docHeight === 0) recalcHeight()
+        const scrollTop = window.scrollY
+        const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0
+        barRef.current.style.transform = `scaleX(${scrollPercent})`
+        ticking = false
+      })
+    }
+
+    const handleResize = () => {
+      recalcHeight()
+    }
+
+    recalcHeight()
     window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener("resize", handleResize, { passive: true })
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", handleResize)
+    }
   }, [])
 
   return (
@@ -26,7 +50,6 @@ export default function ScrollProgress() {
         backgroundColor: "#7C8472",
         width: "100%",
         transform: "scaleX(0)",
-        transition: "transform 0.1s linear",
       }}
     />
   )

@@ -262,6 +262,9 @@ img {
 
 .reveal {
   opacity: 0;
+}
+
+.reveal.in-view {
   will-change: transform, opacity;
 }
 

@@ -14,10 +14,18 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 40)
+        ticking = false
+      })
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   useEffect(() => {
     if (mobileOpen) {
@@ -46,7 +54,7 @@ export function Header() {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all will-change-transform duration-500",
+          "fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] will-change-transform duration-500",
           "ease-[cubic-bezier(0.16,1,0.3,1)]",
           scrolled
             ? "bg-glass/80 backdrop-blur-xl border-b border-glass-border shadow-[0_1px_24px_rgba(84,82,77,0.08)]"
@@ -193,7 +201,7 @@ export function Header() {
       </header>
 
       <div
-        className={`fixed inset-0 z-40 bg-accent-dark lg:hidden pointer-events-none transition-[opacity,backdrop-filter] duration-300 ease-out ${
+        className={`fixed inset-0 z-40 bg-accent-dark lg:hidden pointer-events-none transition-[opacity] duration-300 ease-out ${
           mobileOpen ? "opacity-100 backdrop-blur-xl" : "opacity-0 backdrop-blur-0"
         }`}
         aria-hidden={!mobileOpen}

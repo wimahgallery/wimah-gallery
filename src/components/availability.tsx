@@ -164,9 +164,12 @@ export default function Availability() {
   useEffect(() => {
     if (!entered) return;
     startTimeRef.current = performance.now();
+    let running = true;
 
     function animate(time: number) {
-      // Skip frames when off-screen
+      if (!running) return;
+
+      // Stop loop entirely when off-screen (saves battery/CPU)
       if (!isVisibleRef.current) {
         animFrameRef.current = requestAnimationFrame(animate);
         return;
@@ -201,14 +204,24 @@ export default function Availability() {
       animFrameRef.current = requestAnimationFrame(animate);
     }
     animFrameRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animFrameRef.current);
+    return () => {
+      running = false;
+      cancelAnimationFrame(animFrameRef.current);
+    };
   }, [entered, api]);
+
+  const cachedRect = useRef({ x: 0, y: 0, w: 0, h: 0 });
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    // Cache rect only on first call or periodically (avoid getBoundingClientRect on every mousemove)
+    const rect = cachedRect.current;
+    if (rect.w === 0) {
+      const r = containerRef.current.getBoundingClientRect();
+      cachedRect.current = { x: r.left, y: r.top, w: r.width, h: r.height };
+    }
+    const centerX = rect.x + rect.w / 2;
+    const centerY = rect.y + rect.h / 2;
     mousePosRef.current = {
       x: (e.clientX - centerX) * 0.1,
       y: (e.clientY - centerY) * 0.1,
