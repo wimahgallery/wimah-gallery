@@ -2,6 +2,7 @@
 
 import { animated, useSpring } from "@react-spring/web";
 import Image from "next/image";
+import Link from "next/link";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 
@@ -166,17 +167,17 @@ export default function Hero() {
                   href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik untuk booking Wimah Gallery untuk acara saya.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-background transition-all duration-300 hover:bg-accent-light hover:shadow-[0_4px_24px_rgba(124,132,114,0.25)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-background transition-[transform,colors] duration-300 hover:bg-accent-light hover:shadow-[0_4px_24px_rgba(124,132,114,0.25)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                 >
                   Book via WhatsApp
                   <ArrowRight className="h-5 w-5" />
                 </a>
-                <a
+                <Link
                   href="#pricing"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 px-8 py-4 text-base font-medium text-accent transition-all duration-300 hover:border-accent hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_4px_20px_rgba(124,132,114,0.08)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 px-8 py-4 text-base font-medium text-accent transition-[transform,colors] duration-300 hover:border-accent hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_4px_20px_rgba(124,132,114,0.08)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                 >
                   View Packages
-                </a>
+                </Link>
               </div>
             </animated.div>
           </div>

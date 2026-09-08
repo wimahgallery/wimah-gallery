@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { animated, useSpring, useTrail } from "@react-spring/web";
+import { animated, useTrail } from "@react-spring/web";
 import { Menu, X } from "lucide-react";
 import { WhatsApp } from "@/components/whatsapp-icon";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/config";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,16 +30,6 @@ export function Header() {
     };
   }, [mobileOpen]);
 
-  const overlaySpring = useSpring({
-    opacity: mobileOpen ? 1 : 0,
-    config: { tension: 300, friction: 30 },
-  });
-
-  const backdropBlur = useSpring({
-    backdropFilter: mobileOpen ? "blur(20px)" : "blur(0px)",
-    config: { tension: 300, friction: 30 },
-  });
-
   const items = [
     ...siteConfig.navLinks,
     { label: "Cek Ketersediaan", href: "#" },
@@ -55,7 +46,7 @@ export function Header() {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          "fixed top-0 left-0 right-0 z-50 transition-all will-change-transform duration-500",
           "ease-[cubic-bezier(0.16,1,0.3,1)]",
           scrolled
             ? "bg-glass/80 backdrop-blur-xl border-b border-glass-border shadow-[0_1px_24px_rgba(84,82,77,0.08)]"
@@ -65,11 +56,11 @@ export function Header() {
         <div className="mx-auto max-w-350 px-6 lg:px-8">
           <div className="relative flex h-16 items-center md:justify-between">
             {/* Logo - centered on mobile, left on desktop */}
-            <a
+            <Link
               href="#home"
               className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 flex items-center group"
             >
-              <div className="flex w-auto h-16 items-center justify-center transition-all duration-300 group-hover:scale-105">
+              <div className="flex w-auto h-16 items-center justify-center transition-transform duration-300 group-hover:scale-105">
                 <Image
                   src="/wimah.png"
                   width={1024}
@@ -78,18 +69,18 @@ export function Header() {
                   className="h-full w-auto object-contain invert"
                 />
               </div>
-            </a>
+            </Link>
 
             <nav className="hidden lg:flex items-center gap-1">
               {siteConfig.navLinks.map((item) => (
-                <a
+                <Link
                   key={item.href}
                   href={item.href}
                   className="relative px-4 py-2 text-sm font-body font-medium text-text-secondary transition-colors duration-300 hover:text-text-primary group"
                 >
                   <span className="relative z-10">{item.label}</span>
-                  <span className="absolute inset-0 rounded-full bg-accent/[0.06] scale-90 opacity-0 transition-all duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
-                </a>
+                  <span className="absolute inset-0 rounded-full bg-accent/[0.06] scale-90 opacity-0 transition-[transform,opacity] duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
+                </Link>
               ))}
             </nav>
 
@@ -99,7 +90,7 @@ export function Header() {
                 href={siteConfig.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-all duration-300 hover:text-accent hover:bg-accent/[0.06]"
+                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-colors duration-300 hover:text-accent hover:bg-accent/[0.06]"
                 aria-label="Instagram"
               >
                 <svg
@@ -120,7 +111,7 @@ export function Header() {
                 href={siteConfig.x}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-all duration-300 hover:text-accent hover:bg-accent/[0.06]"
+                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-colors duration-300 hover:text-accent hover:bg-accent/[0.06]"
                 aria-label="X"
               >
                 <svg
@@ -135,7 +126,7 @@ export function Header() {
                 href={siteConfig.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-all duration-300 hover:text-accent hover:bg-accent/[0.06]"
+                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-colors duration-300 hover:text-accent hover:bg-accent/[0.06]"
                 aria-label="TikTok"
               >
                 <svg
@@ -150,7 +141,7 @@ export function Header() {
                 href={siteConfig.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-all duration-300 hover:text-accent hover:bg-accent/[0.06]"
+                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-colors duration-300 hover:text-accent hover:bg-accent/[0.06]"
                 aria-label="Facebook"
               >
                 <svg
@@ -165,7 +156,7 @@ export function Header() {
                 href={siteConfig.threads}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-all duration-300 hover:text-accent hover:bg-accent/[0.06]"
+                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-colors duration-300 hover:text-accent hover:bg-accent/[0.06]"
                 aria-label="Threads"
               >
                 <svg
@@ -180,14 +171,14 @@ export function Header() {
                 href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik untuk booking Wimah Gallery untuk acara saya.`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden md:inline-flex items-center gap-2.5 bg-accent text-background text-sm font-body font-medium rounded-full px-5 py-2 transition-all duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:bg-accent-light hover:shadow-[0_4px_20px_rgba(124,132,114,0.25)] hover:scale-[1.02] active:scale-[0.98]"
+                className="hidden md:inline-flex items-center gap-2.5 bg-accent text-background text-sm font-body font-medium rounded-full px-5 py-2 transition-all will-change-transform duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:bg-accent-light hover:shadow-[0_4px_20px_rgba(124,132,114,0.25)] hover:scale-[1.02] active:scale-[0.98]"
               >
                 <WhatsApp className="h-4 w-4" />
                 Cek Ketersediaan
               </a>
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="flex lg:hidden h-10 w-10 items-center justify-center rounded-3xl border border-border text-text-secondary transition-all duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:border-accent/30 hover:text-accent hover:bg-accent/[0.06]"
+                className="flex lg:hidden h-10 w-10 items-center justify-center rounded-3xl border border-border text-text-secondary transition-colors duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:border-accent/30 hover:text-accent hover:bg-accent/[0.06]"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? (
@@ -201,12 +192,10 @@ export function Header() {
         </div>
       </header>
 
-      <animated.div
-        style={{
-          opacity: overlaySpring.opacity,
-          backdropFilter: backdropBlur.backdropFilter,
-        }}
-        className="fixed inset-0 z-40 bg-accent-dark lg:hidden pointer-events-none"
+      <div
+        className={`fixed inset-0 z-40 bg-accent-dark lg:hidden pointer-events-none transition-[opacity,backdrop-filter] duration-300 ease-out ${
+          mobileOpen ? "opacity-100 backdrop-blur-xl" : "opacity-0 backdrop-blur-0"
+        }`}
         aria-hidden={!mobileOpen}
       >
         {mobileOpen && (
@@ -233,15 +222,18 @@ export function Header() {
               }
 
               return (
-                <animated.a
+                <animated.div
                   key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
                   style={style}
-                  className="font-heading text-3xl font-normal text-background transition-colors duration-300 hover:text-white hover:scale-105"
                 >
-                  {item.label}
-                </animated.a>
+                  <Link
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="font-heading text-3xl font-normal text-background transition-colors duration-300 hover:text-white hover:scale-105 inline-block"
+                  >
+                    {item.label}
+                  </Link>
+                </animated.div>
               );
             })}
 
@@ -350,7 +342,7 @@ export function Header() {
             </animated.div>
           </nav>
         )}
-      </animated.div>
+      </div>
     </>
   );
 }

@@ -18,6 +18,7 @@ import Pricing from "@/components/pricing";
 import Testimonials from "@/components/testimonials";
 import FAQ from "@/components/faq";
 import FinalCTA from "@/components/final-cta";
+import MasonryGallery from "@/components/masonry-gallery";
 import Footer from "@/components/footer";
 import CustomCursor from "@/components/custom-cursor";
 import ScrollProgress from "@/components/scroll-progress";
@@ -102,6 +103,10 @@ export default function Home() {
         <div className="relative">
           <FinalCTA />
         </div>
+
+        {/* <div className="relative">
+          <MasonryGallery />
+        </div> */}
 
         <div className="relative">
           <Footer />

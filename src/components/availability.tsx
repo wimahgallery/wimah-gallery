@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { animated, useSpring, useSprings, useInView } from "@react-spring/web";
 import { Heart, PartyPopper, Users, Sparkles, Star } from "lucide-react";
@@ -303,6 +304,7 @@ function FloatingCard({
         zIndex: hovered ? 10 : floatingCards[index].zIndex,
         position: "absolute",
         transformOrigin: "center bottom",
+        willChange: "transform",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -320,10 +322,11 @@ function FloatingCard({
         }`}
       >
         <div className="relative aspect-[3/4] bg-surface/50">
-          <img
+          <Image
             src={floatingCards[index].image}
             alt="Photobooth"
-            className="absolute inset-0 h-full w-full object-cover"
+            fill
+            className="absolute inset-0 h-full w-full"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
           <div className="absolute top-3 left-3 right-3 h-1 rounded-full bg-gradient-to-r from-white/20 via-white/40 to-white/20" />
@@ -355,9 +358,9 @@ function EventCard({
     <animated.div
       ref={ref}
       style={style}
-      className="group relative flex flex-col items-center gap-4 bg-surface/50 border border-border rounded-3xl p-6 transition-all duration-500 hover:border-accent/20 hover:bg-surface/80 hover:shadow-[0_8px_40px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98] cursor-default"
+      className="group relative flex flex-col items-center gap-4 bg-surface/50 border border-border rounded-3xl p-6 transition-[transform,colors] duration-500 hover:border-accent/20 hover:bg-surface/80 hover:shadow-[0_8px_40px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98] cursor-default"
     >
-      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/10 ring-1 ring-accent/10 transition-all duration-500 group-hover:bg-accent/15 group-hover:ring-accent/20">
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent/10 ring-1 ring-accent/10 transition-colors duration-500 group-hover:bg-accent/15 group-hover:ring-accent/20">
         <Icon className="h-6 w-6 text-accent" />
       </div>
       <span className="font-heading text-base font-normal text-text-primary text-center">

@@ -112,7 +112,7 @@ export default function Faq() {
                 href={`${siteConfig.whatsappLink}?text=Halo! Saya punya pertanyaan tentang layanan Wimah Gallery.`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-6 py-3 text-sm font-medium text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-6 py-3 text-sm font-medium text-text-primary transition-[transform,colors] duration-300 hover:border-accent/30 hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               >
                 <WhatsApp className="h-4 w-4 text-accent" />
                 Ask us on WhatsApp
@@ -184,7 +184,7 @@ function GuaranteeCard({
     <animated.div
       ref={ref}
       style={style}
-      className="flex items-start gap-3 rounded-2xl border border-border bg-surface/30 p-4 transition-all duration-300 hover:border-accent/20 hover:bg-surface/50"
+      className="flex items-start gap-3 rounded-2xl border border-border bg-surface/30 p-4 transition-colors duration-300 hover:border-accent/20 hover:bg-surface/50"
     >
       <div className="shrink-0 mt-0.5 h-2 w-2 rounded-full bg-accent" />
       <div>

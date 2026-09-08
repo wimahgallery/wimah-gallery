@@ -49,7 +49,7 @@ export default function ClientGallery() {
             <animated.div
               key={gallery.name}
               style={cardSprings[index]}
-              className="group overflow-hidden rounded-3xl border border-border bg-surface/50 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-all duration-300"
+              className="group overflow-hidden rounded-3xl border border-border bg-surface/50 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-[transform,colors] duration-300"
             >
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
@@ -70,7 +70,7 @@ export default function ClientGallery() {
                 <p className="mt-2 text-xs text-text-secondary">
                   {gallery.date} &middot; {gallery.location}
                 </p>
-                <button className="mt-4 flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-text-primary transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:border-accent hover:bg-accent/15 hover:text-accent">
+                <button className="mt-4 flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-text-primary transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:border-accent hover:bg-accent/15 hover:text-accent">
                   View Gallery
                   <ExternalLink className="h-4 w-4" />
                 </button>

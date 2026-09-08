@@ -5,6 +5,7 @@ import { siteConfig } from "@/lib/config";
 import { Mail } from "lucide-react";
 import { WhatsApp } from "@/components/whatsapp-icon";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   const [ref, inView] = useInView(() => ({ triggerOnce: true }));
@@ -17,7 +18,7 @@ export default function Footer() {
   return (
     <footer
       ref={ref}
-      className="border-t border-border bg-linear-to-b from-surface/50 to-background py-16"
+      className="border-t border-surface bg-linear-to-b from-surface/50 to-background py-16"
     >
       <animated.div style={spring} className="mx-auto max-w-300 px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-4">
@@ -41,7 +42,7 @@ export default function Footer() {
                 href={siteConfig.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-all duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
+                className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-[transform,colors] duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +64,7 @@ export default function Footer() {
                 href={siteConfig.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-all duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
+                className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-[transform,colors] duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +84,7 @@ export default function Footer() {
                 href={siteConfig.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-all duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
+                className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-[transform,colors] duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +100,7 @@ export default function Footer() {
                 href={siteConfig.threads}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-all duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
+                className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-[transform,colors] duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +116,7 @@ export default function Footer() {
                 href={siteConfig.whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-all duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
+                className="flex h-10 w-10 items-center justify-center rounded-3xl border border-border transition-[transform,colors] duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
                 <WhatsApp className="h-[18px] w-[18px]" />
               </a>
@@ -129,12 +130,12 @@ export default function Footer() {
             <ul className="space-y-2">
               {siteConfig.navLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
-                    className="text-sm text-text-secondary transition-all duration-300 hover:text-accent hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                    className="text-sm text-text-secondary transition-colors duration-300 hover:text-accent hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -150,7 +151,7 @@ export default function Footer() {
                   href={siteConfig.whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-text-secondary transition-all duration-300 hover:text-accent hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                  className="flex items-center gap-2 text-sm text-text-secondary transition-colors duration-300 hover:text-accent hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                 >
                   <WhatsApp className="h-4 w-4" />
                   WhatsApp
@@ -159,7 +160,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="flex items-center gap-2 text-sm text-text-secondary transition-all duration-300 hover:text-accent hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                  className="flex items-center gap-2 text-sm text-text-secondary transition-colors duration-300 hover:text-accent hover:underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                 >
                   <Mail className="h-4 w-4" />
                   {siteConfig.email}

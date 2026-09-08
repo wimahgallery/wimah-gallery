@@ -30,10 +30,12 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       {/* Growing line */}
       <div className="relative mb-8 h-[2px] w-48 overflow-hidden rounded-full bg-surface">
         <div
-          className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out"
+          className="absolute inset-y-0 left-0 rounded-full transition-transform duration-1000 ease-out"
           style={{
             backgroundColor: "#7C8472",
-            width: phase === "line" || phase === "text" || phase === "exit" ? "100%" : "0%",
+            width: "100%",
+            transformOrigin: "left",
+            transform: phase === "line" || phase === "text" || phase === "exit" ? "scaleX(1)" : "scaleX(0)",
           }}
         />
       </div>

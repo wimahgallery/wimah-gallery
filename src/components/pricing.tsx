@@ -32,7 +32,7 @@ function PricingCard({
     <animated.div
       ref={ref}
       style={cardSpring}
-      className={`relative group rounded-3xl border p-8 transition-all duration-500 ${
+      className={`relative group rounded-3xl border p-8 transition-[transform,colors] duration-500 ${
         pkg.popular
           ? "border-accent bg-gradient-to-b from-accent/10 via-surface/80 to-surface/50 shadow-[0_8px_40px_rgba(124,132,114,0.12)] scale-[1.02] hover:scale-[1.03] active:scale-[0.98]"
           : "border-border bg-surface/40 hover:border-accent/20 hover:bg-surface/60 hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98]"
@@ -97,7 +97,7 @@ function PricingCard({
         href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik dengan paket ${pkg.name} dari Wimah Gallery.`}
         target="_blank"
         rel="noopener noreferrer"
-        className={`flex w-full items-center justify-center gap-2.5 rounded-2xl py-3.5 text-sm font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
+        className={`flex w-full items-center justify-center gap-2.5 rounded-2xl py-3.5 text-sm font-semibold transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
           pkg.popular
             ? "bg-accent text-background hover:bg-accent-light hover:shadow-[0_4px_20px_rgba(124,132,114,0.3)]"
             : "border border-border bg-background/50 text-text-primary hover:border-accent/30 hover:bg-accent/5"
