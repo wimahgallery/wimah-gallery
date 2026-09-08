@@ -138,7 +138,7 @@ export default function Availability() {
       ([entry]) => {
         isVisibleRef.current = entry.isIntersecting;
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
     observer.observe(section);
     return () => observer.disconnect();
@@ -191,12 +191,8 @@ export default function Availability() {
           1 + Math.sin(t * cfg.speed * 0.3) * cfg.scaleAmplitude;
         const baseScale = i === 2 ? 1.08 : 1;
         return {
-          y:
-            floatingCards[i].y +
-            floatY +
-            mp.y * (i === 2 ? -0.03 : -0.015),
-          x:
-            floatingCards[i].x + floatX + mp.x * (i === 2 ? 0.03 : 0.015),
+          y: floatingCards[i].y + floatY + mp.y * (i === 2 ? -0.03 : -0.015),
+          x: floatingCards[i].x + floatX + mp.x * (i === 2 ? 0.03 : 0.015),
           rotate: floatingCards[i].rotate + floatRotate,
           scale: (baseScale + floatScale - 1) * (1 + (i === 2 ? 0.02 : 0)),
           config: { tension: 200, friction: 30 },
@@ -279,9 +275,6 @@ export default function Availability() {
               bentuk perayaan.
             </span>
           </h2>
-          <p className="mt-4 text-sm text-text-secondary">
-            Berbasis di Gianyar, Bali
-          </p>
         </animated.div>
 
         {/* Floating photobooth showcase */}
