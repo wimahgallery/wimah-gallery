@@ -1,34 +1,47 @@
 "use client"
 
-import { useEffect, useRef, useCallback } from "react"
-import { useSpringValue, useSpring } from "@react-spring/web"
+import { useEffect, useRef, useMemo } from "react"
+import { useSpringValue } from "@react-spring/web"
 
 export function useScrollProgress() {
   const containerRef = useRef<HTMLDivElement>(null!)
-  const raw = useSpringValue(0)
-  const [smooth, api] = useSpring(() => ({
-    value: 0,
-    config: { tension: 120, friction: 30 },
-  }))
+  const progress = useSpringValue(0)
 
-  const update = useCallback(() => {
+  useEffect(() => {
     const el = containerRef.current
     if (!el) return
 
-    const rect = el.getBoundingClientRect()
-    const vh = window.innerHeight
-    const h = el.offsetHeight
-    const p = (vh - rect.top) / (vh + h)
-    const clamped = Math.max(0, Math.min(1, p))
-    raw.set(clamped)
-    api.start({ value: clamped })
-  }, [raw, api])
+    let ticking = false
+    let cachedHeight = el.offsetHeight
 
-  useEffect(() => {
-    window.addEventListener("scroll", update, { passive: true })
-    update()
-    return () => window.removeEventListener("scroll", update)
-  }, [update])
+    const onResize = () => {
+      cachedHeight = el.offsetHeight
+    }
 
-  return { containerRef, smooth, raw }
+    function onScroll() {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect()
+        const vh = window.innerHeight
+        const p = (vh - rect.top) / (vh + cachedHeight)
+        progress.set(Math.max(0, Math.min(1, p)))
+        ticking = false
+      })
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onResize, { passive: true })
+    onScroll()
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onResize)
+    }
+  }, [progress])
+
+  const smooth = useMemo(() => ({
+    value: progress,
+  }), [progress])
+
+  return { containerRef, smooth, raw: progress }
 }

@@ -1,38 +1,47 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { animated, useSpring, useSpringValue, to } from "@react-spring/web"
+import { animated, useSpringValue, to } from "@react-spring/web"
 import Image from "next/image"
 import { horizontalImages } from "@/lib/config"
 
 export default function HorizontalScroll() {
   const sectionRef = useRef<HTMLDivElement>(null!)
-  const raw = useSpringValue(0)
-  const [smooth, api] = useSpring(() => ({
-    value: 0,
-    config: { tension: 120, friction: 30 },
-  }))
+  const progress = useSpringValue(0)
 
   useEffect(() => {
     const el = sectionRef.current
     if (!el) return
 
+    let ticking = false
+    let cachedHeight = el.offsetHeight
+
+    const onResize = () => {
+      cachedHeight = el.offsetHeight
+    }
+
     function onScroll() {
-      const rect = el.getBoundingClientRect()
-      const vh = window.innerHeight
-      const h = el.offsetHeight
-      const p = (vh - rect.top) / (vh + h)
-      const clamped = Math.max(0, Math.min(1, p))
-      raw.set(clamped)
-      api.start({ value: clamped })
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect()
+        const vh = window.innerHeight
+        const p = (vh - rect.top) / (vh + cachedHeight)
+        progress.set(Math.max(0, Math.min(1, p)))
+        ticking = false
+      })
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onResize, { passive: true })
     onScroll()
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [raw, api])
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onResize)
+    }
+  }, [progress])
 
-  const x = to(smooth.value, [0, 1], ["0%", "-65%"])
+  const x = to(progress, [0, 1], ["0%", "-65%"])
 
   return (
     <section ref={sectionRef} className="relative h-[250vh] texture-grid">
@@ -52,11 +61,11 @@ export default function HorizontalScroll() {
 
           <animated.div style={{ x }} className="flex gap-6 pl-6 lg:pl-8">
             {horizontalImages.map((image, i) => {
-              const cardScale = to(smooth.value,
+              const cardScale = to(progress,
                 [i * 0.08, Math.min(1, i * 0.08 + 0.3)],
                 [0.92, 1]
               )
-              const cardRotate = to(smooth.value,
+              const cardRotate = to(progress,
                 [i * 0.08, Math.min(1, i * 0.08 + 0.15)],
                 [2, 0]
               )

@@ -62,47 +62,14 @@ const floatingCards = [
 ];
 
 const floatingConfigs = [
-  {
-    yAmplitude: 12,
-    xAmplitude: 4,
-    rotateAmplitude: 2,
-    scaleAmplitude: 0.015,
-    speed: 0.0008,
-    delay: 0,
-  },
-  {
-    yAmplitude: 10,
-    xAmplitude: 3,
-    rotateAmplitude: 1.5,
-    scaleAmplitude: 0.01,
-    speed: 0.001,
-    delay: 200,
-  },
-  {
-    yAmplitude: 14,
-    xAmplitude: 5,
-    rotateAmplitude: 1,
-    scaleAmplitude: 0.02,
-    speed: 0.0007,
-    delay: 400,
-  },
-  {
-    yAmplitude: 10,
-    xAmplitude: 3,
-    rotateAmplitude: 1.5,
-    scaleAmplitude: 0.01,
-    speed: 0.0009,
-    delay: 600,
-  },
-  {
-    yAmplitude: 12,
-    xAmplitude: 4,
-    rotateAmplitude: 2,
-    scaleAmplitude: 0.015,
-    speed: 0.0008,
-    delay: 800,
-  },
+  { yAmplitude: 12, xAmplitude: 4, rotateAmplitude: 2, scaleAmplitude: 0.015, speed: 0.0008, delay: 0 },
+  { yAmplitude: 10, xAmplitude: 3, rotateAmplitude: 1.5, scaleAmplitude: 0.01, speed: 0.001, delay: 200 },
+  { yAmplitude: 14, xAmplitude: 5, rotateAmplitude: 1, scaleAmplitude: 0.02, speed: 0.0007, delay: 400 },
+  { yAmplitude: 10, xAmplitude: 3, rotateAmplitude: 1.5, scaleAmplitude: 0.01, speed: 0.0009, delay: 600 },
+  { yAmplitude: 12, xAmplitude: 4, rotateAmplitude: 2, scaleAmplitude: 0.015, speed: 0.0008, delay: 800 },
 ];
+
+const FLOAT_CONFIG = { tension: 200, friction: 30 };
 
 export default function Availability() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -110,8 +77,7 @@ export default function Availability() {
   const mousePosRef = useRef({ x: 0, y: 0 });
   const animFrameRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
-  const isVisibleRef = useRef(true);
-  const frameCountRef = useRef(0);
+  const isVisibleRef = useRef(false);
 
   const [titleRef, titleInView] = useInView(() => ({ triggerOnce: true }));
   const [titleSpring] = useSpring(() => ({
@@ -129,21 +95,63 @@ export default function Availability() {
     config: { tension: 120, friction: 14, mass: 1 },
   }));
 
-  // IntersectionObserver to pause when off-screen
+  // Floating animation + IntersectionObserver — single rAF loop, fully stops off-screen
   useEffect(() => {
     const section = containerRef.current?.closest("section");
     if (!section) return;
 
+    let running = false;
+    startTimeRef.current = performance.now();
+
+    function animate(time: number) {
+      if (!isVisibleRef.current) {
+        running = false;
+        return;
+      }
+
+      const elapsed = time - startTimeRef.current;
+      const mp = mousePosRef.current;
+      api.start((i) => {
+        const cfg = floatingConfigs[i];
+        const t = elapsed + cfg.delay;
+        return {
+          y: floatingCards[i].y + Math.sin(t * cfg.speed) * cfg.yAmplitude + mp.y * (i === 2 ? -0.03 : -0.015),
+          x: floatingCards[i].x + Math.cos(t * cfg.speed * 0.7) * cfg.xAmplitude + mp.x * (i === 2 ? 0.03 : 0.015),
+          rotate: floatingCards[i].rotate + Math.sin(t * cfg.speed * 0.5) * cfg.rotateAmplitude,
+          scale: (1 + Math.sin(t * cfg.speed * 0.3) * cfg.scaleAmplitude + (i === 2 ? 0.08 : 0)),
+          config: FLOAT_CONFIG,
+        };
+      });
+      animFrameRef.current = requestAnimationFrame(animate);
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting && !running && entered) {
+          running = true;
+          startTimeRef.current = performance.now();
+          animFrameRef.current = requestAnimationFrame(animate);
+        }
       },
       { threshold: 0 },
     );
     observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
 
+    // Start loop if already visible and entered
+    if (isVisibleRef.current && entered) {
+      running = true;
+      animFrameRef.current = requestAnimationFrame(animate);
+    }
+
+    return () => {
+      running = false;
+      observer.disconnect();
+      cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [api, entered]);
+
+  // Entrance animation
   useEffect(() => {
     const timer = setTimeout(() => {
       api.start((i) => ({
@@ -161,70 +169,30 @@ export default function Availability() {
     return () => clearTimeout(timer);
   }, [api]);
 
-  useEffect(() => {
-    if (!entered) return;
-    startTimeRef.current = performance.now();
-    let running = true;
-
-    function animate(time: number) {
-      if (!running) return;
-
-      // Stop loop entirely when off-screen (saves battery/CPU)
-      if (!isVisibleRef.current) {
-        animFrameRef.current = requestAnimationFrame(animate);
-        return;
-      }
-
-      // Only update every 2nd frame for performance
-      frameCountRef.current++;
-      if (frameCountRef.current % 2 !== 0) {
-        animFrameRef.current = requestAnimationFrame(animate);
-        return;
-      }
-
-      const elapsed = time - startTimeRef.current;
-      const mp = mousePosRef.current;
-      api.start((i) => {
-        const cfg = floatingConfigs[i];
-        const t = elapsed + cfg.delay;
-        const floatY = Math.sin(t * cfg.speed) * cfg.yAmplitude;
-        const floatX = Math.cos(t * cfg.speed * 0.7) * cfg.xAmplitude;
-        const floatRotate = Math.sin(t * cfg.speed * 0.5) * cfg.rotateAmplitude;
-        const floatScale =
-          1 + Math.sin(t * cfg.speed * 0.3) * cfg.scaleAmplitude;
-        const baseScale = i === 2 ? 1.08 : 1;
-        return {
-          y: floatingCards[i].y + floatY + mp.y * (i === 2 ? -0.03 : -0.015),
-          x: floatingCards[i].x + floatX + mp.x * (i === 2 ? 0.03 : 0.015),
-          rotate: floatingCards[i].rotate + floatRotate,
-          scale: (baseScale + floatScale - 1) * (1 + (i === 2 ? 0.02 : 0)),
-          config: { tension: 200, friction: 30 },
-        };
-      });
-      animFrameRef.current = requestAnimationFrame(animate);
-    }
-    animFrameRef.current = requestAnimationFrame(animate);
-    return () => {
-      running = false;
-      cancelAnimationFrame(animFrameRef.current);
-    };
-  }, [entered, api]);
-
+  // Cache bounding rect for mousemove (recalc on scroll/resize only)
   const cachedRect = useRef({ x: 0, y: 0, w: 0, h: 0 });
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    // Cache rect only on first call or periodically (avoid getBoundingClientRect on every mousemove)
-    const rect = cachedRect.current;
-    if (rect.w === 0) {
+  useEffect(() => {
+    const updateRect = () => {
+      if (!containerRef.current) return;
       const r = containerRef.current.getBoundingClientRect();
       cachedRect.current = { x: r.left, y: r.top, w: r.width, h: r.height };
-    }
-    const centerX = rect.x + rect.w / 2;
-    const centerY = rect.y + rect.h / 2;
+    };
+    updateRect();
+    window.addEventListener("scroll", updateRect, { passive: true });
+    window.addEventListener("resize", updateRect, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", updateRect);
+      window.removeEventListener("resize", updateRect);
+    };
+  }, []);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    const rect = cachedRect.current;
+    if (rect.w === 0) return;
     mousePosRef.current = {
-      x: (e.clientX - centerX) * 0.1,
-      y: (e.clientY - centerY) * 0.1,
+      x: (e.clientX - (rect.x + rect.w / 2)) * 0.1,
+      y: (e.clientY - (rect.y + rect.h / 2)) * 0.1,
     };
   }, []);
 

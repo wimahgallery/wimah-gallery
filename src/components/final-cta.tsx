@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { animated, useSpring, useSpringValue, to } from "@react-spring/web"
+import { animated, useSpringValue, to } from "@react-spring/web"
 import { siteConfig } from "@/lib/config"
 import { ArrowRight } from "lucide-react"
 
@@ -10,33 +10,42 @@ const italicWords = ["deserves", "to", "be", "remembered"]
 
 export default function FinalCTA() {
   const containerRef = useRef<HTMLDivElement>(null!)
-  const raw = useSpringValue(0)
-  const [smooth, api] = useSpring(() => ({
-    value: 0,
-    config: { tension: 120, friction: 30 },
-  }))
+  const progress = useSpringValue(0)
 
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
 
+    let ticking = false
+    let cachedHeight = el.offsetHeight
+
+    const onResize = () => {
+      cachedHeight = el.offsetHeight
+    }
+
     function onScroll() {
-      const rect = el.getBoundingClientRect()
-      const vh = window.innerHeight
-      const h = el.offsetHeight
-      const p = (vh - rect.top) / (vh + h)
-      const clamped = Math.max(0, Math.min(1, p))
-      raw.set(clamped)
-      api.start({ value: clamped })
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect()
+        const vh = window.innerHeight
+        const p = (vh - rect.top) / (vh + cachedHeight)
+        progress.set(Math.max(0, Math.min(1, p)))
+        ticking = false
+      })
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onResize, { passive: true })
     onScroll()
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [raw, api])
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onResize)
+    }
+  }, [progress])
 
-  const bgScale = to(smooth.value, [0, 1], [1, 1.15])
-  const bgOpacity = to(smooth.value, [0, 0.3], [0.3, 1])
+  const bgScale = to(progress, [0, 1], [1, 1.15])
+  const bgOpacity = to(progress, [0, 0.3], [0.3, 1])
 
   return (
     <section className="relative">
@@ -57,11 +66,11 @@ export default function FinalCTA() {
             <h2 className="mb-8 font-heading text-[36px] sm:text-[48px] lg:text-[56px] font-normal leading-tight text-text-primary">
               {headlineWords.map((word, i) => {
                 const wordStart = 0.05 + i * 0.06
-                const wordOpacity = to(smooth.value, [
+                const wordOpacity = to(progress, [
                   wordStart,
                   wordStart + 0.08,
                 ], [0, 1])
-                const wordY = to(smooth.value, [
+                const wordY = to(progress, [
                   wordStart,
                   wordStart + 0.08,
                 ], [20, 0])
@@ -79,11 +88,11 @@ export default function FinalCTA() {
               <br />
               {italicWords.map((word, i) => {
                 const wordStart = 0.3 + i * 0.06
-                const wordOpacity = to(smooth.value, [
+                const wordOpacity = to(progress, [
                   wordStart,
                   wordStart + 0.08,
                 ], [0, 1])
-                const wordY = to(smooth.value, [
+                const wordY = to(progress, [
                   wordStart,
                   wordStart + 0.08,
                 ], [20, 0])
@@ -102,8 +111,8 @@ export default function FinalCTA() {
 
             <animated.p
               style={{
-                opacity: to(smooth.value, [0.5, 0.6], [0, 1]),
-                y: to(smooth.value, [0.5, 0.6], [30, 0]),
+                opacity: to(progress, [0.5, 0.6], [0, 1]),
+                y: to(progress, [0.5, 0.6], [30, 0]),
               }}
               className="mx-auto mb-12 max-w-[480px] text-base text-text-secondary leading-relaxed"
             >
@@ -116,9 +125,9 @@ export default function FinalCTA() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                opacity: to(smooth.value, [0.6, 0.7], [0, 1]),
-                y: to(smooth.value, [0.6, 0.7], [30, 0]),
-                scale: to(smooth.value, [0.6, 0.7], [0.9, 1]),
+                opacity: to(progress, [0.6, 0.7], [0, 1]),
+                y: to(progress, [0.6, 0.7], [30, 0]),
+                scale: to(progress, [0.6, 0.7], [0.9, 1]),
               }}
               className="inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 text-base font-semibold text-background transition-[transform,colors] duration-300 hover:bg-accent-light hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_4px_24px_rgba(124,132,114,0.3)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >

@@ -38,12 +38,7 @@ export function Header() {
     };
   }, [mobileOpen]);
 
-  const items = [
-    ...siteConfig.navLinks,
-    { label: "Cek Ketersediaan", href: "#" },
-  ];
-
-  const trail = useTrail(items.length, {
+  const trail = useTrail(siteConfig.navLinks.length + 1, {
     opacity: mobileOpen ? 1 : 0,
     y: mobileOpen ? 0 : 30,
     scale: mobileOpen ? 1 : 0.95,
@@ -209,8 +204,7 @@ export function Header() {
         {mobileOpen && (
           <nav className="flex flex-col items-center justify-center h-full gap-2">
             {trail.map((style, i) => {
-              const item = items[i];
-              const isCTA = i === items.length - 1;
+              const isCTA = i === siteConfig.navLinks.length;
 
               if (isCTA) {
                 return (
@@ -229,6 +223,7 @@ export function Header() {
                 );
               }
 
+              const item = siteConfig.navLinks[i];
               return (
                 <animated.div
                   key={item.href}
