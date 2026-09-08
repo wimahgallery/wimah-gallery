@@ -131,20 +131,21 @@ export default function Portfolio() {
                   key={i}
                   className={`shrink-0 h-52 ${img.width} rounded-lg overflow-hidden border border-white/10 relative`}
                 >
-                  <Image
-                    src={img.src}
-                    alt="Photobooth"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ),
-            )}
-          </div>
-        </div>
-      </div>
+                   <Image
+                     src={img.src}
+                     alt="Photobooth"
+                     fill
+                     sizes="(max-width: 640px) 200px, 240px"
+                     className="object-cover"
+                   />
+                 </div>
+               ),
+             )}
+           </div>
+         </div>
+       </div>
 
-      {/* Carousel - Bottom (smooth scroll left) */}
+       {/* Carousel - Bottom (smooth scroll left) */}
       <div className="relative overflow-hidden">
         <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none" />
@@ -160,12 +161,13 @@ export default function Portfolio() {
                 key={i}
                 className={`shrink-0 h-52 ${img.width} rounded-lg overflow-hidden border border-white/10 relative`}
               >
-                <Image
-                  src={img.src}
-                  alt="Photobooth"
-                  fill
-                  className="object-cover"
-                />
+                 <Image
+                   src={img.src}
+                   alt="Photobooth"
+                   fill
+                   sizes="(max-width: 640px) 210px, 250px"
+                   className="object-cover"
+                 />
               </div>
             ))}
           </div>

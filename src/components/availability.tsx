@@ -331,6 +331,7 @@ function FloatingCard({
             src={floatingCards[index].image}
             alt="Photobooth"
             fill
+            sizes="(max-width: 640px) 150px, (max-width: 1024px) 180px, 260px"
             className="absolute inset-0 h-full w-full"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />

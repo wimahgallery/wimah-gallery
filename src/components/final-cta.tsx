@@ -8,6 +8,16 @@ import { ArrowRight } from "lucide-react"
 const headlineWords = ["Because", "every", "meaningful", "moment"]
 const italicWords = ["deserves", "to", "be", "remembered"]
 
+function getElementDocumentTop(el: HTMLElement): number {
+  let top = 0
+  let current: HTMLElement | null = el
+  while (current) {
+    top += current.offsetTop
+    current = current.offsetParent as HTMLElement | null
+  }
+  return top
+}
+
 export default function FinalCTA() {
   const containerRef = useRef<HTMLDivElement>(null!)
   const progress = useSpringValue(0)
@@ -17,9 +27,11 @@ export default function FinalCTA() {
     if (!el) return
 
     let ticking = false
+    let cachedTop = getElementDocumentTop(el)
     let cachedHeight = el.offsetHeight
 
-    const onResize = () => {
+    const recalc = () => {
+      cachedTop = getElementDocumentTop(el)
       cachedHeight = el.offsetHeight
     }
 
@@ -27,20 +39,20 @@ export default function FinalCTA() {
       if (ticking) return
       ticking = true
       requestAnimationFrame(() => {
-        const rect = el.getBoundingClientRect()
         const vh = window.innerHeight
-        const p = (vh - rect.top) / (vh + cachedHeight)
+        const scrollY = window.scrollY
+        const p = (vh - (cachedTop - scrollY)) / (vh + cachedHeight)
         progress.set(Math.max(0, Math.min(1, p)))
         ticking = false
       })
     }
 
     window.addEventListener("scroll", onScroll, { passive: true })
-    window.addEventListener("resize", onResize, { passive: true })
+    window.addEventListener("resize", recalc, { passive: true })
     onScroll()
     return () => {
       window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("resize", onResize)
+      window.removeEventListener("resize", recalc)
     }
   }, [progress])
 
