@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { animated, useSpring, useSprings, useInView } from "@react-spring/web";
-import { Heart, PartyPopper, Users, GraduationCap } from "lucide-react";
+import { Heart, PartyPopper, Users, Sparkles, Star } from "lucide-react";
 
 const eventCards = [
   { label: "Wedding", icon: Heart },
-  { label: "Ulang Tahun", icon: PartyPopper },
+  { label: "Birthday", icon: PartyPopper },
   { label: "Corporate", icon: Users },
-  { label: "Wisuda", icon: GraduationCap },
+  { label: "Gathering", icon: Sparkles },
+  { label: "Engagement", icon: Star },
 ];
 
 const floatingCards = [
@@ -194,6 +195,34 @@ export default function Availability() {
     <section className="relative py-20 lg:py-32 overflow-hidden texture-crosshatch">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] lg:w-[800px] h-[200px] sm:h-[300px] lg:h-[400px] rounded-full bg-accent/5 blur-[80px] sm:blur-[120px] lg:blur-[160px] pointer-events-none" />
+
+      {/* Full width marquee behind floating cards */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[30%] left-0 right-0 overflow-hidden">
+          <div className="flex animate-marquee-right whitespace-nowrap">
+            {[...Array(16)].map((_, i) => (
+              <span
+                key={i}
+                className="shrink-0 font-heading text-[48px] sm:text-[64px] lg:text-[80px] font-normal uppercase text-accent/15"
+              >
+                Wedding&nbsp;&nbsp;Birthday&nbsp;&nbsp;Corporate&nbsp;&nbsp;Gathering&nbsp;&nbsp;Engagement&nbsp;&nbsp;&nbsp;&nbsp;
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="hidden lg:inline absolute top-[55%] left-0 right-0 overflow-hidden">
+          <div className="flex animate-marquee-left whitespace-nowrap">
+            {[...Array(16)].map((_, i) => (
+              <span
+                key={i}
+                className="shrink-0 font-heading text-[48px] sm:text-[64px] lg:text-[80px] font-normal uppercase text-accent/15"
+              >
+                Wedding&nbsp;&nbsp;Birthday&nbsp;&nbsp;Corporate&nbsp;&nbsp;Gathering&nbsp;&nbsp;Engagement&nbsp;&nbsp;&nbsp;&nbsp;
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
 
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
         <animated.div

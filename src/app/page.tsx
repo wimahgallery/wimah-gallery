@@ -8,7 +8,6 @@ import Hero from "@/components/hero";
 import PinnedStory from "@/components/pinned-story";
 import About from "@/components/about";
 import TypographyStorytelling from "@/components/typography-storytelling";
-import ImageCarousel from "@/components/image-carousel";
 import HowItWorks from "@/components/how-it-works";
 import Availability from "@/components/availability";
 import Portfolio from "@/components/portfolio";
@@ -62,10 +61,6 @@ export default function Home() {
 
         <div className="relative">
           <TypographyStorytelling />
-        </div>
-
-        <div className="relative">
-          <ImageCarousel />
         </div>
 
         <div className="relative">

@@ -91,66 +91,74 @@ export default function Faq() {
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" />
       <div className="absolute inset-0 bg-accent/5 blur-3xl" />
 
-      <div className="relative mx-auto max-w-[800px] px-6 lg:px-8">
-        <animated.div ref={ref} style={titleSpring} className="mb-16 text-center">
-          <p className="mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
-            FAQ WIMAH PHOTOBOOTH
-          </p>
-          <h2 className="mb-6 font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
-            Pertanyaan{" "}
-            <span className="font-elegant italic text-accent">
-              umum
-            </span>
-          </h2>
-          <p className="mx-auto max-w-[480px] text-base text-text-secondary leading-relaxed">
-            Semua yang perlu Anda ketahui tentang layanan photobooth kami.
-          </p>
-        </animated.div>
-
-        <div className="rounded-3xl border border-border bg-surface/30 p-2">
-          {faqs.map((faq, i) => (
-            <FaqItem
-              key={faq.question}
-              question={faq.question}
-              answer={faq.answer}
-              isOpen={openIndex === i}
-              onClick={() => setOpenIndex(openIndex === i ? null : i)}
-              index={i}
-            />
-          ))}
-        </div>
-
-        {/* Garansi Section */}
-        <div className="mt-16">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-accent/10 mb-4">
-              <Shield className="h-6 w-6 text-accent" />
+      <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+          {/* Left column - Title + Description + CTA */}
+          <animated.div ref={ref} style={titleSpring}>
+            <div className="lg:sticky lg:top-32">
+              <p className="mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
+                FAQ WIMAH PHOTOBOOTH
+              </p>
+              <h2 className="mb-6 font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
+                Pertanyaan{" "}
+                <span className="font-elegant italic text-accent">
+                  umum
+                </span>
+              </h2>
+              <p className="mb-8 text-base text-text-secondary leading-relaxed">
+                Semua yang perlu Anda ketahui tentang layanan photobooth kami.
+              </p>
+              <a
+                href={`${siteConfig.whatsappLink}?text=Halo! Saya punya pertanyaan tentang layanan Wimah Gallery.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-6 py-3 text-sm font-medium text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              >
+                <WhatsApp className="h-4 w-4 text-accent" />
+                Ask us on WhatsApp
+              </a>
             </div>
-            <h3 className="font-heading text-2xl font-normal text-text-primary mb-2">
-              GARANSI WIMAH PHOTOBOOTH
-            </h3>
-          </div>
+          </animated.div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            {guarantees.map((item, i) => (
-              <GuaranteeCard key={item.title} item={item} index={i} />
-            ))}
-          </div>
-        </div>
+          {/* Right column - FAQ items */}
+          <div>
+            <div className="rounded-3xl border border-border bg-surface/30 p-2">
+              {faqs.map((faq, i) => (
+                <FaqItem
+                  key={faq.question}
+                  question={faq.question}
+                  answer={faq.answer}
+                  isOpen={openIndex === i}
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                  index={i}
+                />
+              ))}
+            </div>
 
-        <div className="mt-12 text-center">
-          <p className="mb-2 text-lg font-heading font-normal text-text-primary">
-            Your Moment, Your Memory.
-          </p>
-          <a
-            href={`${siteConfig.whatsappLink}?text=Halo! Saya punya pertanyaan tentang layanan Wimah Gallery.`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-6 py-3 text-sm font-medium text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-          >
-            <WhatsApp className="h-4 w-4 text-accent" />
-            Ask us on WhatsApp
-          </a>
+            {/* Garansi Section */}
+            <div className="mt-12">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-accent/10">
+                  <Shield className="h-5 w-5 text-accent" />
+                </div>
+                <h3 className="font-heading text-xl font-normal text-text-primary">
+                  GARANSI WIMAH PHOTOBOOTH
+                </h3>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {guarantees.map((item, i) => (
+                  <GuaranteeCard key={item.title} item={item} index={i} />
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-10 text-center">
+              <p className="font-heading text-lg font-normal text-text-primary">
+                Your Moment, Your Memory.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

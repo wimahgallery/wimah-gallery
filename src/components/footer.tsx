@@ -23,13 +23,13 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex size-16 md:size-20 lg:size-24 items-center justify-center">
+              <div className="flex size-20 lg:size-24 items-center justify-center">
                 <Image
                   width={1024}
                   height={1024}
                   src="/wimah.png"
                   alt="Wimah Gallery"
-                  className="h-full w-full object-cover invert"
+                  className="h-full w-full object-contain invert"
                 />
               </div>
             </div>

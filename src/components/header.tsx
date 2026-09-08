@@ -63,15 +63,19 @@ export function Header() {
         )}
       >
         <div className="mx-auto max-w-350 px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <a href="#home" className="flex items-center gap-3 group">
-              <div className="flex size-16 md:size-24 lg:size-28 items-center justify-center transition-all duration-300 group-hover:scale-105">
+          <div className="relative flex h-16 items-center md:justify-between">
+            {/* Logo - centered on mobile, left on desktop */}
+            <a
+              href="#home"
+              className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 flex items-center group"
+            >
+              <div className="flex w-auto h-16 items-center justify-center transition-all duration-300 group-hover:scale-105">
                 <Image
                   src="/wimah.png"
                   width={1024}
                   height={1024}
                   alt="Wimah Gallery"
-                  className="h-full w-full object-cover invert"
+                  className="h-full w-auto object-contain invert"
                 />
               </div>
             </a>
@@ -89,7 +93,8 @@ export function Header() {
               ))}
             </nav>
 
-            <div className="flex items-center gap-3">
+            {/* Right side - hamburger + desktop items */}
+            <div className="flex items-center gap-3 ml-auto">
               <a
                 href={siteConfig.instagram}
                 target="_blank"

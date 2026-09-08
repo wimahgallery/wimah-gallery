@@ -146,10 +146,11 @@ export default function Hero() {
           <div>
             <animated.div style={headlineStyle}>
               <h1 className="font-heading text-[52px] sm:text-[68px] md:text-[84px] font-normal leading-[1.05] tracking-tight">
-                Making moment memorable
-                {/* <span className="font-elegant italic text-accent-light">
-                  meaningful.
-                </span> */}
+                Making every moment more{" "}
+                <span className="font-elegant italic text-accent-light">
+                  Memorable.
+                </span>
+                {/*   */}
               </h1>
             </animated.div>
 
