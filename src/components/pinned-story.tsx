@@ -1,9 +1,9 @@
 "use client"
 
-import { useRef, useEffect } from "react"
-import { animated, useSpring, useSpringValue, to } from "@react-spring/web"
+import { animated, to } from "@react-spring/web"
 import Image from "next/image"
 import { pinnedStoryImages } from "@/lib/config"
+import { useScrollProgress } from "@/hooks/use-scroll-progress"
 
 const storyTexts = [
   { line1: "Every celebration", line2: "begins with a moment." },
@@ -13,31 +13,7 @@ const storyTexts = [
 ]
 
 export default function PinnedStory() {
-  const containerRef = useRef<HTMLDivElement>(null!)
-  const raw = useSpringValue(0)
-  const [smooth, api] = useSpring(() => ({
-    value: 0,
-    config: { tension: 120, friction: 30 },
-  }))
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-
-    function onScroll() {
-      const rect = el.getBoundingClientRect()
-      const vh = window.innerHeight
-      const h = el.offsetHeight
-      const p = (vh - rect.top) / (vh + h)
-      const clamped = Math.max(0, Math.min(1, p))
-      raw.set(clamped)
-      api.start({ value: clamped })
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [raw, api])
+  const { containerRef, smooth } = useScrollProgress()
 
   return (
     <section className="relative">

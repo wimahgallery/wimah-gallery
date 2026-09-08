@@ -26,7 +26,9 @@ import ScrollProgress from "@/components/scroll-progress";
 export default function Home() {
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const isDesktop = window.matchMedia("(pointer: fine) and (min-width: 1024px)").matches;
+    const isDesktop = window.matchMedia(
+      "(pointer: fine) and (min-width: 1024px)",
+    ).matches;
     if (!isDesktop) return;
 
     const lenis = new Lenis();
@@ -106,10 +108,6 @@ export default function Home() {
         <div className="relative">
           <FinalCTA />
         </div>
-
-        {/* <div className="relative">
-          <MasonryGallery />
-        </div> */}
 
         <div className="relative">
           <Footer />
