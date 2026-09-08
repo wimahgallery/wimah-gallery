@@ -47,7 +47,7 @@ export default function FinalCTA() {
             className="absolute inset-0 bg-gradient-to-b from-surface/40 via-accent/8 to-surface/30"
           />
           <div className="absolute inset-0 texture-lines opacity-30" />
-          <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-[150px]" />
+          <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5" />
 
           <div className="relative z-10 mx-auto max-w-[900px] px-6 lg:px-8 text-center">
             <p className="mb-6 text-xs font-medium tracking-[0.2em] uppercase text-accent">

@@ -107,9 +107,11 @@ const floatingConfigs = [
 export default function Availability() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [entered, setEntered] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const mousePosRef = useRef({ x: 0, y: 0 });
   const animFrameRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
+  const isVisibleRef = useRef(true);
+  const frameCountRef = useRef(0);
 
   const [titleRef, titleInView] = useInView(() => ({ triggerOnce: true }));
   const [titleSpring] = useSpring(() => ({
@@ -126,6 +128,21 @@ export default function Availability() {
     opacity: 0,
     config: { tension: 120, friction: 14, mass: 1 },
   }));
+
+  // IntersectionObserver to pause when off-screen
+  useEffect(() => {
+    const section = containerRef.current?.closest("section");
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -149,7 +166,21 @@ export default function Availability() {
     startTimeRef.current = performance.now();
 
     function animate(time: number) {
+      // Skip frames when off-screen
+      if (!isVisibleRef.current) {
+        animFrameRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      // Only update every 2nd frame for performance
+      frameCountRef.current++;
+      if (frameCountRef.current % 2 !== 0) {
+        animFrameRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       const elapsed = time - startTimeRef.current;
+      const mp = mousePosRef.current;
       api.start((i) => {
         const cfg = floatingConfigs[i];
         const t = elapsed + cfg.delay;
@@ -163,9 +194,9 @@ export default function Availability() {
           y:
             floatingCards[i].y +
             floatY +
-            mousePos.y * (i === 2 ? -0.03 : -0.015),
+            mp.y * (i === 2 ? -0.03 : -0.015),
           x:
-            floatingCards[i].x + floatX + mousePos.x * (i === 2 ? 0.03 : 0.015),
+            floatingCards[i].x + floatX + mp.x * (i === 2 ? 0.03 : 0.015),
           rotate: floatingCards[i].rotate + floatRotate,
           scale: (baseScale + floatScale - 1) * (1 + (i === 2 ? 0.02 : 0)),
           config: { tension: 200, friction: 30 },
@@ -175,27 +206,27 @@ export default function Availability() {
     }
     animFrameRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animFrameRef.current);
-  }, [entered, mousePos, api]);
+  }, [entered, api]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    setMousePos({
+    mousePosRef.current = {
       x: (e.clientX - centerX) * 0.1,
       y: (e.clientY - centerY) * 0.1,
-    });
+    };
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    setMousePos({ x: 0, y: 0 });
+    mousePosRef.current = { x: 0, y: 0 };
   }, []);
 
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden texture-crosshatch">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] lg:w-[800px] h-[200px] sm:h-[300px] lg:h-[400px] rounded-full bg-accent/5 blur-[80px] sm:blur-[120px] lg:blur-[160px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] lg:w-[800px] h-[200px] sm:h-[300px] lg:h-[400px] rounded-full bg-accent/5 pointer-events-none" />
 
       {/* Full width marquee behind floating cards */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

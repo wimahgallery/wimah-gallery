@@ -1,29 +1,31 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export default function ScrollProgress() {
-  const [progress, setProgress] = useState(0)
+  const barRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
+      if (!barRef.current) return
       const scrollTop = window.scrollY
       const docHeight = document.documentElement.scrollHeight - window.innerHeight
       const scrollPercent = docHeight > 0 ? scrollTop / docHeight : 0
-      setProgress(scrollPercent)
+      barRef.current.style.transform = `scaleX(${scrollPercent})`
     }
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   return (
     <div
-      className="fixed left-0 top-0 z-50 h-[3px] origin-left"
+      ref={barRef}
+      className="fixed left-0 top-0 z-50 h-[3px] origin-left will-change-transform"
       style={{
         backgroundColor: "#7C8472",
         width: "100%",
-        transform: `scaleX(${progress})`,
+        transform: "scaleX(0)",
         transition: "transform 0.1s linear",
       }}
     />

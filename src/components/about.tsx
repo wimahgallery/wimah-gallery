@@ -23,7 +23,7 @@ export default function About() {
   return (
     <section id="services" className="relative py-20 lg:py-32 overflow-hidden texture-noise">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-accent/5 blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-accent/5 pointer-events-none" />
 
       <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
         <div ref={ref}>

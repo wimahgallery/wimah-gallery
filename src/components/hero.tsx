@@ -135,8 +135,8 @@ export default function Hero() {
       className="min-h-screen flex items-center relative overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-background via-surface to-background" />
-      <div className="absolute top-20 right-0 w-[400px] h-[400px] lg:w-[600px] lg:h-[600px] rounded-full bg-accent/5 blur-[80px] lg:blur-[120px]" />
-      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] rounded-full bg-accent/5 blur-[60px] lg:blur-[120px]" />
+      <div className="absolute top-20 right-0 w-[400px] h-[400px] lg:w-[600px] lg:h-[600px] rounded-full bg-accent/5" />
+      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] rounded-full bg-accent/5" />
 
       <div className="absolute [paint-order:stroke_fill] [-webkit-text-stroke:1px_rgba(124,132,114,0.12)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-heading text-[20vw] font-black text-text-primary/[0.03] pointer-events-none select-none whitespace-nowrap">
         MEMORIES

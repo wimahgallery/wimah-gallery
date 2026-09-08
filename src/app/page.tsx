@@ -26,17 +26,20 @@ import ScrollProgress from "@/components/scroll-progress";
 export default function Home() {
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (window.matchMedia("(pointer: fine)").matches) {
-      const lenis = new Lenis();
-      function raf(time: number) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
-      return () => {
-        lenis.destroy();
-      };
+    const isDesktop = window.matchMedia("(pointer: fine) and (min-width: 1024px)").matches;
+    if (!isDesktop) return;
+
+    const lenis = new Lenis();
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
     }
+    rafId = requestAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
   }, []);
 
   return (

@@ -61,14 +61,16 @@ const imagesCol7 = [
 function ScrollColumn({
   images,
   direction,
+  className = "",
 }: {
   images: string[];
   direction: "up" | "down";
+  className?: string;
 }) {
   const animClass = direction === "up" ? "animate-masonry-up" : "animate-masonry-down";
 
   return (
-    <div className="relative overflow-hidden flex-1 min-w-0">
+    <div className={`relative overflow-hidden flex-1 min-w-0 ${className}`}>
       <div className={`flex flex-col gap-1.5 ${animClass}`}>
         {[...images, ...images].map((src, i) => (
           <Image
@@ -77,7 +79,7 @@ function ScrollColumn({
             alt="Photobooth"
             width={400}
             height={300}
-            className="w-full rounded-md"
+            className="w-full rounded-md object-cover"
             loading="lazy"
           />
         ))}
@@ -96,11 +98,11 @@ export default function MasonryGallery() {
       <div className="max-h-[500px] flex gap-1.5">
         <ScrollColumn images={imagesCol1} direction="up" />
         <ScrollColumn images={imagesCol2} direction="down" />
-        <ScrollColumn images={imagesCol3} direction="up" />
-        <ScrollColumn images={imagesCol4} direction="down" />
-        <ScrollColumn images={imagesCol5} direction="up" />
-        <ScrollColumn images={imagesCol6} direction="down" />
-        <ScrollColumn images={imagesCol7} direction="up" />
+        <ScrollColumn images={imagesCol3} direction="up" className="hidden sm:block" />
+        <ScrollColumn images={imagesCol4} direction="down" className="hidden sm:block" />
+        <ScrollColumn images={imagesCol5} direction="up" className="hidden md:block" />
+        <ScrollColumn images={imagesCol6} direction="down" className="hidden md:block" />
+        <ScrollColumn images={imagesCol7} direction="up" className="hidden lg:block" />
       </div>
 
       {/* Bottom gradient */}

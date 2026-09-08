@@ -36,7 +36,7 @@ export default function HowItWorks() {
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden texture-crosshatch">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] lg:w-[800px] h-[200px] sm:h-[300px] lg:h-[400px] rounded-full bg-accent/5 blur-[80px] sm:blur-[120px] lg:blur-[160px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] lg:w-[800px] h-[200px] sm:h-[300px] lg:h-[400px] rounded-full bg-accent/5 pointer-events-none" />
 
       <div
         ref={containerRef}
