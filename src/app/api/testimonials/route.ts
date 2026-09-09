@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     const ext = imageFile.name.split(".").pop() || "jpg"
     const fileName = `testimonial-${uuid()}.${ext}`
 
-    const uploaded = await uploadImage(buffer, fileName, "testimonials")
+    const uploaded = await uploadImage(buffer, fileName, "Testimonial")
     imageUrl = uploaded.url ?? null
     imageFileId = uploaded.fileId ?? null
   }

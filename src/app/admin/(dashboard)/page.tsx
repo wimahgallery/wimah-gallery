@@ -2,11 +2,17 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { siteConfig, packages, faqs } from "@/lib/config"
+import { useQuery } from "@tanstack/react-query"
+import { siteConfig } from "@/lib/config"
+import { MessageSquareQuote, CalendarDays, DollarSign, HelpCircle } from "lucide-react"
 
 interface User {
   email: string
   role: string
+}
+
+interface CountData {
+  total: number
 }
 
 export default function AdminDashboard() {
@@ -22,6 +28,46 @@ export default function AdminDashboard() {
       .then((data) => setUser(data.user))
       .catch(() => router.push("/admin/login"))
   }, [router])
+
+  const { data: testimonialsData } = useQuery<CountData>({
+    queryKey: ["dash-testimonials"],
+    queryFn: async () => {
+      const res = await fetch("/api/testimonials?limit=1")
+      if (!res.ok) throw new Error("Failed")
+      return res.json()
+    },
+    enabled: !!user,
+  })
+
+  const { data: eventsData } = useQuery<CountData>({
+    queryKey: ["dash-events"],
+    queryFn: async () => {
+      const res = await fetch("/api/events?limit=1")
+      if (!res.ok) throw new Error("Failed")
+      return res.json()
+    },
+    enabled: !!user,
+  })
+
+  const { data: pricingData } = useQuery<CountData>({
+    queryKey: ["dash-pricing"],
+    queryFn: async () => {
+      const res = await fetch("/api/pricing/packages?limit=1")
+      if (!res.ok) throw new Error("Failed")
+      return res.json()
+    },
+    enabled: !!user,
+  })
+
+  const { data: faqsData } = useQuery<CountData>({
+    queryKey: ["dash-faqs"],
+    queryFn: async () => {
+      const res = await fetch("/api/faqs?limit=1")
+      if (!res.ok) throw new Error("Failed")
+      return res.json()
+    },
+    enabled: !!user,
+  })
 
   if (!user) {
     return (
@@ -40,21 +86,30 @@ export default function AdminDashboard() {
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          label="Site"
-          value={siteConfig.name}
-          description="Your photobooth business"
+          label="Testimonials"
+          value={testimonialsData?.total ?? "—"}
+          description="Client reviews"
+          icon={MessageSquareQuote}
+        />
+        <StatCard
+          label="Events"
+          value={eventsData?.total ?? "—"}
+          description="Photo albums"
+          icon={CalendarDays}
         />
         <StatCard
           label="Packages"
-          value={`${packages.length}`}
-          description="Active pricing packages"
+          value={pricingData?.total ?? "—"}
+          description="Pricing plans"
+          icon={DollarSign}
         />
         <StatCard
-          label="FAQ Items"
-          value={`${faqs.length}`}
-          description="Frequently asked questions"
+          label="FAQs"
+          value={faqsData?.total ?? "—"}
+          description="Questions answered"
+          icon={HelpCircle}
         />
       </div>
 
@@ -74,15 +129,20 @@ function StatCard({
   label,
   value,
   description,
+  icon: Icon,
 }: {
   label: string
-  value: string
+  value: number | string
   description: string
+  icon: React.ComponentType<{ className?: string }>
 }) {
   return (
     <div className="rounded-xl border border-[rgba(84,82,77,0.12)] bg-white p-5">
-      <p className="text-xs font-medium uppercase tracking-wider text-[#8D8A82]">{label}</p>
-      <p className="mt-2 font-heading text-xl text-[#54524D]">{value}</p>
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-medium uppercase tracking-wider text-[#8D8A82]">{label}</p>
+        <Icon className="h-4 w-4 text-[#7C8472]" />
+      </div>
+      <p className="mt-2 font-heading text-2xl text-[#54524D]">{value}</p>
       <p className="mt-1 text-xs text-[#8D8A82]">{description}</p>
     </div>
   )

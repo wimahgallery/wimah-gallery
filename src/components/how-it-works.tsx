@@ -49,16 +49,16 @@ export default function HowItWorks() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative py-20 lg:py-32 overflow-hidden texture-crosshatch">
+    <section ref={sectionRef} className="relative py-14 sm:py-20 lg:py-32 overflow-hidden texture-crosshatch">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] lg:w-[800px] h-[200px] sm:h-[300px] lg:h-[400px] rounded-full bg-accent/5 pointer-events-none" />
 
-      <div className="relative mx-auto max-w-[800px] px-6 lg:px-8">
-        <div className="mb-16 text-center">
-          <p className="mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
+      <div className="relative mx-auto max-w-[800px] px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 sm:mb-16 text-center">
+          <p className="mb-3 sm:mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
             How It Works
           </p>
-          <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary tracking-tight">
+          <h2 className="font-heading text-[28px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary tracking-tight">
             From inquiry{" "}
             <span className="font-elegant italic text-accent">
               to celebration.
@@ -79,22 +79,22 @@ export default function HowItWorks() {
             <div
               key={step.number}
               ref={(el) => { stepRefs.current[i] = el }}
-              className={`relative flex items-start gap-6 ${
-                i < steps.length - 1 ? "pb-10 lg:pb-12" : ""
+              className={`relative flex items-start gap-4 sm:gap-6 ${
+                i < steps.length - 1 ? "pb-8 sm:pb-10 lg:pb-12" : ""
               }`}
               style={{ opacity: 0 }}
             >
-              <div className="relative z-10 shrink-0 flex h-14 w-14 items-center justify-center rounded-full border-2 border-accent bg-background shadow-[0_0_20px_rgba(124,132,114,0.12)]">
-                <span className="font-heading text-base font-normal text-accent">
+              <div className="relative z-10 shrink-0 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-accent bg-background shadow-[0_0_20px_rgba(124,132,114,0.12)]">
+                <span className="font-heading text-sm sm:text-base font-normal text-accent">
                   {step.number}
                 </span>
               </div>
 
-              <div className="pt-2.5">
-                <h3 className="font-heading text-xl font-normal text-text-primary mb-2">
+              <div className="pt-2 sm:pt-2.5">
+                <h3 className="font-heading text-lg sm:text-xl font-normal text-text-primary mb-1.5 sm:mb-2">
                   {step.title}
                 </h3>
-                <p className="text-sm text-text-secondary leading-relaxed">
+                <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
                   {step.description}
                 </p>
               </div>

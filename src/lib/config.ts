@@ -85,28 +85,23 @@ export const commitments = [
 export const steps = [
   {
     number: "01",
-    title: "Konsultasi",
-    description: "Chat dengan kami via WhatsApp.",
+    title: "Pilih Paket",
+    description: "Chat dengan kami via WhatsApp untuk konsultasi dan pilih paket yang cocok.",
   },
   {
     number: "02",
-    title: "Perencanaan",
-    description: "Pilih paket, desain, dan jadwal.",
+    title: "DP",
+    description: "Lakukan pembayaran DP untuk mengamankan booking.",
   },
   {
     number: "03",
-    title: "Setup",
-    description: "Kami menyiapkan segalanya sebelum tamu datang.",
+    title: "Slot Di Amankan",
+    description: "Tanggal acara Anda terkonfirmasi dan slot sudah aman.",
   },
   {
     number: "04",
-    title: "Sesi Foto",
-    description: "Tamu menikmati keseruan unlimited.",
-  },
-  {
-    number: "05",
-    title: "Pengiriman",
-    description: "Terima cetakan dan galeri digital.",
+    title: "Design",
+    description: "Kami desain template photobooth sesuai tema dan keinginan Anda.",
   },
 ];
 

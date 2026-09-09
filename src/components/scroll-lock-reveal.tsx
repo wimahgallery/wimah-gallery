@@ -114,12 +114,12 @@ export default function ScrollLockReveal() {
           <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
           <div className="absolute inset-0 texture-lines opacity-40" />
 
-          <div className="relative z-10 w-full max-w-[1200px] px-6 lg:px-8">
-            <div className="mb-12 text-center">
-              <p className="mb-3 text-xs font-medium tracking-[0.2em] uppercase text-accent">
+          <div className="relative z-10 w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
+            <div className="mb-6 sm:mb-12 text-center">
+              <p className="mb-2 sm:mb-3 text-xs font-medium tracking-[0.2em] uppercase text-accent">
                 Our Services
               </p>
-              <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
+              <h2 className="font-heading text-[28px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
                 Everything{" "}
                 <span className="font-elegant italic text-accent">
                   included.
@@ -127,7 +127,7 @@ export default function ScrollLockReveal() {
               </h2>
             </div>
 
-            <div className="relative h-[400px] sm:h-[450px]">
+            <div className="relative h-[320px] sm:h-[400px] lg:h-[450px]">
               {cards.map((card, i) => {
                 const Icon = card.icon;
                 return (
@@ -140,27 +140,27 @@ export default function ScrollLockReveal() {
                     style={{ opacity: 0 }}
                   >
                     <div className="w-full max-w-[480px]">
-                      <div className="relative rounded-3xl border border-border bg-surface p-10 sm:p-12 overflow-hidden">
+                      <div className="relative rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:p-12 overflow-hidden">
                         <div
                           className={`absolute inset-0 bg-gradient-to-br ${card.gradient}`}
                         />
 
                         <div className="relative z-10">
-                          <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10">
-                            <Icon className="h-8 w-8 text-accent" />
+                          <div className="mb-4 sm:mb-6 inline-flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-accent/10">
+                            <Icon className="h-6 w-6 sm:h-8 sm:w-8 text-accent" />
                           </div>
 
-                          <h3 className="mb-3 font-heading text-2xl font-normal text-text-primary">
+                          <h3 className="mb-2 sm:mb-3 font-heading text-xl sm:text-2xl font-normal text-text-primary">
                             {card.title}
                           </h3>
 
-                          <p className="text-sm text-text-secondary leading-relaxed max-w-[360px]">
+                          <p className="text-xs sm:text-sm text-text-secondary leading-relaxed max-w-[360px]">
                             {card.description}
                           </p>
 
-                          <div className="mt-8 flex items-center gap-2">
+                          <div className="mt-6 sm:mt-8 flex items-center gap-2">
                             <div className="h-1 w-8 rounded-full bg-accent" />
-                            <span className="text-xs font-medium uppercase tracking-wider text-accent">
+                            <span className="text-[10px] sm:text-xs font-medium uppercase tracking-wider text-accent">
                               Step {String(i + 1).padStart(2, "0")}
                             </span>
                           </div>

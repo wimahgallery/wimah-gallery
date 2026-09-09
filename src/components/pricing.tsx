@@ -5,7 +5,7 @@ import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useQuery } from "@tanstack/react-query"
 import { siteConfig } from "@/lib/config"
-import { Star, Crown, Zap, ChevronDown } from "lucide-react"
+import { Star, Crown, Zap, ChevronDown, Check } from "lucide-react"
 import { WhatsApp } from "@/components/whatsapp-icon"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -41,7 +41,7 @@ const includedItems = [
   "Sistem photobooth modern, cepat, dan lancar",
   "Gratis scan QR file foto & GIF",
   "Gratis Flashdisk semua File Foto & GIF untuk paket UNLIMITED Print",
-  "Transport gratis tersedia untuk area tertentu sesuai radius layanan kami. Kirimkan lokasi anda untuk kami check",
+  "Transport gratis tersedia untuk area tertentu sesuai radius layanan kami",
   "Gratis desain template & watermark custom",
   "Sistem photobooth modern, cepat, dan lancar",
   "Aksesoris foto lucu seperti kacamata dan kata-kata lucu",
@@ -79,23 +79,23 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
   return (
     <div
       ref={ref}
-      className="group relative rounded-3xl border border-border bg-surface/40 p-6 lg:p-8 transition-[transform,colors] duration-500 hover:border-accent/20 hover:bg-surface/60 hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98]"
+      className="group relative rounded-2xl sm:rounded-3xl border border-border bg-surface p-4 sm:p-6 lg:p-8 transition-[transform,colors] duration-500 hover:border-accent/20 hover:bg-surface-secondary hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98]"
     >
-      <h3 className="mb-2 font-heading text-xl font-normal text-text-primary">{pkg.hours} Hours</h3>
+      <h3 className="mb-1 font-heading text-lg sm:text-xl font-normal text-text-primary">{pkg.hours} Hours</h3>
       {pkg.print_count_limit != null && (
-        <p className="mb-6 text-xs text-text-secondary">{pkg.print_count_limit} prints</p>
+        <p className="mb-4 sm:mb-6 text-xs text-text-secondary">{pkg.print_count_limit} prints</p>
       )}
-      {pkg.print_count_limit == null && <div className="mb-6" />}
+      {pkg.print_count_limit == null && <div className="mb-4 sm:mb-6" />}
 
-      <div className="mb-8">
+      <div className="mb-5 sm:mb-8">
         {hasDiscount ? (
-          <div className="flex flex-wrap items-baseline gap-2">
-            <span className="text-sm text-text-secondary line-through">{formatPrice(pkg.price)}</span>
-            <span className="font-heading text-3xl font-normal tracking-tight text-accent">{formatPrice(pkg.discounted_price)}</span>
-            <span className="rounded-full bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">-{pkg.discount}%</span>
+          <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
+            <span className="text-xs sm:text-sm text-text-secondary line-through">{formatPrice(pkg.price)}</span>
+            <span className="font-heading text-2xl sm:text-3xl font-normal tracking-tight text-accent">{formatPrice(pkg.discounted_price)}</span>
+            <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] sm:text-xs font-medium text-accent">-{pkg.discount}%</span>
           </div>
         ) : (
-          <span className="font-heading text-3xl font-normal tracking-tight text-text-primary">{formatPrice(pkg.price)}</span>
+          <span className="font-heading text-2xl sm:text-3xl font-normal tracking-tight text-text-primary">{formatPrice(pkg.price)}</span>
         )}
       </div>
 
@@ -103,7 +103,7 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
         href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik dengan paket ${typeLabels[pkg.type] || pkg.type} (${pkg.hours}h) dari Wimah Gallery.`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex w-full items-center justify-center gap-2.5 rounded-2xl border border-border bg-background/50 py-3.5 text-sm font-semibold text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(124,132,114,0.1)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+        className="flex w-full items-center justify-center gap-2 rounded-xl sm:rounded-2xl border border-border bg-background py-3 sm:py-3.5 text-sm font-semibold text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(124,132,114,0.1)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
       >
         <WhatsApp className="h-4 w-4" />Book via WhatsApp
       </a>
@@ -116,7 +116,7 @@ export default function Pricing() {
   const [activeTab, setActiveTab] = useState<TabKey>("file_only")
   const [openDropdown, setOpenDropdown] = useState(false)
 
-  const { data: response, isLoading, isError, isFetching } = useQuery({
+  const { data: response, isLoading, isError } = useQuery({
     queryKey: ["pricing-packages-public"],
     queryFn: async () => {
       const res = await fetch("/api/pricing/packages?limit=50")
@@ -143,41 +143,41 @@ export default function Pricing() {
   const activeTabData = TABS.find((t) => t.key === activeTab)!
 
   return (
-    <section id="pricing" className="relative py-20 lg:py-32 texture-diagonal">
+    <section id="pricing" className="relative py-14 sm:py-20 lg:py-32 texture-diagonal">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
       <div className="absolute inset-0 bg-accent/5 blur-3xl" />
-      <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
-        <div ref={titleRef} className="mb-16 text-center">
-          <p className="mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">Pricing</p>
-          <h2 className="mb-6 font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
+      <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div ref={titleRef} className="mb-8 sm:mb-16 text-center">
+          <p className="mb-3 sm:mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">Pricing</p>
+          <h2 className="mb-4 sm:mb-6 font-heading text-[28px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
             Simple, transparent <span className="font-elegant italic text-accent">pricing</span>
           </h2>
-          <p className="mx-auto max-w-[480px] text-base text-text-secondary leading-relaxed">
+          <p className="mx-auto max-w-[480px] text-sm sm:text-base text-text-secondary leading-relaxed">
             Choose the perfect package for your event. All packages include professional setup and premium equipment.
           </p>
         </div>
 
-        {/* Dropdown selector — mobile & desktop */}
-        <div className="mb-12 flex justify-center">
+        {/* Dropdown selector */}
+        <div className="mb-8 sm:mb-12 flex justify-center">
           <div className="relative w-full max-w-md">
             <button
               onClick={() => setOpenDropdown(!openDropdown)}
-              className="flex w-full items-center justify-between gap-3 rounded-2xl border border-border bg-surface/60 px-6 py-4 text-left backdrop-blur-sm transition-all duration-300 hover:border-accent/30 hover:bg-surface/80"
+              className="flex w-full items-center justify-between gap-3 rounded-xl sm:rounded-2xl border border-border bg-surface px-4 sm:px-6 py-3 sm:py-4 text-left backdrop-blur-sm transition-all duration-300 hover:border-accent/30 hover:bg-surface"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                  <activeTabData.icon className="h-5 w-5" />
+                <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                  <activeTabData.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-text-primary">{activeTabData.label}</p>
-                  <p className="text-xs text-text-secondary">{activeTabData.desc}</p>
+                  <p className="text-[11px] sm:text-xs text-text-secondary">{activeTabData.desc}</p>
                 </div>
               </div>
-              <ChevronDown className={`h-5 w-5 text-text-secondary transition-transform duration-300 ${openDropdown ? "rotate-180" : ""}`} />
+              <ChevronDown className={`h-4 w-4 sm:h-5 sm:w-5 text-text-secondary transition-transform duration-300 ${openDropdown ? "rotate-180" : ""}`} />
             </button>
 
             {openDropdown && (
-              <div className="absolute top-full left-0 z-50 mt-2 w-full overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_16px_48px_rgba(0,0,0,0.12)]">
+              <div className="absolute top-full left-0 z-50 mt-2 w-full overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-surface shadow-[0_16px_48px_rgba(0,0,0,0.12)]">
                 {TABS.map((tab) => {
                   const Icon = tab.icon
                   const isActive = tab.key === activeTab
@@ -186,14 +186,14 @@ export default function Pricing() {
                     <button
                       key={tab.key}
                       onClick={() => { setActiveTab(tab.key); setOpenDropdown(false) }}
-                      className={`flex w-full items-center gap-3 px-6 py-4 text-left transition-colors duration-200 ${isActive ? "bg-accent/10 text-accent" : "text-text-primary hover:bg-surface-secondary/50"}`}
+                      className={`flex w-full items-center gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-colors duration-200 ${isActive ? "bg-accent/10 text-accent" : "text-text-primary hover:bg-surface-secondary/50"}`}
                     >
-                      <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isActive ? "bg-accent/15 text-accent" : "bg-surface-secondary/50 text-text-secondary"}`}>
-                        <Icon className="h-5 w-5" />
+                      <div className={`flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl ${isActive ? "bg-accent/15 text-accent" : "bg-surface-secondary/50 text-text-secondary"}`}>
+                        <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                       </div>
                       <div className="flex-1">
                         <p className="text-sm font-medium">{tab.label}</p>
-                        <p className="text-xs text-text-secondary">{tab.desc}</p>
+                        <p className="text-[11px] sm:text-xs text-text-secondary">{tab.desc}</p>
                       </div>
                       <span className="text-xs text-text-secondary">{count} {count === 1 ? "pkg" : "pkgs"}</span>
                     </button>
@@ -206,12 +206,9 @@ export default function Pricing() {
 
         {/* Packages grid */}
         {isLoading ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="animate-pulse rounded-3xl bg-[#E8E3D8]/30 h-72"
-              />
+              <div key={i} className="animate-pulse rounded-2xl sm:rounded-3xl bg-[#E8E3D8]/30 h-56 sm:h-72" />
             ))}
           </div>
         ) : isError ? (
@@ -223,7 +220,7 @@ export default function Pricing() {
             <p className="text-sm text-text-secondary">No packages available for this category.</p>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {filteredPackages.map((pkg, i) => (
               <PackageCard key={pkg.id} pkg={pkg} index={i} />
             ))}
@@ -231,25 +228,25 @@ export default function Pricing() {
         )}
 
         {/* What's Included */}
-        <div className="mt-20 rounded-3xl border border-border bg-surface/40 p-8 lg:p-12">
-          <div className="mb-8 text-center">
-            <p className="mb-3 text-xs font-medium tracking-[0.2em] uppercase text-accent">Every Package</p>
-            <h3 className="font-heading text-2xl font-normal text-text-primary">What&apos;s Included</h3>
+        <div className="mt-12 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-5 sm:p-8 lg:p-12">
+          <div className="mb-5 sm:mb-8 text-center">
+            <p className="mb-2 sm:mb-3 text-xs font-medium tracking-[0.2em] uppercase text-accent">Every Package</p>
+            <h3 className="font-heading text-xl sm:text-2xl font-normal text-text-primary">What&apos;s Included</h3>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-2 sm:gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {includedItems.map((item, i) => (
-              <div key={i} className="flex items-start gap-3 rounded-xl px-4 py-3">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10 text-[10px] font-semibold text-accent">{i + 1}</span>
-                <span className="text-sm leading-relaxed text-text-secondary">{item}</span>
+              <div key={i} className="flex items-start gap-2.5 sm:gap-3 rounded-lg sm:rounded-xl px-3 sm:px-4 py-2 sm:py-3">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                <span className="text-xs sm:text-sm leading-relaxed text-text-secondary">{item}</span>
               </div>
             ))}
           </div>
-          <p className="mt-8 text-center text-xs text-text-secondary italic">
+          <p className="mt-6 sm:mt-8 text-center text-xs text-text-secondary italic">
             * Paket tidak termasuk Backdrop atau Dekorasi Photo
           </p>
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-8 sm:mt-12 text-center">
           <p className="text-sm text-text-secondary">
             Need a custom package?{" "}
             <a href={`${siteConfig.whatsappLink}?text=Halo! Saya ingin konsultasi paket custom dari Wimah Gallery.`} target="_blank" rel="noopener noreferrer" className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:text-accent-light hover:decoration-accent/50 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2">Contact us</a>

@@ -52,7 +52,7 @@ export default function WhyUs() {
             const Icon = commitmentIcons[i] || Check
             return (
               <div data-card key={item.title}>
-                <div className="group relative h-full rounded-3xl border border-border bg-surface/40 p-6 transition-[transform,colors] duration-500 hover:border-accent/20 hover:bg-surface/60 hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98]">
+                <div className="group relative h-full rounded-3xl border border-border bg-surface p-6 transition-[transform,colors] duration-500 hover:border-accent/20 hover:bg-surface-secondary hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98]">
                   <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/10 text-accent transition-colors duration-300 group-hover:bg-accent/15">
                     <Icon className="h-6 w-6" />
                   </div>

@@ -80,7 +80,7 @@ export default function TypographyStorytelling() {
           <div className="absolute inset-0 texture-noise opacity-20" />
 
           <div className="relative z-10 w-full">
-            <div className="relative h-[200px] sm:h-[260px] md:h-[300px] flex items-center justify-center">
+            <div className="relative h-[160px] sm:h-[260px] md:h-[300px] flex items-center justify-center">
               {words.map((word, i) => (
                 <div
                   key={word}
@@ -88,18 +88,18 @@ export default function TypographyStorytelling() {
                   className="absolute inset-0 flex items-center justify-center"
                   style={{ opacity: 0 }}
                 >
-                  <span className="font-heading text-[64px] sm:text-[80px] md:text-[100px] lg:text-[120px] font-normal uppercase tracking-tight text-text-primary">
+                  <span className="font-heading text-[48px] sm:text-[80px] md:text-[100px] lg:text-[120px] font-normal uppercase tracking-tight text-text-primary">
                     {word}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div ref={subtitleRef} className="mt-8 text-center" style={{ opacity: 0 }}>
-              <p className="mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
+            <div ref={subtitleRef} className="mt-6 sm:mt-8 text-center" style={{ opacity: 0 }}>
+              <p className="mb-3 sm:mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
                 The Journey
               </p>
-              <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
+              <h2 className="font-heading text-[28px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
                 From first click{" "}
                 <span className="font-elegant italic text-accent">
                   to forever.
@@ -107,12 +107,12 @@ export default function TypographyStorytelling() {
               </h2>
             </div>
 
-            <div ref={scrollHintRef} className="mt-16 flex justify-center">
+            <div ref={scrollHintRef} className="mt-10 sm:mt-16 flex justify-center">
               <div className="flex flex-col items-center">
                 <span className="text-xs text-text-secondary mb-2 tracking-wider uppercase">
                   Scroll down
                 </span>
-                <div className="w-px h-10 bg-gradient-to-b from-accent/50 to-transparent" />
+                <div className="w-px h-8 sm:h-10 bg-gradient-to-b from-accent/50 to-transparent" />
               </div>
             </div>
           </div>

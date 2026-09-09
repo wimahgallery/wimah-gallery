@@ -56,27 +56,27 @@ export default function ClientGallery() {
 
   function formatDate(dateStr: string) {
     const d = new Date(dateStr)
-    return d.toLocaleDateString("id-ID", { month: "long", year: "numeric" })
+    return d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })
   }
 
   return (
-    <section id="gallery" className="relative py-20 lg:py-32 texture-noise">
+    <section id="gallery" className="relative py-14 sm:py-20 lg:py-32 texture-noise">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
       <div className="absolute inset-0 bg-accent/5" />
-      <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
-        <div ref={titleRef} className="mb-16 text-center">
-          <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
+      <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div ref={titleRef} className="mb-10 sm:mb-16 text-center">
+          <h2 className="font-heading text-[28px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
             Find and download your <span className="italic text-accent-light">memories.</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-[480px] text-base text-text-secondary leading-normal">Every event receives its own private online gallery.</p>
+          <p className="mx-auto mt-4 sm:mt-6 max-w-[480px] text-sm sm:text-base text-text-secondary leading-normal">Every event receives its own private online gallery.</p>
         </div>
 
         {isLoading ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[0, 1, 2, 3].map((i) => (
               <div key={i} className="animate-pulse rounded-3xl bg-[#E8E3D8]/30 overflow-hidden">
                 <div className="aspect-[4/3] bg-[#E8E3D8]/40" />
-                <div className="p-5 space-y-3">
+                <div className="p-4 sm:p-5 space-y-2 sm:space-y-3">
                   <div className="h-5 w-3/4 rounded bg-[#E8E3D8]/50" />
                   <div className="h-4 w-1/2 rounded bg-[#E8E3D8]/40" />
                   <div className="h-3 w-2/3 rounded bg-[#E8E3D8]/30" />
@@ -85,17 +85,17 @@ export default function ClientGallery() {
             ))}
           </div>
         ) : isError ? (
-          <div className="py-16 text-center">
+          <div className="py-12 sm:py-16 text-center">
             <p className="text-sm text-text-secondary">Failed to load. Please try again.</p>
           </div>
         ) : events.length === 0 ? (
-          <div className="py-16 text-center">
+          <div className="py-12 sm:py-16 text-center">
             <p className="text-sm text-text-secondary">No events yet.</p>
           </div>
         ) : (
-          <div ref={gridRef} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div ref={gridRef} className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {events.map((ev) => (
-              <div data-card key={ev.id} className="group overflow-hidden rounded-3xl border border-border bg-surface/50 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-[transform,colors] duration-300">
+              <div data-card key={ev.id} className="group overflow-hidden rounded-3xl border border-border bg-surface hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-[transform,colors] duration-300">
                 <div className="relative aspect-[4/3] overflow-hidden bg-surface-secondary/30">
                   {ev.image_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -110,10 +110,10 @@ export default function ClientGallery() {
                     </div>
                   )}
                 </div>
-                <div className="p-5">
-                  <h3 className="text-lg font-heading font-normal text-text-primary">{ev.couple_name}</h3>
-                  <p className="mt-1 text-sm font-medium text-accent-light">{ev.event_name}</p>
-                  <div className="mt-2 flex items-center gap-3 text-xs text-text-secondary">
+                <div className="p-4 sm:p-5">
+                  <h3 className="text-base sm:text-lg font-heading font-normal text-text-primary">{ev.couple_name}</h3>
+                  <p className="mt-1 text-xs sm:text-sm font-medium text-accent-light">{ev.event_name}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-text-secondary">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
                       {formatDate(ev.event_date)}
@@ -128,9 +128,9 @@ export default function ClientGallery() {
                       href={ev.images_source}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-4 flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-text-primary transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:border-accent hover:bg-accent/15 hover:text-accent"
+                      className="mt-3 sm:mt-4 flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs sm:text-sm font-medium text-text-primary transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:border-accent hover:bg-accent/15 hover:text-accent"
                     >
-                      View Gallery<ExternalLink className="h-4 w-4" />
+                      View Gallery<ExternalLink className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </a>
                   )}
                 </div>

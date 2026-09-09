@@ -103,7 +103,7 @@ export default function PinnedStory() {
               className="absolute inset-0 flex items-center justify-center"
               style={{ opacity: 0 }}
             >
-              <div className="relative w-full max-w-4xl px-6">
+              <div className="relative w-full max-w-4xl px-4 sm:px-6">
                 <div className="relative overflow-hidden rounded-3xl aspect-[16/10]">
                   <Image
                     src={image.src}
@@ -118,13 +118,13 @@ export default function PinnedStory() {
 
                 <div
                   ref={(el) => { textRefs.current[i] = el }}
-                  className="absolute bottom-0 left-0 right-0 p-8 sm:p-12 lg:p-16"
+                  className="absolute bottom-0 left-0 right-0 p-5 sm:p-8 lg:p-16"
                   style={{ opacity: 0 }}
                 >
-                  <p className="mb-2 text-sm font-medium uppercase tracking-widest text-accent-light/80">
+                  <p className="mb-1.5 sm:mb-2 text-xs sm:text-sm font-medium uppercase tracking-widest text-accent-light/80">
                     {image.sub}
                   </p>
-                  <h3 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-white leading-snug">
+                  <h3 className="font-heading text-xl sm:text-3xl lg:text-4xl font-normal text-white leading-snug">
                     {storyTexts[i].line1}
                     <br />
                     <span className="font-elegant italic text-accent-light">
@@ -136,11 +136,11 @@ export default function PinnedStory() {
             </div>
           ))}
 
-          <div ref={scrollHintRef} className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-            <span className="text-xs text-text-secondary mb-2 tracking-wider uppercase">
+          <div ref={scrollHintRef} className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            <span className="text-[10px] sm:text-xs text-text-secondary mb-1.5 sm:mb-2 tracking-wider uppercase">
               Scroll to explore
             </span>
-            <div className="w-px h-8 bg-gradient-to-b from-accent/50 to-transparent" />
+            <div className="w-px h-6 sm:h-8 bg-gradient-to-b from-accent/50 to-transparent" />
           </div>
         </div>
       </div>

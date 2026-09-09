@@ -23,6 +23,7 @@ import FinalCTA from "@/components/final-cta";
 import Footer from "@/components/footer";
 import CustomCursor from "@/components/custom-cursor";
 import ScrollProgress from "@/components/scroll-progress";
+import FloatingWhatsApp from "@/components/floating-whatsapp";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,6 +57,7 @@ export default function Home() {
     <>
       <CustomCursor />
       <ScrollProgress />
+      <FloatingWhatsApp />
       <main className="relative">
         <div className="relative">
           <Header />
