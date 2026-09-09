@@ -75,38 +75,38 @@ export default function FinalCTA() {
   }, [])
 
   return (
-    <section ref={containerRef} className="relative py-24 lg:py-32">
+    <section ref={containerRef} className="relative overflow-hidden py-16 sm:py-24 lg:py-32">
       <div className="absolute inset-0">
         <div
           ref={bgRef}
           className="absolute inset-0 bg-gradient-to-b from-surface/40 via-accent/10 to-surface/30"
         />
         <div className="absolute inset-0 texture-lines opacity-30" />
-        <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-3xl" />
+        <div className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-3xl sm:h-[500px] sm:w-[500px]" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[900px] px-6 lg:px-8 text-center">
-        <p className="mb-6 text-xs font-medium tracking-[0.2em] uppercase text-accent">
+      <div className="relative z-10 mx-auto max-w-[900px] px-4 sm:px-6 lg:px-8 text-center">
+        <p className="mb-4 sm:mb-6 text-[10px] sm:text-xs font-medium tracking-[0.2em] uppercase text-accent">
           Ready to Create Memories?
         </p>
 
-        <h2 className="mb-8 font-heading text-[36px] sm:text-[48px] lg:text-[56px] font-normal leading-tight text-text-primary">
+        <h2 className="mb-6 sm:mb-8 font-heading text-[28px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-normal leading-tight text-text-primary">
           {allWords.map((word, i) => (
             <span
               key={i}
               ref={(el) => { wordsRef.current[i] = el }}
-              className={`inline-block mr-[0.3em] ${word.italic ? "font-elegant italic text-accent" : ""}`}
+              className={`inline-block mr-[0.2em] sm:mr-[0.3em] ${word.italic ? "font-elegant italic text-accent" : ""}`}
             >
               {word.text}
             </span>
           ))}
         </h2>
 
-        <div ref={lineRef} className="mx-auto mb-12 h-px w-24 origin-left bg-accent/40" />
+        <div ref={lineRef} className="mx-auto mb-8 sm:mb-12 h-px w-16 sm:w-24 origin-left bg-accent/40" />
 
         <p
           ref={paraRef}
-          className="mx-auto mb-12 max-w-[480px] text-base text-text-secondary leading-relaxed"
+          className="mx-auto mb-8 sm:mb-12 max-w-[480px] text-sm sm:text-base text-text-secondary leading-relaxed"
         >
           Reserve your date today and create unforgettable memories with your
           guests.
@@ -117,10 +117,10 @@ export default function FinalCTA() {
           href={siteConfig.whatsappLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 text-base font-semibold text-background transition-[transform,colors] duration-300 hover:bg-accent-light hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_4px_24px_rgba(124,132,114,0.3)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+          className="inline-flex items-center gap-2 sm:gap-2.5 rounded-full bg-accent px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-background transition-[transform,colors] duration-300 hover:bg-accent-light hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_4px_24px_rgba(124,132,114,0.3)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
         >
           Book Your Date
-          <ArrowRight className="h-5 w-5" />
+          <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
         </a>
       </div>
     </section>
