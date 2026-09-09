@@ -100,7 +100,7 @@ export function Header() {
           </div>
         </div>
       </header>
-      <div className={`fixed inset-0 z-40 bg-accent-dark lg:hidden pointer-events-none transition-[opacity] duration-300 ease-out ${mobileOpen ? "opacity-100 backdrop-blur-xl pointer-events-auto" : "opacity-0 backdrop-blur-0"}`} aria-hidden={!mobileOpen}>
+      <div className={`fixed inset-0 z-40 bg-accent-dark lg:hidden transition-[opacity] duration-300 ease-out ${mobileOpen ? "opacity-100 backdrop-blur-xl pointer-events-auto" : "opacity-0 backdrop-blur-0 pointer-events-none"}`} aria-hidden={!mobileOpen}>
         {mobileOpen && (
           <nav className="flex flex-col items-center justify-center h-full gap-2 px-4">
             {siteConfig.navLinks.map((item, i) => (
@@ -109,6 +109,7 @@ export function Header() {
                   href={item.href}
                   onClick={(e) => {
                     e.preventDefault()
+                    document.body.style.overflow = ""
                     setMobileOpen(false)
                     const id = item.href.replace("#", "")
                     const el = document.getElementById(id)
