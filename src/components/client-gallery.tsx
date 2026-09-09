@@ -3,15 +3,36 @@
 import { useRef, useEffect } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import Image from "next/image"
-import { clientGalleries } from "@/lib/config"
-import { ExternalLink } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
+import { ExternalLink, Calendar, MapPin } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger)
+
+interface Event {
+  id: string
+  couple_name: string
+  event_name: string
+  event_date: string
+  location: string
+  images_source: string | null
+  image_url: string | null
+  visible: boolean
+}
 
 export default function ClientGallery() {
   const titleRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
+
+  const { data: response, isLoading, isError } = useQuery({
+    queryKey: ["events-public"],
+    queryFn: async () => {
+      const res = await fetch("/api/events?limit=50")
+      if (!res.ok) throw new Error("Failed to fetch")
+      return res.json() as Promise<{ data: Event[] }>
+    },
+  })
+
+  const events = (response?.data ?? []).filter((e) => e.visible)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -29,8 +50,14 @@ export default function ClientGallery() {
         )
       }
     })
+
     return () => ctx.revert()
-  }, [])
+  }, [events.length])
+
+  function formatDate(dateStr: string) {
+    const d = new Date(dateStr)
+    return d.toLocaleDateString("id-ID", { month: "long", year: "numeric" })
+  }
 
   return (
     <section id="gallery" className="relative py-20 lg:py-32 texture-noise">
@@ -43,23 +70,74 @@ export default function ClientGallery() {
           </h2>
           <p className="mx-auto mt-6 max-w-[480px] text-base text-text-secondary leading-normal">Every event receives its own private online gallery.</p>
         </div>
-        <div ref={gridRef} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {clientGalleries.map((gallery) => (
-            <div data-card key={gallery.name} className="group overflow-hidden rounded-3xl border border-border bg-surface/50 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-[transform,colors] duration-300">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image src={gallery.src} alt={gallery.name} width={600} height={450} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+
+        {isLoading ? (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} className="animate-pulse rounded-3xl bg-[#E8E3D8]/30 overflow-hidden">
+                <div className="aspect-[4/3] bg-[#E8E3D8]/40" />
+                <div className="p-5 space-y-3">
+                  <div className="h-5 w-3/4 rounded bg-[#E8E3D8]/50" />
+                  <div className="h-4 w-1/2 rounded bg-[#E8E3D8]/40" />
+                  <div className="h-3 w-2/3 rounded bg-[#E8E3D8]/30" />
+                </div>
               </div>
-              <div className="p-5">
-                <h3 className="text-lg font-heading font-normal text-text-primary">{gallery.name}</h3>
-                <p className="mt-1 text-sm font-medium text-accent-light">{gallery.event}</p>
-                <p className="mt-2 text-xs text-text-secondary">{gallery.date} &middot; {gallery.location}</p>
-                <button className="mt-4 flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-text-primary transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:border-accent hover:bg-accent/15 hover:text-accent">
-                  View Gallery<ExternalLink className="h-4 w-4" />
-                </button>
+            ))}
+          </div>
+        ) : isError ? (
+          <div className="py-16 text-center">
+            <p className="text-sm text-text-secondary">Failed to load. Please try again.</p>
+          </div>
+        ) : events.length === 0 ? (
+          <div className="py-16 text-center">
+            <p className="text-sm text-text-secondary">No events yet.</p>
+          </div>
+        ) : (
+          <div ref={gridRef} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {events.map((ev) => (
+              <div data-card key={ev.id} className="group overflow-hidden rounded-3xl border border-border bg-surface/50 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-[transform,colors] duration-300">
+                <div className="relative aspect-[4/3] overflow-hidden bg-surface-secondary/30">
+                  {ev.image_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={ev.image_url}
+                      alt={ev.couple_name}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-4xl font-heading text-text-secondary/30">
+                      {ev.couple_name.split(" ").map((n) => n[0]).join("")}
+                    </div>
+                  )}
+                </div>
+                <div className="p-5">
+                  <h3 className="text-lg font-heading font-normal text-text-primary">{ev.couple_name}</h3>
+                  <p className="mt-1 text-sm font-medium text-accent-light">{ev.event_name}</p>
+                  <div className="mt-2 flex items-center gap-3 text-xs text-text-secondary">
+                    <span className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {formatDate(ev.event_date)}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {ev.location}
+                    </span>
+                  </div>
+                  {ev.images_source && (
+                    <a
+                      href={ev.images_source}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-text-primary transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:border-accent hover:bg-accent/15 hover:text-accent"
+                    >
+                      View Gallery<ExternalLink className="h-4 w-4" />
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
