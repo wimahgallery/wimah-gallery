@@ -1,40 +1,44 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { loginSchema, type LoginInput } from "@/lib/schemas"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginInput } from "@/lib/schemas";
 
 export default function AdminLoginPage() {
-  const router = useRouter()
-  const [error, setError] = useState("")
+  const router = useRouter();
+  const [error, setError] = useState("");
 
-  const { register, handleSubmit, formState: { isSubmitting } } = useForm<LoginInput>({
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
-  })
+  });
 
   async function onSubmit(data: LoginInput) {
-    setError("")
+    setError("");
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      })
+      });
 
       if (!res.ok) {
-        const json = await res.json()
-        setError(json.error || "Login failed")
-        return
+        const json = await res.json();
+        setError(json.error || "Login failed");
+        return;
       }
 
-      router.push("/admin")
-      router.refresh()
+      router.push("/admin");
+      router.refresh();
     } catch {
-      setError("Network error. Please try again.")
+      setError("Network error. Please try again.");
     }
   }
 
@@ -42,7 +46,9 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#F5F3EE] px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <h1 className="font-heading text-2xl text-[#54524D]">Wimah Gallery</h1>
+          <h1 className="font-heading text-2xl text-[#54524D]">
+            Wimah Gallery
+          </h1>
           <p className="mt-2 text-sm text-[#8D8A82]">Admin Dashboard</p>
         </div>
 
@@ -54,7 +60,10 @@ export default function AdminLoginPage() {
           )}
 
           <div>
-            <label htmlFor="email" className="mb-1 block text-sm font-medium text-[#54524D]">
+            <label
+              htmlFor="email"
+              className="mb-1 block text-sm font-medium text-[#54524D]"
+            >
               Email
             </label>
             <input
@@ -67,7 +76,10 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="mb-1 block text-sm font-medium text-[#54524D]">
+            <label
+              htmlFor="password"
+              className="mb-1 block text-sm font-medium text-[#54524D]"
+            >
               Password
             </label>
             <input
@@ -88,13 +100,13 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-[#8D8A82]">
+        {/* <p className="mt-6 text-center text-sm text-[#8D8A82]">
           Don&apos;t have an account?{" "}
           <Link href="/admin/signup" className="font-medium text-[#7C8472] hover:text-[#5F6558]">
             Sign up
           </Link>
-        </p>
+        </p> */}
       </div>
     </div>
-  )
+  );
 }
