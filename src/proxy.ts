@@ -31,7 +31,8 @@ export async function proxy(request: NextRequest) {
 
   if (
     request.nextUrl.pathname.startsWith("/admin") &&
-    request.nextUrl.pathname !== "/admin/login"
+    request.nextUrl.pathname !== "/admin/login" &&
+    request.nextUrl.pathname !== "/admin/signup"
   ) {
     if (!user) {
       const url = request.nextUrl.clone();
