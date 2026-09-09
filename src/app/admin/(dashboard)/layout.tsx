@@ -3,11 +3,21 @@
 import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
+import { LayoutDashboard, MessageSquareQuote, DollarSign, HelpCircle, CalendarDays, ExternalLink, LogOut } from "lucide-react"
+
+const navItems = [
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
+  { href: "/admin/events", label: "Events", icon: CalendarDays },
+  { href: "/admin/pricing", label: "Pricing", icon: DollarSign },
+  { href: "/admin/faqs", label: "FAQ", icon: HelpCircle },
+]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
   const [authorized, setAuthorized] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -33,41 +43,79 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F3EE]">
-      <header className="border-b border-[rgba(84,82,77,0.12)] bg-white/80 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+    <div className="flex min-h-screen bg-[#F5F3EE]">
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/20 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      <aside
+        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-[rgba(84,82,77,0.12)] bg-white transition-transform duration-200 lg:static lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+      >
+        <div className="flex h-14 items-center border-b border-[rgba(84,82,77,0.12)] px-5">
           <Link href="/admin" className="font-heading text-lg text-[#54524D]">
             Wimah Gallery
           </Link>
-          <nav className="flex items-center gap-4">
-            <Link
-              href="/admin"
-              className={`text-sm transition-colors ${pathname === "/admin" ? "font-medium text-[#54524D]" : "text-[#8D8A82] hover:text-[#54524D]"}`}
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/admin/testimonials"
-              className={`text-sm transition-colors ${pathname === "/admin/testimonials" ? "font-medium text-[#54524D]" : "text-[#8D8A82] hover:text-[#54524D]"}`}
-            >
-              Testimonials
-            </Link>
-            <Link
-              href="/"
-              className="text-sm text-[#8D8A82] transition-colors hover:text-[#54524D]"
-            >
-              View Site
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="rounded-lg border border-[rgba(84,82,77,0.12)] px-3 py-1.5 text-sm text-[#8D8A82] transition-colors hover:border-[#7C8472] hover:text-[#54524D]"
-            >
-              Sign Out
-            </button>
-          </nav>
         </div>
-      </header>
-      <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
+
+        <nav className="flex-1 space-y-1 px-3 py-4">
+          {navItems.map((item) => {
+            const Icon = item.icon
+            const isActive = item.href === "/admin" ? pathname === "/admin" : pathname.startsWith(item.href)
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setSidebarOpen(false)}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${isActive ? "bg-[#7C8472]/10 font-medium text-[#54524D]" : "text-[#8D8A82] hover:bg-[#F5F3EE] hover:text-[#54524D]"}`}
+              >
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            )
+          })}
+        </nav>
+
+        <div className="border-t border-[rgba(84,82,77,0.12)] px-3 py-3 space-y-1">
+          <Link
+            href="/"
+            target="_blank"
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-[#8D8A82] transition-colors hover:bg-[#F5F3EE] hover:text-[#54524D]"
+          >
+            <ExternalLink className="h-4 w-4" />
+            View Site
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-[#8D8A82] transition-colors hover:bg-red-50 hover:text-red-500"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign Out
+          </button>
+        </div>
+      </aside>
+
+      <div className="flex flex-1 flex-col min-w-0">
+        <header className="flex h-14 items-center border-b border-[rgba(84,82,77,0.12)] bg-white/80 px-4 lg:px-6">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="mr-3 rounded-lg p-1.5 text-[#8D8A82] hover:bg-[#F5F3EE] lg:hidden"
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <h2 className="text-sm font-medium text-[#54524D]">
+            {navItems.find((n) => n.href === "/admin" ? pathname === "/admin" : pathname.startsWith(n.href))?.label || "Admin"}
+          </h2>
+        </header>
+
+        <main className="flex-1 overflow-y-auto px-4 py-6 lg:px-8 lg:py-8">
+          {children}
+        </main>
+      </div>
     </div>
   )
 }

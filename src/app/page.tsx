@@ -13,7 +13,7 @@ import TypographyStorytelling from "@/components/typography-storytelling";
 import HowItWorks from "@/components/how-it-works";
 import Availability from "@/components/availability";
 import Portfolio from "@/components/portfolio";
-import HorizontalScroll from "@/components/horizontal-scroll";
+
 import ScrollLockReveal from "@/components/scroll-lock-reveal";
 import ClientGallery from "@/components/client-gallery";
 import Pricing from "@/components/pricing";
@@ -90,9 +90,7 @@ export default function Home() {
           <Portfolio />
         </div>
 
-        <div className="relative">
-          <HorizontalScroll />
-        </div>
+
 
         <div className="relative">
           <ScrollLockReveal />

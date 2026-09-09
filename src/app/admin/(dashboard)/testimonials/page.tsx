@@ -1,7 +1,12 @@
 "use client"
 
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useState, useRef } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { Trash2, Upload, Plus, X, Eye, EyeOff, Pencil } from "lucide-react"
+import { testimonialSchema, type TestimonialInput } from "@/lib/schemas"
+import Pagination from "@/components/pagination"
 
 interface Testimonial {
   id: string
@@ -14,43 +19,97 @@ interface Testimonial {
 }
 
 export default function TestimonialsPage() {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([])
-  const [loading, setLoading] = useState(true)
+  const queryClient = useQueryClient()
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
-  const [submitting, setSubmitting] = useState(false)
-  const [message, setMessage] = useState("")
-  const [username, setUsername] = useState("")
-  const [role, setRole] = useState("")
-  const [visible, setVisible] = useState(true)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null)
   const [error, setError] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [page, setPage] = useState(1)
 
-  const fetchTestimonials = useCallback(async () => {
-    const res = await fetch("/api/testimonials")
-    if (res.ok) setTestimonials(await res.json())
-    setLoading(false)
-  }, [])
+  const { data, isLoading, isError, isFetching } = useQuery<{
+    data: Testimonial[]
+    total: number
+    page: number
+    limit: number
+    totalPages: number
+  }>({
+    queryKey: ["testimonials", page],
+    queryFn: async () => {
+      const res = await fetch(`/api/testimonials?page=${page}&limit=10`)
+      if (!res.ok) throw new Error("Failed to fetch")
+      const json = await res.json()
+      return json
+    },
+  })
 
-  useEffect(() => {
-    let active = true
-    async function load() {
-      const res = await fetch("/api/testimonials")
-      if (res.ok && active) setTestimonials(await res.json())
-      if (active) setLoading(false)
-    }
-    load()
-    return () => { active = false }
-  }, [])
+  const testimonials = data?.data ?? []
+  const totalPages = data?.totalPages ?? 1
+  const total = data?.total ?? 0
+
+  const createMutation = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const res = await fetch("/api/testimonials", { method: "POST", body: formData })
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || "Failed to create")
+      }
+    },
+    onSuccess: () => {
+      setPage(1)
+      queryClient.invalidateQueries({ queryKey: ["testimonials"] })
+    },
+  })
+
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, formData }: { id: string; formData: FormData }) => {
+      const res = await fetch(`/api/testimonials/${id}`, { method: "PATCH", body: formData })
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || "Failed to update")
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["testimonials"] })
+    },
+  })
+
+  const toggleVisibilityMutation = useMutation({
+    mutationFn: async ({ id, visible }: { id: string; visible: boolean }) => {
+      const res = await fetch(`/api/testimonials/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ visible }),
+      })
+      if (!res.ok) throw new Error("Failed to update visibility")
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["testimonials"] })
+    },
+  })
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`/api/testimonials/${id}`, { method: "DELETE" })
+      if (!res.ok) throw new Error("Failed to delete")
+    },
+    onSuccess: () => {
+      setPage(1)
+      queryClient.invalidateQueries({ queryKey: ["testimonials"] })
+    },
+  })
+
+  const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<TestimonialInput>({
+    resolver: zodResolver(testimonialSchema),
+    defaultValues: { message: "", username: "", role: "", visible: true },
+  })
+
+  const visibleValue = watch("visible")
 
   function resetForm() {
-    setMessage("")
-    setUsername("")
-    setRole("")
-    setVisible(true)
+    reset({ message: "", username: "", role: "", visible: true })
     setImageFile(null)
     setImagePreview(null)
     setExistingImageUrl(null)
@@ -61,10 +120,7 @@ export default function TestimonialsPage() {
 
   function openEdit(t: Testimonial) {
     setEditingId(t.id)
-    setMessage(t.message)
-    setUsername(t.username)
-    setRole(t.role)
-    setVisible(t.visible)
+    reset({ message: t.message, username: t.username, role: t.role, visible: t.visible })
     setExistingImageUrl(t.image_url)
     setImageFile(null)
     setImagePreview(null)
@@ -96,82 +152,43 @@ export default function TestimonialsPage() {
     if (fileInputRef.current) fileInputRef.current.value = ""
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+  async function onSubmit(data: TestimonialInput) {
     setError("")
-    setSubmitting(true)
 
     try {
       if (editingId) {
         const body = new FormData()
-        body.append("message", message)
-        body.append("username", username)
-        body.append("role", role)
-        body.append("visible", String(visible))
+        body.append("message", data.message)
+        body.append("username", data.username)
+        body.append("role", data.role)
+        body.append("visible", String(data.visible))
         if (imageFile) body.append("image", imageFile)
         if (!imageFile && !existingImageUrl) body.append("removeImage", "true")
-
-        const res = await fetch(`/api/testimonials/${editingId}`, {
-          method: "PATCH",
-          body,
-        })
-
-        if (!res.ok) {
-          const data = await res.json()
-          setError(data.error || "Failed to update")
-          return
-        }
+        await updateMutation.mutateAsync({ id: editingId, formData: body })
       } else {
         const formData = new FormData()
-        formData.append("message", message)
-        formData.append("username", username)
-        formData.append("role", role)
-        formData.append("visible", String(visible))
+        formData.append("message", data.message)
+        formData.append("username", data.username)
+        formData.append("role", data.role)
+        formData.append("visible", String(data.visible))
         if (imageFile) formData.append("image", imageFile)
-
-        const res = await fetch("/api/testimonials", {
-          method: "POST",
-          body: formData,
-        })
-
-        if (!res.ok) {
-          const data = await res.json()
-          setError(data.error || "Failed to create")
-          return
-        }
+        await createMutation.mutateAsync(formData)
       }
 
       resetForm()
       setShowForm(false)
-      fetchTestimonials()
-    } catch {
-      setError("Network error")
-    } finally {
-      setSubmitting(false)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Network error")
     }
   }
 
-  async function handleToggleVisibility(id: string, currentVisible: boolean) {
-    const res = await fetch(`/api/testimonials/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ visible: !currentVisible }),
-    })
-
-    if (res.ok) {
-      setTestimonials((prev) =>
-        prev.map((t) => (t.id === id ? { ...t, visible: !currentVisible } : t))
-      )
-    }
+  function handleToggleVisibility(id: string, currentVisible: boolean) {
+    toggleVisibilityMutation.mutate({ id, visible: !currentVisible })
   }
 
-  async function handleDelete(id: string) {
+  function handleDelete(id: string) {
     if (!confirm("Delete this testimonial?")) return
-
-    const res = await fetch(`/api/testimonials/${id}`, { method: "DELETE" })
-    if (res.ok) {
-      setTestimonials((prev) => prev.filter((t) => t.id !== id))
-    }
+    deleteMutation.mutate(id)
   }
 
   const currentImage = imagePreview || existingImageUrl
@@ -206,19 +223,20 @@ export default function TestimonialsPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <label className="mb-1 block text-sm font-medium text-[#54524D]">
                 Message <span className="text-red-400">*</span>
               </label>
               <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
+                {...register("message")}
                 rows={3}
                 className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20 resize-none"
                 placeholder="What the client said..."
               />
+              {errors.message && (
+                <p className="mt-1 text-xs text-red-500">{errors.message.message}</p>
+              )}
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -228,12 +246,13 @@ export default function TestimonialsPage() {
                 </label>
                 <input
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
+                  {...register("username")}
                   className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
                   placeholder="Angela & David"
                 />
+                {errors.username && (
+                  <p className="mt-1 text-xs text-red-500">{errors.username.message}</p>
+                )}
               </div>
               <div>
                 <label className="mb-1 block text-sm font-medium text-[#54524D]">
@@ -241,12 +260,13 @@ export default function TestimonialsPage() {
                 </label>
                 <input
                   type="text"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  required
+                  {...register("role")}
                   className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
                   placeholder="Wedding, Corporate Event..."
                 />
+                {errors.role && (
+                  <p className="mt-1 text-xs text-red-500">{errors.role.message}</p>
+                )}
               </div>
             </div>
 
@@ -293,29 +313,37 @@ export default function TestimonialsPage() {
               <label className="text-sm font-medium text-[#54524D]">Show on website</label>
               <button
                 type="button"
-                onClick={() => setVisible(!visible)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${visible ? "bg-[#7C8472]" : "bg-[#DDD8CC]"}`}
+                onClick={() => setValue("visible", !visibleValue)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${visibleValue ? "bg-[#7C8472]" : "bg-[#DDD8CC]"}`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${visible ? "translate-x-6" : "translate-x-1"}`}
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${visibleValue ? "translate-x-6" : "translate-x-1"}`}
                 />
               </button>
             </div>
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={createMutation.isPending || updateMutation.isPending}
               className="w-full rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558] disabled:opacity-50"
             >
-              {submitting ? "Saving..." : editingId ? "Update Testimonial" : "Save Testimonial"}
+              {createMutation.isPending || updateMutation.isPending
+                ? "Saving..."
+                : editingId
+                  ? "Update Testimonial"
+                  : "Save Testimonial"}
             </button>
           </form>
         </div>
       )}
 
-      {loading ? (
+      {isLoading ? (
         <div className="flex h-32 items-center justify-center">
           <div className="text-sm text-[#8D8A82]">Loading...</div>
+        </div>
+      ) : isError ? (
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          Failed to load testimonials. Please try again.
         </div>
       ) : testimonials.length === 0 ? (
         <div className="rounded-xl border border-[rgba(84,82,77,0.12)] bg-white p-12 text-center">
@@ -374,6 +402,12 @@ export default function TestimonialsPage() {
               <p className="mt-3 text-sm text-[#8D8A82] leading-relaxed">&ldquo;{t.message}&rdquo;</p>
             </div>
           ))}
+        </div>
+      )}
+
+      {totalPages > 1 && (
+        <div className="rounded-xl border border-[rgba(84,82,77,0.12)] bg-white p-4">
+          <Pagination page={page} totalPages={totalPages} total={total} onPageChange={setPage} />
         </div>
       )}
     </div>

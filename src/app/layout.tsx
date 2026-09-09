@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter, Playfair_Display } from "next/font/google";
 import type { PropsWithChildren } from "react";
 import { siteConfig } from "@/lib/config";
+import QueryProvider from "@/components/query-provider";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -51,7 +52,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       className={`${cormorant.variable} ${inter.variable} ${playfair.variable}`}
     >
       <body className="min-h-screen bg-background text-text-primary antialiased">
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

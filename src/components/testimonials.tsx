@@ -1,46 +1,50 @@
 "use client"
 
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { testimonials } from "@/lib/config"
-import { Star, Quote } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
+import useEmblaCarousel from "embla-carousel-react"
+import Autoplay from "embla-carousel-autoplay"
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger)
 
-function TestimonialCard({ testimonial, index }: { testimonial: (typeof testimonials)[number]; index: number }) {
-  const ref = useRef<HTMLDivElement>(null)
+interface Testimonial {
+  id: string
+  message: string
+  username: string
+  role: string
+  image_url: string | null
+  visible: boolean
+}
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (!ref.current) return
-      gsap.fromTo(ref.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1, y: 0, duration: 0.6, ease: "power2.out", delay: index * 0.1,
-          scrollTrigger: { trigger: ref.current, start: "top 90%", once: true },
-        }
-      )
-    }, ref)
-    return () => ctx.revert()
-  }, [index])
-
+function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; isActive: boolean }) {
   return (
-    <div ref={ref} className="rounded-3xl border border-border bg-surface/50 p-8 transition-[transform,colors] duration-300 hover:border-accent/30 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)]">
+    <div className={`h-full rounded-3xl border bg-surface/50 p-8 transition-all duration-500 ${isActive ? "border-accent/30 shadow-[0_8px_32px_rgba(124,132,114,0.12)]" : "border-border"}`}>
       <Quote className="mb-4 h-8 w-8 text-accent/40" />
       <div className="mb-4 flex gap-1">
         {Array.from({ length: 5 }).map((_, j) => (
-          <Star key={j} className="h-4 w-4 fill-accent text-accent" />
+          <Star key={j} className="h-4 w-4 fill-[#D4A853] text-[#D4A853]" />
         ))}
       </div>
-      <p className="mb-6 text-text-secondary leading-snug">&ldquo;{testimonial.review}&rdquo;</p>
+      <p className="mb-6 text-sm leading-relaxed text-text-secondary">&ldquo;{testimonial.message}&rdquo;</p>
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-sm font-bold text-accent">
-          {testimonial.name.split(" ").map((n) => n[0]).join("")}
-        </div>
+        {testimonial.image_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={testimonial.image_url}
+            alt={testimonial.username}
+            className="h-10 w-10 rounded-full object-cover"
+          />
+        ) : (
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-sm font-bold text-accent">
+            {testimonial.username.split(" ").map((n) => n[0]).join("")}
+          </div>
+        )}
         <div>
-          <p className="text-sm font-medium text-text-primary">{testimonial.name}</p>
-          <p className="text-xs text-text-secondary">{testimonial.event}</p>
+          <p className="text-sm font-medium text-text-primary">{testimonial.username}</p>
+          <p className="text-xs text-text-secondary">{testimonial.role}</p>
         </div>
       </div>
     </div>
@@ -49,6 +53,44 @@ function TestimonialCard({ testimonial, index }: { testimonial: (typeof testimon
 
 export default function Testimonials() {
   const titleRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const rafRef = useRef<number>(0)
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "center",
+      slidesToScroll: 1,
+    },
+    [Autoplay({ delay: 4000, stopOnInteraction: false })]
+  )
+
+  const { data: response, isLoading, isError, isFetching } = useQuery({
+    queryKey: ["testimonials-public"],
+    queryFn: async () => {
+      const res = await fetch("/api/testimonials?limit=50")
+      if (!res.ok) throw new Error("Failed to fetch")
+      return res.json() as Promise<{ data: Testimonial[] }>
+    },
+  })
+
+  const testimonials = (response?.data ?? []).filter((t) => t.visible)
+
+  useEffect(() => {
+    if (!emblaApi) return
+    function onSelect() {
+      cancelAnimationFrame(rafRef.current)
+      rafRef.current = requestAnimationFrame(() => {
+        setActiveIndex(emblaApi!.selectedScrollSnap())
+      })
+    }
+    emblaApi.on("select", onSelect)
+    onSelect()
+    return () => {
+      emblaApi.off("select", onSelect)
+      cancelAnimationFrame(rafRef.current)
+    }
+  }, [emblaApi])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -64,22 +106,88 @@ export default function Testimonials() {
     return () => ctx.revert()
   }, [])
 
+  function scrollPrev() {
+    emblaApi?.scrollPrev()
+  }
+
+  function scrollNext() {
+    emblaApi?.scrollNext()
+  }
+
   return (
-    <section className="relative overflow-hidden py-20 lg:py-32 texture-wave">
+    <section className="relative py-20 lg:py-32 texture-wave">
       <div className="absolute inset-0" />
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
       <div className="absolute inset-0 bg-accent/5 blur-3xl" />
-      <div className="relative mx-auto max-w-[1200px] px-6 lg:px-8">
-        <div ref={titleRef} className="mb-20 text-center">
+      <div className="relative mx-auto max-w-[1400px] px-6 lg:px-8">
+        <div ref={titleRef} className="mb-16 text-center">
           <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
             What our <span className="font-elegant italic text-accent">clients say</span>
           </h2>
         </div>
-        <div className="grid gap-8 lg:grid-cols-2">
-          {testimonials.map((testimonial, i) => (
-            <TestimonialCard key={testimonial.name} testimonial={testimonial} index={i} />
-          ))}
-        </div>
+
+        {isLoading ? (
+          <div className="relative">
+            <div className="overflow-hidden px-8 py-4">
+              <div className="flex items-center">
+                {[0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="mx-3 shrink-0 basis-full sm:basis-1/2 lg:basis-1/3"
+                  >
+                    <div className="animate-pulse rounded-3xl bg-[#E8E3D8]/30 p-8 h-64" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : isError ? (
+          <div className="py-16 text-center">
+            <p className="text-sm text-text-secondary">Failed to load. Please try again.</p>
+          </div>
+        ) : testimonials.length === 0 ? (
+          <div className="py-16 text-center">
+            <p className="text-sm text-text-secondary">No testimonials yet.</p>
+          </div>
+        ) : (
+          <div className="relative">
+            <div className="overflow-hidden px-8 py-4" ref={emblaRef}>
+              <div className="flex items-center">
+                {testimonials.map((t, i) => {
+                  const isActive = i === activeIndex
+                  return (
+                    <div
+                      key={t.id}
+                      className="mx-3 shrink-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                      style={{
+                        flex: "0 0 33.333%",
+                        minWidth: 0,
+                        transform: isActive ? "scale(1)" : "scale(0.85)",
+                        opacity: isActive ? 1 : 0.5,
+                        filter: isActive ? "blur(0px)" : "blur(1px)",
+                      }}
+                    >
+                      <TestimonialCard testimonial={t} isActive={isActive} />
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            <button
+              onClick={scrollPrev}
+              className="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface/80 text-text-secondary backdrop-blur-sm transition-all hover:border-accent/30 hover:text-accent"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={scrollNext}
+              className="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface/80 text-text-secondary backdrop-blur-sm transition-all hover:border-accent/30 hover:text-accent"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )

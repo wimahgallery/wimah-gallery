@@ -12,9 +12,9 @@ export async function GET(request: Request) {
   const to = from + limit - 1
 
   const { data, error, count } = await supabase
-    .from("testimonials")
+    .from("events")
     .select("*", { count: "exact" })
-    .order("created_at", { ascending: false })
+    .order("event_date", { ascending: false })
     .range(from, to)
 
   if (error) {
@@ -39,15 +39,17 @@ export async function POST(request: Request) {
   }
 
   const formData = await request.formData()
-  const message = formData.get("message") as string | null
-  const username = formData.get("username") as string | null
-  const role = formData.get("role") as string | null
-  const visible = formData.get("visible") !== "false"
+  const coupleName = formData.get("couple_name") as string | null
+  const eventName = formData.get("event_name") as string | null
+  const eventDate = formData.get("event_date") as string | null
+  const location = formData.get("location") as string | null
+  const imagesSource = formData.get("images_source") as string | null
+  const sortOrder = Number(formData.get("sort_order") ?? 0)
   const imageFile = formData.get("image") as File | null
 
-  if (!message || !username || !role) {
+  if (!coupleName || !eventName || !eventDate || !location) {
     return NextResponse.json(
-      { error: "Message, username, and role are required" },
+      { error: "Couple name, event name, date, and location are required" },
       { status: 400 }
     )
   }
@@ -59,16 +61,25 @@ export async function POST(request: Request) {
     const bytes = await imageFile.arrayBuffer()
     const buffer = Buffer.from(bytes)
     const ext = imageFile.name.split(".").pop() || "jpg"
-    const fileName = `testimonial-${uuid()}.${ext}`
+    const fileName = `event-${uuid()}.${ext}`
 
-    const uploaded = await uploadImage(buffer, fileName, "testimonials")
+    const uploaded = await uploadImage(buffer, fileName, "events")
     imageUrl = uploaded.url ?? null
     imageFileId = uploaded.fileId ?? null
   }
 
   const { data, error } = await supabase
-    .from("testimonials")
-    .insert({ message, username, role, visible, image_url: imageUrl, image_file_id: imageFileId })
+    .from("events")
+    .insert({
+      couple_name: coupleName,
+      event_name: eventName,
+      event_date: eventDate,
+      location,
+      images_source: imagesSource || null,
+      image_url: imageUrl,
+      image_file_id: imageFileId,
+      sort_order: sortOrder,
+    })
     .select()
     .single()
 

@@ -3,12 +3,21 @@
 import { useState, useRef, useEffect } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { faqs, guarantees } from "@/lib/config"
+import { useQuery } from "@tanstack/react-query"
+import { guarantees } from "@/lib/config"
 import { Plus, Minus, Shield } from "lucide-react"
 import { WhatsApp } from "@/components/whatsapp-icon"
 import { siteConfig } from "@/lib/config"
 
 gsap.registerPlugin(ScrollTrigger)
+
+interface Faq {
+  id: string
+  question: string
+  answer: string
+  sort_order: number
+  visible: boolean
+}
 
 function FaqItem({
   question,
@@ -98,6 +107,17 @@ export default function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const titleRef = useRef<HTMLDivElement>(null)
 
+  const { data: response, isLoading, isError, isFetching } = useQuery({
+    queryKey: ["faqs-public"],
+    queryFn: async () => {
+      const res = await fetch("/api/faqs?limit=50")
+      if (!res.ok) throw new Error("Failed to fetch")
+      return res.json() as Promise<{ data: Faq[] }>
+    },
+  })
+
+  const faqs = (response?.data ?? []).filter((f) => f.visible)
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       if (!titleRef.current) return
@@ -129,9 +149,25 @@ export default function Faq() {
           </div>
           <div>
             <div className="rounded-3xl border border-border bg-surface/30 p-2">
-              {faqs.map((faq, i) => (
-                <FaqItem key={faq.question} question={faq.question} answer={faq.answer} isOpen={openIndex === i} onClick={() => setOpenIndex(openIndex === i ? null : i)} index={i} />
-              ))}
+              {isLoading ? (
+                <div className="space-y-3 p-4">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <div key={i} className="animate-pulse h-16 rounded-2xl bg-[#E8E3D8]/30" />
+                  ))}
+                </div>
+              ) : isError ? (
+                <div className="py-12 text-center">
+                  <p className="text-sm text-text-secondary">Failed to load. Please try again.</p>
+                </div>
+              ) : faqs.length === 0 ? (
+                <div className="py-12 text-center">
+                  <p className="text-sm text-text-secondary">No FAQs yet.</p>
+                </div>
+              ) : (
+                faqs.map((faq, i) => (
+                  <FaqItem key={faq.id} question={faq.question} answer={faq.answer} isOpen={openIndex === i} onClick={() => setOpenIndex(openIndex === i ? null : i)} index={i} />
+                ))
+              )}
             </div>
             <div className="mt-12">
               <div className="flex items-center gap-3 mb-6">
