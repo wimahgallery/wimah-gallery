@@ -105,9 +105,22 @@ export function Header() {
           <nav className="flex flex-col items-center justify-center h-full gap-2 px-4">
             {siteConfig.navLinks.map((item, i) => (
               <div key={item.href} ref={(el) => { navRefs.current[i] = el }} style={{ opacity: 0 }}>
-                <Link href={item.href} onClick={() => setMobileOpen(false)} className="font-heading text-2xl sm:text-3xl font-normal text-background transition-colors duration-300 hover:text-white hover:scale-105 inline-block">
+                <a
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setMobileOpen(false)
+                    const id = item.href.replace("#", "")
+                    const el = document.getElementById(id)
+                    if (el) {
+                      const y = el.getBoundingClientRect().top + window.scrollY - 64
+                      window.scrollTo({ top: y, behavior: "smooth" })
+                    }
+                  }}
+                  className="font-heading text-2xl sm:text-3xl font-normal text-background transition-colors duration-300 hover:text-white hover:scale-105 inline-block"
+                >
                   {item.label}
-                </Link>
+                </a>
               </div>
             ))}
             <div ref={(el) => { navRefs.current[totalItems - 1] = el }} style={{ opacity: 0 }}>
