@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { Header } from "@/components/header";
 import Hero from "@/components/hero";
@@ -18,29 +20,33 @@ import Pricing from "@/components/pricing";
 import Testimonials from "@/components/testimonials";
 import FAQ from "@/components/faq";
 import FinalCTA from "@/components/final-cta";
-import MasonryGallery from "@/components/masonry-gallery";
 import Footer from "@/components/footer";
 import CustomCursor from "@/components/custom-cursor";
 import ScrollProgress from "@/components/scroll-progress";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Home() {
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const isDesktop = window.matchMedia(
-      "(pointer: fine) and (min-width: 1024px)",
-    ).matches;
-    if (!isDesktop) return;
+    const lenis = new Lenis({
+      smoothWheel: true,
+      syncTouch: true,
+      gestureOrientation: "vertical",
+      respectReducedMotion: true,
+    });
 
-    const lenis = new Lenis();
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
+    lenis.on("scroll", ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
     return () => {
-      cancelAnimationFrame(rafId);
       lenis.destroy();
+      gsap.ticker.remove((time) => {
+        lenis.raf(time * 1000);
+      });
     };
   }, []);
 

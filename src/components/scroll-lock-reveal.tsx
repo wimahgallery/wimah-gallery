@@ -1,8 +1,11 @@
-"use client"
+"use client";
 
-import { animated, to } from "@react-spring/web"
-import { Camera, Image, Wifi, Palette, Crown } from "lucide-react"
-import { useScrollProgress } from "@/hooks/use-scroll-progress"
+import { useRef, useEffect } from "react";
+import { Camera, Image, Wifi, Palette, Crown } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const cards = [
   {
@@ -35,14 +38,78 @@ const cards = [
     description: "Personalized frames and backdrops matching your theme.",
     gradient: "from-accent/18 via-accent/5 to-transparent",
   },
-]
+];
 
 export default function ScrollLockReveal() {
-  const { containerRef, smooth } = useScrollProgress()
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const cardEls = cardRefs.current.filter(Boolean) as HTMLDivElement[];
+
+      const segDur = 1 / cardEls.length;
+      const fadeOutDur = segDur * 0.15;
+      const fadeInDur = segDur * 0.15;
+      const gapDur = segDur * 0.1;
+
+      cardEls.forEach((card, i) => {
+        const segStart = i * segDur;
+        const segEnd = segStart + segDur;
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.3,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        tl.fromTo(
+          card,
+          { opacity: 0, y: 80, scale: 0.9 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: fadeInDur,
+            ease: "power2.out",
+          },
+          segStart + gapDur,
+        );
+        tl.to(
+          card,
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: segDur - fadeInDur - fadeOutDur - gapDur,
+            ease: "none",
+          },
+          segStart + gapDur + fadeInDur,
+        );
+        tl.to(
+          card,
+          {
+            opacity: 0,
+            y: -30,
+            scale: 0.95,
+            duration: fadeOutDur,
+            ease: "power2.in",
+          },
+          segEnd - fadeOutDur,
+        );
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section className="relative">
-      <div ref={containerRef} className="h-[500vh]">
+      <div ref={containerRef} className="h-[600vh]">
         <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
           <div className="absolute inset-0 texture-lines opacity-40" />
@@ -54,49 +121,29 @@ export default function ScrollLockReveal() {
               </p>
               <h2 className="font-heading text-[32px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
                 Everything{" "}
-                <span className="font-elegant italic text-accent">included.</span>
+                <span className="font-elegant italic text-accent">
+                  included.
+                </span>
               </h2>
             </div>
 
             <div className="relative h-[400px] sm:h-[450px]">
               {cards.map((card, i) => {
-                const segStart = i * 0.2
-                const segEnd = segStart + 0.2
-
-                const cardOpacity = to(smooth.value, [
-                  Math.max(0, segStart),
-                  segStart + 0.08,
-                  segEnd - 0.08,
-                  Math.min(1, segEnd),
-                ], [0, 1, 1, 0])
-
-                const cardY = to(smooth.value, [
-                  Math.max(0, segStart),
-                  segStart + 0.08,
-                ], [80, 0])
-
-                const cardScale = to(smooth.value, [
-                  Math.max(0, segStart),
-                  segStart + 0.08,
-                  segEnd - 0.08,
-                  Math.min(1, segEnd),
-                ], [0.9, 1, 1, 0.95])
-
-                const Icon = card.icon
-
+                const Icon = card.icon;
                 return (
-                  <animated.div
+                  <div
                     key={card.title}
-                    style={{
-                      opacity: cardOpacity,
-                      y: cardY,
-                      scale: cardScale,
+                    ref={(el) => {
+                      cardRefs.current[i] = el;
                     }}
                     className="absolute inset-0 flex items-center justify-center"
+                    style={{ opacity: 0 }}
                   >
                     <div className="w-full max-w-[480px]">
-                      <div className="relative rounded-3xl border border-border bg-surface/50 p-10 sm:p-12 overflow-hidden">
-                        <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient}`} />
+                      <div className="relative rounded-3xl border border-border bg-surface p-10 sm:p-12 overflow-hidden">
+                        <div
+                          className={`absolute inset-0 bg-gradient-to-br ${card.gradient}`}
+                        />
 
                         <div className="relative z-10">
                           <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10">
@@ -120,13 +167,13 @@ export default function ScrollLockReveal() {
                         </div>
                       </div>
                     </div>
-                  </animated.div>
-                )
+                  </div>
+                );
               })}
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

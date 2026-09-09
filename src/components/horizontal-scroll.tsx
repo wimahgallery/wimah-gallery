@@ -1,62 +1,57 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { animated, useSpringValue, to } from "@react-spring/web"
 import Image from "next/image"
 import { horizontalImages } from "@/lib/config"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-function getElementDocumentTop(el: HTMLElement): number {
-  let top = 0
-  let current: HTMLElement | null = el
-  while (current) {
-    top += current.offsetTop
-    current = current.offsetParent as HTMLElement | null
-  }
-  return top
-}
+gsap.registerPlugin(ScrollTrigger)
 
 export default function HorizontalScroll() {
-  const sectionRef = useRef<HTMLDivElement>(null!)
-  const progress = useSpringValue(0)
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
+    const ctx = gsap.context(() => {
+      const track = trackRef.current
+      const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[]
+      if (!track || !sectionRef.current) return
 
-    let ticking = false
-    let cachedTop = getElementDocumentTop(el)
-    let cachedHeight = el.offsetHeight
+      const totalScroll = track.scrollWidth - window.innerWidth
 
-    const recalc = () => {
-      cachedTop = getElementDocumentTop(el)
-      cachedHeight = el.offsetHeight
-    }
-
-    function onScroll() {
-      if (ticking) return
-      ticking = true
-      requestAnimationFrame(() => {
-        const vh = window.innerHeight
-        const scrollY = window.scrollY
-        const p = (vh - (cachedTop - scrollY)) / (vh + cachedHeight)
-        progress.set(Math.max(0, Math.min(1, p)))
-        ticking = false
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: () => `+=${totalScroll}`,
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
+        },
       })
-    }
 
-    window.addEventListener("scroll", onScroll, { passive: true })
-    window.addEventListener("resize", recalc, { passive: true })
-    onScroll()
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("resize", recalc)
-    }
-  }, [progress])
+      tl.to(track, {
+        x: -totalScroll,
+        ease: "none",
+      }, 0)
 
-  const x = to(progress, [0, 1], ["0%", "-65%"])
+      cards.forEach((card, i) => {
+        tl.fromTo(card,
+          { scale: 0.92, rotate: 2, opacity: 0.7 },
+          { scale: 1, rotate: 0, opacity: 1, ease: "power2.out" },
+          i * 0.06
+        )
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <section ref={sectionRef} className="relative h-[250vh] texture-grid">
+    <section ref={sectionRef} className="relative texture-grid">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
 
@@ -71,47 +66,37 @@ export default function HorizontalScroll() {
             </h2>
           </div>
 
-          <animated.div style={{ x }} className="flex gap-6 pl-6 lg:pl-8">
-            {horizontalImages.map((image, i) => {
-              const cardScale = to(progress,
-                [i * 0.08, Math.min(1, i * 0.08 + 0.3)],
-                [0.92, 1]
-              )
-              const cardRotate = to(progress,
-                [i * 0.08, Math.min(1, i * 0.08 + 0.15)],
-                [2, 0]
-              )
-
-              return (
-                <animated.div
-                  key={image.id}
-                  style={{ scale: cardScale, rotate: cardRotate }}
-                  className="shrink-0 w-[300px] sm:w-[400px] lg:w-[520px]"
-                >
-                  <div className="group relative overflow-hidden rounded-3xl border border-border">
-                    <div className="relative aspect-video">
-                      <Image
-                        src={image.src}
-                        alt={image.title}
-                        width={600}
-                        height={400}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <span className="mb-1 block text-xs font-medium uppercase tracking-widest text-accent-light/70">
-                          {image.category}
-                        </span>
-                        <span className="text-lg font-heading font-normal text-white">
-                          {image.title}
-                        </span>
-                      </div>
+          <div ref={trackRef} className="flex gap-6 pl-6 lg:pl-8">
+            {horizontalImages.map((image, i) => (
+              <div
+                key={image.id}
+                ref={(el) => { cardRefs.current[i] = el }}
+                className="shrink-0 w-[300px] sm:w-[400px] lg:w-[520px]"
+                style={{ opacity: 0 }}
+              >
+                <div className="group relative overflow-hidden rounded-3xl border border-border">
+                  <div className="relative aspect-video">
+                    <Image
+                      src={image.src}
+                      alt={image.title}
+                      width={600}
+                      height={400}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <span className="mb-1 block text-xs font-medium uppercase tracking-widest text-accent-light/70">
+                        {image.category}
+                      </span>
+                      <span className="text-lg font-heading font-normal text-white">
+                        {image.title}
+                      </span>
                     </div>
                   </div>
-                </animated.div>
-              )
-            })}
-          </animated.div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

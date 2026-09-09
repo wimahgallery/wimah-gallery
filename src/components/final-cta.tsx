@@ -1,71 +1,98 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { animated, useSpringValue, to } from "@react-spring/web"
 import { siteConfig } from "@/lib/config"
 import { ArrowRight } from "lucide-react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+gsap.registerPlugin(ScrollTrigger)
 
 const headlineWords = ["Because", "every", "meaningful", "moment"]
 const italicWords = ["deserves", "to", "be", "remembered"]
 
-function getElementDocumentTop(el: HTMLElement): number {
-  let top = 0
-  let current: HTMLElement | null = el
-  while (current) {
-    top += current.offsetTop
-    current = current.offsetParent as HTMLElement | null
-  }
-  return top
-}
-
 export default function FinalCTA() {
-  const containerRef = useRef<HTMLDivElement>(null!)
-  const progress = useSpringValue(0)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const bgRef = useRef<HTMLDivElement>(null)
+  const headlineRef = useRef<HTMLHeadingElement>(null)
+  const paraRef = useRef<HTMLParagraphElement>(null)
+  const ctaRef = useRef<HTMLAnchorElement>(null)
 
   useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
+    const ctx = gsap.context(() => {
+      if (bgRef.current) {
+        gsap.fromTo(bgRef.current,
+          { scale: 1, opacity: 0.3 },
+          {
+            scale: 1.15, opacity: 1, ease: "none",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 0.5,
+            },
+          }
+        )
+      }
 
-    let ticking = false
-    let cachedTop = getElementDocumentTop(el)
-    let cachedHeight = el.offsetHeight
+      if (headlineRef.current) {
+        const spans = headlineRef.current.querySelectorAll("span[data-word]")
+        gsap.fromTo(spans,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1, y: 0, stagger: 0.06, ease: "power2.out",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top top",
+              end: "50% top",
+              scrub: 0.5,
+            },
+          }
+        )
+      }
 
-    const recalc = () => {
-      cachedTop = getElementDocumentTop(el)
-      cachedHeight = el.offsetHeight
-    }
+      if (paraRef.current) {
+        gsap.fromTo(paraRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1, y: 0, ease: "power2.out",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "40% top",
+              end: "60% top",
+              scrub: 0.5,
+            },
+          }
+        )
+      }
 
-    function onScroll() {
-      if (ticking) return
-      ticking = true
-      requestAnimationFrame(() => {
-        const vh = window.innerHeight
-        const scrollY = window.scrollY
-        const p = (vh - (cachedTop - scrollY)) / (vh + cachedHeight)
-        progress.set(Math.max(0, Math.min(1, p)))
-        ticking = false
-      })
-    }
+      if (ctaRef.current) {
+        gsap.fromTo(ctaRef.current,
+          { opacity: 0, y: 30, scale: 0.9 },
+          {
+            opacity: 1, y: 0, scale: 1, ease: "power2.out",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "50% top",
+              end: "70% top",
+              scrub: 0.5,
+            },
+          }
+        )
+      }
+    }, containerRef)
 
-    window.addEventListener("scroll", onScroll, { passive: true })
-    window.addEventListener("resize", recalc, { passive: true })
-    onScroll()
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("resize", recalc)
-    }
-  }, [progress])
-
-  const bgScale = to(progress, [0, 1], [1, 1.15])
-  const bgOpacity = to(progress, [0, 0.3], [0.3, 1])
+    return () => ctx.revert()
+  }, [])
 
   return (
     <section className="relative">
       <div ref={containerRef} className="h-[200vh]">
         <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
-          <animated.div
-            style={{ scale: bgScale, opacity: bgOpacity }}
+          <div
+            ref={bgRef}
             className="absolute inset-0 bg-gradient-to-b from-surface/40 via-accent/8 to-surface/30"
+            style={{ opacity: 0.3 }}
           />
           <div className="absolute inset-0 texture-lines opacity-30" />
           <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5" />
@@ -75,77 +102,40 @@ export default function FinalCTA() {
               Ready to Create Memories?
             </p>
 
-            <h2 className="mb-8 font-heading text-[36px] sm:text-[48px] lg:text-[56px] font-normal leading-tight text-text-primary">
-              {headlineWords.map((word, i) => {
-                const wordStart = 0.05 + i * 0.06
-                const wordOpacity = to(progress, [
-                  wordStart,
-                  wordStart + 0.08,
-                ], [0, 1])
-                const wordY = to(progress, [
-                  wordStart,
-                  wordStart + 0.08,
-                ], [20, 0])
-
-                return (
-                  <animated.span
-                    key={i}
-                    style={{ opacity: wordOpacity, y: wordY }}
-                    className="inline-block mr-[0.3em]"
-                  >
-                    {word}
-                  </animated.span>
-                )
-              })}
+            <h2 ref={headlineRef} className="mb-8 font-heading text-[36px] sm:text-[48px] lg:text-[56px] font-normal leading-tight text-text-primary">
+              {headlineWords.map((word, i) => (
+                <span key={i} data-word className="inline-block mr-[0.3em]">
+                  {word}
+                </span>
+              ))}
               <br />
-              {italicWords.map((word, i) => {
-                const wordStart = 0.3 + i * 0.06
-                const wordOpacity = to(progress, [
-                  wordStart,
-                  wordStart + 0.08,
-                ], [0, 1])
-                const wordY = to(progress, [
-                  wordStart,
-                  wordStart + 0.08,
-                ], [20, 0])
-
-                return (
-                  <animated.span
-                    key={i}
-                    style={{ opacity: wordOpacity, y: wordY }}
-                    className="inline-block font-elegant italic text-accent mr-[0.3em]"
-                  >
-                    {word}
-                  </animated.span>
-                )
-              })}
+              {italicWords.map((word, i) => (
+                <span key={i} data-word className="inline-block font-elegant italic text-accent mr-[0.3em]">
+                  {word}
+                </span>
+              ))}
             </h2>
 
-            <animated.p
-              style={{
-                opacity: to(progress, [0.5, 0.6], [0, 1]),
-                y: to(progress, [0.5, 0.6], [30, 0]),
-              }}
+            <p
+              ref={paraRef}
               className="mx-auto mb-12 max-w-[480px] text-base text-text-secondary leading-relaxed"
+              style={{ opacity: 0 }}
             >
               Reserve your date today and create unforgettable memories with your
               guests.
-            </animated.p>
+            </p>
 
-            <animated.a
+            <a
+              ref={ctaRef}
               href={siteConfig.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                opacity: to(progress, [0.6, 0.7], [0, 1]),
-                y: to(progress, [0.6, 0.7], [30, 0]),
-                scale: to(progress, [0.6, 0.7], [0.9, 1]),
-              }}
               className="inline-flex items-center gap-2.5 rounded-full bg-accent px-8 py-4 text-base font-semibold text-background transition-[transform,colors] duration-300 hover:bg-accent-light hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_4px_24px_rgba(124,132,114,0.3)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              style={{ opacity: 0 }}
             >
               Book Your Date
               <ArrowRight className="h-5 w-5" />
-            </animated.a>
+            </a>
           </div>
         </div>
       </div>
