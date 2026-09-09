@@ -28,6 +28,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches
+    if (isMobile) return
+
     const lenis = new Lenis({
       smoothWheel: true,
       syncTouch: true,

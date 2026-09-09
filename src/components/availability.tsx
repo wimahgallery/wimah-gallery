@@ -89,6 +89,9 @@ export default function Availability() {
     const section = containerRef.current?.closest("section")
     if (!section) return
 
+    const isMobile = window.matchMedia("(max-width: 768px)").matches
+    if (isMobile) return
+
     let running = false
     startTimeRef.current = performance.now()
 
