@@ -26,14 +26,14 @@ export default function CustomCursor() {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       if (target.closest("a") || target.closest("button")) {
-        gsap.to(cursor, { width: 64, height: 64, duration: 0.3, ease: "power2.out" })
+        gsap.to(cursor, { scale: 1.6, duration: 0.3, ease: "power2.out" })
       }
     }
 
     const handleMouseOut = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       if (target.closest("a") || target.closest("button")) {
-        gsap.to(cursor, { width: 40, height: 40, duration: 0.3, ease: "power2.out" })
+        gsap.to(cursor, { scale: 1, duration: 0.3, ease: "power2.out" })
       }
     }
 
@@ -58,7 +58,7 @@ export default function CustomCursor() {
         borderColor: "rgba(84, 82, 77, 0.3)",
         backgroundColor: "rgba(124, 132, 114, 0.06)",
       }}
-      className="pointer-events-none fixed top-0 left-0 z-[9999] -translate-x-1/2 -translate-y-1/2 rounded-full border mix-blend-difference"
+      className="pointer-events-none fixed top-0 left-0 z-[9999] -translate-x-1/2 -translate-y-1/2 rounded-full border mix-blend-difference will-change-transform"
     />
   )
 }

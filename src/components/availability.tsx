@@ -41,8 +41,8 @@ export default function Availability() {
   const startTimeRef = useRef<number>(0)
   const isVisibleRef = useRef(false)
   const [entered, setEntered] = useState(false)
+  const rectRef = useRef({ x: 0, y: 0, w: 0, h: 0 })
 
-  // Title entrance
   useEffect(() => {
     const ctx = gsap.context(() => {
       if (!titleRef.current) return
@@ -54,7 +54,6 @@ export default function Availability() {
     return () => ctx.revert()
   }, [])
 
-  // Card entrance
   useEffect(() => {
     const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[]
     if (!cards.length) return
@@ -84,7 +83,6 @@ export default function Availability() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Floating animation loop
   useEffect(() => {
     const section = containerRef.current?.closest("section")
     if (!section) return
@@ -112,15 +110,7 @@ export default function Availability() {
         const targetRot = floatingCards[i].rotate + Math.sin(t * cfg.speed * 0.5) * cfg.rotateAmplitude
         const targetScale = (1 + Math.sin(t * cfg.speed * 0.3) * cfg.scaleAmplitude + (i === 2 ? 0.08 : 0))
 
-        gsap.to(card, {
-          x: targetX,
-          y: targetY,
-          rotation: targetRot,
-          scale: targetScale,
-          duration: 0.5,
-          ease: "none",
-          overwrite: "auto",
-        })
+        card.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) rotate(${targetRot}deg) scale(${targetScale})`
       })
 
       animFrameRef.current = requestAnimationFrame(animate)
@@ -151,26 +141,22 @@ export default function Availability() {
     }
   }, [entered])
 
-  // Cache bounding rect for mousemove
-  const cachedRect = useRef({ x: 0, y: 0, w: 0, h: 0 })
-
   useEffect(() => {
     const updateRect = () => {
       if (!containerRef.current) return
       const r = containerRef.current.getBoundingClientRect()
-      cachedRect.current = { x: r.left, y: r.top, w: r.width, h: r.height }
+      rectRef.current = { x: r.left, y: r.top, w: r.width, h: r.height }
     }
     updateRect()
-    window.addEventListener("scroll", updateRect, { passive: true })
-    window.addEventListener("resize", updateRect, { passive: true })
-    return () => {
-      window.removeEventListener("scroll", updateRect)
-      window.removeEventListener("resize", updateRect)
-    }
+
+    const observer = new ResizeObserver(updateRect)
+    if (containerRef.current) observer.observe(containerRef.current)
+
+    return () => observer.disconnect()
   }, [])
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    const rect = cachedRect.current
+    const rect = rectRef.current
     if (rect.w === 0) return
     mousePosRef.current = {
       x: (e.clientX - (rect.x + rect.w / 2)) * 0.1,

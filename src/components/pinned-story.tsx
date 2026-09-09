@@ -38,7 +38,7 @@ export default function PinnedStory() {
             trigger: containerRef.current,
             start: "top top",
             end: "bottom bottom",
-            scrub: 0.3,
+            scrub: 0.2,
             invalidateOnRefresh: true,
           },
         })
@@ -57,7 +57,7 @@ export default function PinnedStory() {
             trigger: containerRef.current,
             start: "top top",
             end: "bottom bottom",
-            scrub: 0.3,
+            scrub: 0.2,
             invalidateOnRefresh: true,
           },
         })

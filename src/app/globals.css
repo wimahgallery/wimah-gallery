@@ -426,6 +426,18 @@ img {
   }
 }
 
+/* ── GPU compositing hints ── */
+.will-change-transform {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@layer base {
+  [style*="will-change"] {
+    transform: translateZ(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .texture-noise::before,
   .texture-dots::before,

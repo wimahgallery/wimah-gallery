@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { Menu, X } from "lucide-react"
 import { WhatsApp } from "@/components/whatsapp-icon"
@@ -10,7 +10,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 export function Header() {
-  const [scrolled, setScrolled] = useState(false)
+  const headerRef = useRef<HTMLElement>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const navRefs = useRef<(HTMLDivElement | HTMLAnchorElement | null)[]>([])
 
@@ -20,7 +20,14 @@ export function Header() {
       if (ticking) return
       ticking = true
       requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 40)
+        if (headerRef.current) {
+          const isScrolled = window.scrollY > 40
+          headerRef.current.classList.toggle("bg-glass/80", isScrolled)
+          headerRef.current.classList.toggle("backdrop-blur-xl", isScrolled)
+          headerRef.current.classList.toggle("border-b", isScrolled)
+          headerRef.current.classList.toggle("border-glass-border", isScrolled)
+          headerRef.current.classList.toggle("shadow-[0_1px_24px_rgba(84,82,77,0.08)]", isScrolled)
+        }
         ticking = false
       })
     }
@@ -46,10 +53,12 @@ export function Header() {
 
   return (
     <>
-      <header className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] will-change-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
-        scrolled ? "bg-glass/80 backdrop-blur-xl border-b border-glass-border shadow-[0_1px_24px_rgba(84,82,77,0.08)]" : "bg-transparent shadow-none"
-      )}>
+      <header
+        ref={headerRef}
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] will-change-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+        )}
+      >
         <div className="mx-auto max-w-350 px-6 lg:px-8">
           <div className="relative flex h-16 items-center md:justify-between">
             <Link href="#home" className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 flex items-center group">

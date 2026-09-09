@@ -16,14 +16,14 @@ export default function HowItWorks() {
     const ctx = gsap.context(() => {
       if (lineRef.current) {
         gsap.fromTo(lineRef.current,
-          { height: "0%" },
+          { scaleY: 0 },
           {
-            height: "100%", ease: "none",
+            scaleY: 1, ease: "none",
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top 80%",
               end: "bottom 80%",
-              scrub: 0.5,
+              scrub: 0.3,
             },
           }
         )
@@ -70,8 +70,8 @@ export default function HowItWorks() {
           <div className="absolute left-[27px] top-0 bottom-0 w-px bg-border">
             <div
               ref={lineRef}
-              className="absolute top-0 left-0 right-0 bg-gradient-to-b from-accent/60 to-accent"
-              style={{ height: "0%" }}
+              className="absolute top-0 left-0 right-0 bg-gradient-to-b from-accent/60 to-accent origin-top"
+              style={{ height: "100%", transform: "scaleY(0)" }}
             />
           </div>
 
