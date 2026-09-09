@@ -79,7 +79,7 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
   return (
     <div
       ref={ref}
-      className="group relative rounded-3xl border border-border bg-surface/40 p-8 transition-[transform,colors] duration-500 hover:border-accent/20 hover:bg-surface/60 hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98]"
+      className="group relative rounded-3xl border border-border bg-surface/40 p-6 lg:p-8 transition-[transform,colors] duration-500 hover:border-accent/20 hover:bg-surface/60 hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98]"
     >
       <h3 className="mb-2 font-heading text-xl font-normal text-text-primary">{pkg.hours} Hours</h3>
       {pkg.print_count_limit != null && (
@@ -89,7 +89,7 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
 
       <div className="mb-8">
         {hasDiscount ? (
-          <div className="flex items-baseline gap-2">
+          <div className="flex flex-wrap items-baseline gap-2">
             <span className="text-sm text-text-secondary line-through">{formatPrice(pkg.price)}</span>
             <span className="font-heading text-3xl font-normal tracking-tight text-accent">{formatPrice(pkg.discounted_price)}</span>
             <span className="rounded-full bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">-{pkg.discount}%</span>

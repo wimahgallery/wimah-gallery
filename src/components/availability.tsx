@@ -244,7 +244,7 @@ export default function Availability() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-[800px] mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-[800px] mx-auto">
           {eventCards.map((event, i) => {
             const Icon = event.icon
             return (
