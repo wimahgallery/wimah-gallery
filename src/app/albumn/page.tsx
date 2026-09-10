@@ -1,45 +1,22 @@
 "use client"
 
 import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 import { ArrowLeft, Calendar, MapPin, ExternalLink, Search } from "lucide-react"
 import Link from "next/link"
 import Pagination from "@/components/pagination"
 import { Header } from "@/components/header"
 import Footer from "@/components/footer"
 import FloatingWhatsApp from "@/components/floating-whatsapp"
-
-interface Event {
-  id: string
-  couple_name: string
-  event_name: string
-  event_date: string
-  location: string
-  images_source: string | null
-  image_url: string | null
-  visible: boolean
-}
-
-function formatDate(dateStr: string) {
-  const d = new Date(dateStr)
-  return d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })
-}
+import { formatDate } from "@/lib/utils"
+import { useAlbumnEvents } from "@/hooks/queries/use-events"
+import type { Event, PaginatedResponse } from "@/types"
 
 export default function AlbumnPage() {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState("")
   const [inputValue, setInputValue] = useState("")
 
-  const { data: response, isLoading, isError } = useQuery({
-    queryKey: ["events-albumn", page, search],
-    queryFn: async () => {
-      const params = new URLSearchParams({ page: String(page), limit: "12" })
-      if (search) params.set("search", search)
-      const res = await fetch(`/api/events?${params}`)
-      if (!res.ok) throw new Error("Failed to fetch")
-      return res.json() as Promise<{ data: Event[]; total: number; totalPages: number }>
-    },
-  })
+  const { data: response, isLoading, isError } = useAlbumnEvents(page, search)
 
   const events = (response?.data ?? []).filter((e) => e.visible)
   const total = response?.total ?? 0

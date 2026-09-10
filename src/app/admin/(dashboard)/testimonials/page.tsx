@@ -3,23 +3,20 @@
 import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { Trash2, Upload, Plus, X, Eye, EyeOff, Pencil } from "lucide-react"
 import { testimonialSchema, type TestimonialInput } from "@/lib/schemas"
 import Pagination from "@/components/pagination"
-
-interface Testimonial {
-  id: string
-  message: string
-  username: string
-  role: string
-  image_url: string | null
-  visible: boolean
-  created_at: string
-}
+import { queryKeys } from "@/hooks/keys"
+import {
+  useAdminTestimonialsCreate,
+  useAdminTestimonialsUpdate,
+  useAdminTestimonialsToggleVisible,
+  useAdminTestimonialsDelete,
+} from "@/hooks/mutations/use-admin-testimonials"
+import type { Testimonial, PaginatedResponse } from "@/types"
 
 export default function TestimonialsPage() {
-  const queryClient = useQueryClient()
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [imageFile, setImageFile] = useState<File | null>(null)
@@ -29,19 +26,12 @@ export default function TestimonialsPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [page, setPage] = useState(1)
 
-  const { data, isLoading, isError, isFetching } = useQuery<{
-    data: Testimonial[]
-    total: number
-    page: number
-    limit: number
-    totalPages: number
-  }>({
-    queryKey: ["testimonials", page],
+  const { data, isLoading, isError, isFetching } = useQuery<PaginatedResponse<Testimonial>>({
+    queryKey: queryKeys.testimonials.list(page),
     queryFn: async () => {
       const res = await fetch(`/api/testimonials?page=${page}&limit=10`)
       if (!res.ok) throw new Error("Failed to fetch")
-      const json = await res.json()
-      return json
+      return res.json()
     },
   })
 
@@ -49,57 +39,10 @@ export default function TestimonialsPage() {
   const totalPages = data?.totalPages ?? 1
   const total = data?.total ?? 0
 
-  const createMutation = useMutation({
-    mutationFn: async (formData: FormData) => {
-      const res = await fetch("/api/testimonials", { method: "POST", body: formData })
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || "Failed to create")
-      }
-    },
-    onSuccess: () => {
-      setPage(1)
-      queryClient.invalidateQueries({ queryKey: ["testimonials"] })
-    },
-  })
-
-  const updateMutation = useMutation({
-    mutationFn: async ({ id, formData }: { id: string; formData: FormData }) => {
-      const res = await fetch(`/api/testimonials/${id}`, { method: "PATCH", body: formData })
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || "Failed to update")
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["testimonials"] })
-    },
-  })
-
-  const toggleVisibilityMutation = useMutation({
-    mutationFn: async ({ id, visible }: { id: string; visible: boolean }) => {
-      const res = await fetch(`/api/testimonials/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ visible }),
-      })
-      if (!res.ok) throw new Error("Failed to update visibility")
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["testimonials"] })
-    },
-  })
-
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(`/api/testimonials/${id}`, { method: "DELETE" })
-      if (!res.ok) throw new Error("Failed to delete")
-    },
-    onSuccess: () => {
-      setPage(1)
-      queryClient.invalidateQueries({ queryKey: ["testimonials"] })
-    },
-  })
+  const createMutation = useAdminTestimonialsCreate({ onSuccess: () => setPage(1) })
+  const updateMutation = useAdminTestimonialsUpdate()
+  const toggleVisibilityMutation = useAdminTestimonialsToggleVisible()
+  const deleteMutation = useAdminTestimonialsDelete({ onSuccess: () => setPage(1) })
 
   const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<TestimonialInput>({
     resolver: zodResolver(testimonialSchema),

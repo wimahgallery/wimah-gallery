@@ -2,17 +2,13 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
 import { siteConfig } from "@/lib/config"
 import { MessageSquareQuote, CalendarDays, DollarSign, HelpCircle } from "lucide-react"
+import { useDashboardCounts } from "@/hooks/queries/use-dashboard"
 
 interface User {
   email: string
   role: string
-}
-
-interface CountData {
-  total: number
 }
 
 export default function AdminDashboard() {
@@ -29,45 +25,7 @@ export default function AdminDashboard() {
       .catch(() => router.push("/admin/login"))
   }, [router])
 
-  const { data: testimonialsData } = useQuery<CountData>({
-    queryKey: ["dash-testimonials"],
-    queryFn: async () => {
-      const res = await fetch("/api/testimonials?limit=1")
-      if (!res.ok) throw new Error("Failed")
-      return res.json()
-    },
-    enabled: !!user,
-  })
-
-  const { data: eventsData } = useQuery<CountData>({
-    queryKey: ["dash-events"],
-    queryFn: async () => {
-      const res = await fetch("/api/events?limit=1")
-      if (!res.ok) throw new Error("Failed")
-      return res.json()
-    },
-    enabled: !!user,
-  })
-
-  const { data: pricingData } = useQuery<CountData>({
-    queryKey: ["dash-pricing"],
-    queryFn: async () => {
-      const res = await fetch("/api/pricing/packages?limit=1")
-      if (!res.ok) throw new Error("Failed")
-      return res.json()
-    },
-    enabled: !!user,
-  })
-
-  const { data: faqsData } = useQuery<CountData>({
-    queryKey: ["dash-faqs"],
-    queryFn: async () => {
-      const res = await fetch("/api/faqs?limit=1")
-      if (!res.ok) throw new Error("Failed")
-      return res.json()
-    },
-    enabled: !!user,
-  })
+  const { testimonials, events, pricing, faqs } = useDashboardCounts(user)
 
   if (!user) {
     return (
@@ -89,25 +47,25 @@ export default function AdminDashboard() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Testimonials"
-          value={testimonialsData?.total ?? "—"}
+          value={testimonials.data?.total ?? "—"}
           description="Client reviews"
           icon={MessageSquareQuote}
         />
         <StatCard
           label="Events"
-          value={eventsData?.total ?? "—"}
+          value={events.data?.total ?? "—"}
           description="Photo albums"
           icon={CalendarDays}
         />
         <StatCard
           label="Packages"
-          value={pricingData?.total ?? "—"}
+          value={pricing.data?.total ?? "—"}
           description="Pricing plans"
           icon={DollarSign}
         />
         <StatCard
           label="FAQs"
-          value={faqsData?.total ?? "—"}
+          value={faqs.data?.total ?? "—"}
           description="Questions answered"
           icon={HelpCircle}
         />

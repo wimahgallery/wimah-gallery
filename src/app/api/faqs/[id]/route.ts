@@ -1,21 +1,17 @@
 import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
+import { requireAuth } from "@/lib/api-helpers"
 
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
-  const supabase = await createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const auth = await requireAuth()
+  if (auth.error) return auth.error
 
   const body = await request.json()
 
-  const { data, error } = await supabase
+  const { data, error } = await auth.supabase
     .from("faqs")
     .update(body)
     .eq("id", id)
@@ -34,14 +30,10 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
-  const supabase = await createClient()
+  const auth = await requireAuth()
+  if (auth.error) return auth.error
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
-  const { error } = await supabase
+  const { error } = await auth.supabase
     .from("faqs")
     .delete()
     .eq("id", id)

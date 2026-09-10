@@ -1,19 +1,15 @@
 import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
 import { uploadImage, deleteImage } from "@/lib/imagekit"
 import { v4 as uuid } from "uuid"
+import { requireAuth } from "@/lib/api-helpers"
 
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
-  const supabase = await createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const auth = await requireAuth()
+  if (auth.error) return auth.error
 
   const contentType = request.headers.get("content-type") || ""
   let updateData: Record<string, unknown> = {}
@@ -33,7 +29,7 @@ export async function PATCH(
     if (visible !== null) updateData.visible = visible === "true"
 
     if (imageFile && imageFile.size > 0) {
-      const { data: existing } = await supabase
+      const { data: existing } = await auth.supabase
         .from("testimonials")
         .select("image_file_id")
         .eq("id", id)
@@ -52,7 +48,7 @@ export async function PATCH(
       updateData.image_url = uploaded.url ?? null
       updateData.image_file_id = uploaded.fileId ?? null
     } else if (removeImage) {
-      const { data: existing } = await supabase
+      const { data: existing } = await auth.supabase
         .from("testimonials")
         .select("image_file_id")
         .eq("id", id)
@@ -70,7 +66,7 @@ export async function PATCH(
     updateData = body
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await auth.supabase
     .from("testimonials")
     .update(updateData)
     .eq("id", id)
@@ -82,4 +78,34 @@ export async function PATCH(
   }
 
   return NextResponse.json(data)
+}
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params
+  const auth = await requireAuth()
+  if (auth.error) return auth.error
+
+  const { data: existing } = await auth.supabase
+    .from("testimonials")
+    .select("image_file_id")
+    .eq("id", id)
+    .single()
+
+  if (existing?.image_file_id) {
+    try { await deleteImage(existing.image_file_id) } catch {}
+  }
+
+  const { error } = await auth.supabase
+    .from("testimonials")
+    .delete()
+    .eq("id", id)
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  return NextResponse.json({ success: true })
 }

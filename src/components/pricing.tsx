@@ -3,25 +3,13 @@
 import { useRef, useEffect, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useQuery } from "@tanstack/react-query"
 import { siteConfig } from "@/lib/config"
 import { Star, Crown, Zap, ChevronDown, Check } from "lucide-react"
 import { WhatsApp } from "@/components/whatsapp-icon"
+import { usePublicPricing } from "@/hooks/queries/use-pricing"
+import type { PricingPackage } from "@/types"
 
 gsap.registerPlugin(ScrollTrigger)
-
-interface PricingPackage {
-  id: string
-  type: string
-  hours: number
-  price: number
-  discount: number
-  discounted_price: number
-  print_count_limit: number | null
-  sort_order: number
-  visible: boolean
-  favorite: boolean
-}
 
 const TABS = [
   { key: "file_only", label: "File Only", icon: Zap, desc: "Digital gallery & softcopy" },
@@ -136,14 +124,7 @@ export default function Pricing() {
   const [activeTab, setActiveTab] = useState<TabKey>("file_only")
   const [openDropdown, setOpenDropdown] = useState(false)
 
-  const { data: response, isLoading, isError } = useQuery({
-    queryKey: ["pricing-packages-public"],
-    queryFn: async () => {
-      const res = await fetch("/api/pricing/packages?limit=50")
-      if (!res.ok) throw new Error("Failed to fetch")
-      return res.json() as Promise<{ data: PricingPackage[] }>
-    },
-  })
+  const { data: response, isLoading, isError } = usePublicPricing()
 
   const allPackages = response?.data ?? []
   const visiblePackages = allPackages.filter((p) => p.visible)

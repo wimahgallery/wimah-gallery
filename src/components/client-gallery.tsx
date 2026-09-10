@@ -3,35 +3,19 @@
 import { useRef, useEffect } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useQuery } from "@tanstack/react-query"
 import { ExternalLink, Calendar, MapPin, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { formatDate } from "@/lib/utils"
+import { usePublicEvents } from "@/hooks/queries/use-events"
+import type { Event } from "@/types"
 
 gsap.registerPlugin(ScrollTrigger)
-
-interface Event {
-  id: string
-  couple_name: string
-  event_name: string
-  event_date: string
-  location: string
-  images_source: string | null
-  image_url: string | null
-  visible: boolean
-}
 
 export default function ClientGallery() {
   const titleRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
 
-  const { data: response, isLoading, isError } = useQuery({
-    queryKey: ["events-public"],
-    queryFn: async () => {
-      const res = await fetch("/api/events?limit=50")
-      if (!res.ok) throw new Error("Failed to fetch")
-      return res.json() as Promise<{ data: Event[] }>
-    },
-  })
+  const { data: response, isLoading, isError } = usePublicEvents()
 
   const allEvents = (response?.data ?? []).filter((e) => e.visible)
   const events = allEvents.slice(0, 4)
@@ -55,11 +39,6 @@ export default function ClientGallery() {
 
     return () => ctx.revert()
   }, [events.length])
-
-  function formatDate(dateStr: string) {
-    const d = new Date(dateStr)
-    return d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })
-  }
 
   return (
     <section id="gallery" className="relative py-14 sm:py-20 lg:py-32 texture-noise">

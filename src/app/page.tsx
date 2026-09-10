@@ -8,14 +8,11 @@ import { setLenisInstance } from "@/lib/smooth-scroll";
 
 import { Header } from "@/components/header";
 import Hero from "@/components/hero";
-import PinnedStory from "@/components/pinned-story";
 import About from "@/components/about";
 import TypographyStorytelling from "@/components/typography-storytelling";
 import HowItWorks from "@/components/how-it-works";
 import Availability from "@/components/availability";
 import Portfolio from "@/components/portfolio";
-
-import ScrollLockReveal from "@/components/scroll-lock-reveal";
 import ClientGallery from "@/components/client-gallery";
 import Pricing from "@/components/pricing";
 import Testimonials from "@/components/testimonials";
@@ -84,10 +81,6 @@ export default function Home() {
         <div className="h-2" />
         <Marquee items={["Professional", "Premium", "Unforgettable", "Moments", "Beautiful"]} reverse slow />
 
-        {/* <div className="relative">
-          <PinnedStory />
-        </div> */}
-
         <div className="relative">
           <About />
         </div>
@@ -107,10 +100,6 @@ export default function Home() {
         <div className="relative">
           <Portfolio />
         </div>
-
-        {/* <div className="relative">
-          <ScrollLockReveal />
-        </div> */}
 
         <div className="relative">
           <ClientGallery />

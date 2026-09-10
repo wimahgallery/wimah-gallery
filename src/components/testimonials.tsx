@@ -3,21 +3,13 @@
 import { useRef, useEffect, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useQuery } from "@tanstack/react-query"
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
 import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react"
+import { usePublicTestimonials } from "@/hooks/queries/use-testimonials"
+import type { Testimonial } from "@/types"
 
 gsap.registerPlugin(ScrollTrigger)
-
-interface Testimonial {
-  id: string
-  message: string
-  username: string
-  role: string
-  image_url: string | null
-  visible: boolean
-}
 
 function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; isActive: boolean }) {
   return (
@@ -65,14 +57,7 @@ export default function Testimonials() {
     [Autoplay({ delay: 4000, stopOnInteraction: false })]
   )
 
-  const { data: response, isLoading, isError } = useQuery({
-    queryKey: ["testimonials-public"],
-    queryFn: async () => {
-      const res = await fetch("/api/testimonials?limit=50")
-      if (!res.ok) throw new Error("Failed to fetch")
-      return res.json() as Promise<{ data: Testimonial[] }>
-    },
-  })
+  const { data: response, isLoading, isError } = usePublicTestimonials()
 
   const testimonials = (response?.data ?? []).filter((t) => t.visible)
 

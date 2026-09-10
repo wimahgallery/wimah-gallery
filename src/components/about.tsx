@@ -14,7 +14,6 @@ import {
   Users,
 } from "lucide-react";
 import { commitments } from "@/lib/config";
-import Marquee from "@/components/marquee";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,12 +26,6 @@ const commitmentIcons = [
   Check,
   RefreshCw,
   ShieldCheck,
-];
-
-const marqueeItems = [
-  "Hadir untuk Setiap Kebutuhan",
-  "Memberikan yang Terbaik",
-  "Di Setiap Momen",
 ];
 
 export default function About() {

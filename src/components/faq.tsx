@@ -3,21 +3,14 @@
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useQuery } from "@tanstack/react-query";
 import { guarantees } from "@/lib/config";
 import { Plus, Minus, Shield } from "lucide-react";
 import { WhatsApp } from "@/components/whatsapp-icon";
 import { siteConfig } from "@/lib/config";
+import { usePublicFaqs } from "@/hooks/queries/use-faqs";
+import type { Faq } from "@/types";
 
 gsap.registerPlugin(ScrollTrigger);
-
-interface Faq {
-  id: string;
-  question: string;
-  answer: string;
-  sort_order: number;
-  visible: boolean;
-}
 
 function FaqItem({
   question,
@@ -159,14 +152,7 @@ export default function Faq() {
     isLoading,
     isError,
     isFetching,
-  } = useQuery({
-    queryKey: ["faqs-public"],
-    queryFn: async () => {
-      const res = await fetch("/api/faqs?limit=50");
-      if (!res.ok) throw new Error("Failed to fetch");
-      return res.json() as Promise<{ data: Faq[] }>;
-    },
-  });
+  } = usePublicFaqs();
 
   const faqs = (response?.data ?? []).filter((f) => f.visible);
 

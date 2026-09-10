@@ -3,27 +3,21 @@
 import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { Plus, Trash2, Pencil, ExternalLink, ChevronDown, ChevronUp } from "lucide-react"
 import { eventSchema, type EventInput } from "@/lib/schemas"
 import Pagination from "@/components/pagination"
-
-interface Event {
-  id: string
-  couple_name: string
-  event_name: string
-  event_date: string
-  location: string
-  images_source: string | null
-  image_url: string | null
-  image_file_id: string | null
-  sort_order: number
-  visible: boolean
-  created_at: string
-}
+import { queryKeys } from "@/hooks/keys"
+import {
+  useAdminEventsCreate,
+  useAdminEventsUpdate,
+  useAdminEventsDelete,
+  useAdminEventsToggleVisible,
+  useAdminEventsReorder,
+} from "@/hooks/mutations/use-admin-events"
+import type { Event, PaginatedResponse } from "@/types"
 
 export default function EventsPage() {
-  const queryClient = useQueryClient()
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formError, setFormError] = useState("")
@@ -33,14 +27,8 @@ export default function EventsPage() {
   const [page, setPage] = useState(1)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const { data, isLoading, isError, isFetching } = useQuery<{
-    data: Event[]
-    total: number
-    page: number
-    limit: number
-    totalPages: number
-  }>({
-    queryKey: ["events", page],
+  const { data, isLoading, isError, isFetching } = useQuery<PaginatedResponse<Event>>({
+    queryKey: queryKeys.events.list(page),
     queryFn: async () => {
       const res = await fetch(`/api/events?page=${page}&limit=10`)
       if (!res.ok) throw new Error("Failed to fetch events")
@@ -52,76 +40,22 @@ export default function EventsPage() {
   const totalPages = data?.totalPages ?? 1
   const total = data?.total ?? 0
 
-  const createMutation = useMutation({
-    mutationFn: async (formData: FormData) => {
-      const res = await fetch("/api/events", { method: "POST", body: formData })
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || "Failed to save")
-      }
-      return res.json()
-    },
-    onSuccess: () => {
-      setPage(1)
-      queryClient.invalidateQueries({ queryKey: ["events"] })
-      resetForm()
-    },
-    onError: (err: Error) => setFormError(err.message),
+  const createMutation = useAdminEventsCreate({
+    onSuccess: () => { setPage(1); resetForm() },
+    onError: (err) => setFormError(err.message),
   })
 
-  const updateMutation = useMutation({
-    mutationFn: async ({ id, formData }: { id: string; formData: FormData }) => {
-      const res = await fetch(`/api/events/${id}`, { method: "PATCH", body: formData })
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || "Failed to save")
-      }
-      return res.json()
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["events"] })
-      resetForm()
-    },
-    onError: (err: Error) => setFormError(err.message),
+  const updateMutation = useAdminEventsUpdate({
+    onSuccess: resetForm,
+    onError: (err) => setFormError(err.message),
   })
 
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(`/api/events/${id}`, { method: "DELETE" })
-      if (!res.ok) throw new Error("Failed to delete")
-    },
-    onSuccess: () => {
-      setPage(1)
-      queryClient.invalidateQueries({ queryKey: ["events"] })
-    },
+  const deleteMutation = useAdminEventsDelete({
+    onSuccess: () => setPage(1),
   })
 
-  const toggleVisibleMutation = useMutation({
-    mutationFn: async ({ id, visible }: { id: string; visible: boolean }) => {
-      const res = await fetch(`/api/events/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ visible }),
-      })
-      if (!res.ok) throw new Error("Failed to toggle visibility")
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["events"] }),
-  })
-
-  const reorderMutation = useMutation({
-    mutationFn: async (updates: { id: string; sort_order: number }[]) => {
-      await Promise.all(
-        updates.map((u) =>
-          fetch(`/api/events/${u.id}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sort_order: u.sort_order }),
-          })
-        )
-      )
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["events"] }),
-  })
+  const toggleVisibleMutation = useAdminEventsToggleVisible()
+  const reorderMutation = useAdminEventsReorder()
 
   const { register, handleSubmit, reset, setValue } = useForm<EventInput>({
     resolver: zodResolver(eventSchema),

@@ -1,36 +1,15 @@
 "use client"
 
-import { useRef, useEffect } from "react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { siteConfig } from "@/lib/config"
 import { Mail } from "lucide-react"
 import { WhatsApp } from "@/components/whatsapp-icon"
 import Image from "next/image"
 import Link from "next/link"
 
-gsap.registerPlugin(ScrollTrigger)
-
 export default function Footer() {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (!ref.current) return
-      gsap.fromTo(ref.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1, y: 0, duration: 0.8, ease: "power2.out",
-          scrollTrigger: { trigger: ref.current, start: "top 90%", once: true },
-        }
-      )
-    }, ref)
-    return () => ctx.revert()
-  }, [])
-
   return (
     <footer className="border-t border-surface bg-linear-to-b from-surface/50 to-background py-10 sm:py-16">
-      <div ref={ref} className="mx-auto max-w-300 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-300 px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 sm:gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-3 sm:mb-4">

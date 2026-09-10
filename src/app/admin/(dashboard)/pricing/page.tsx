@@ -4,22 +4,16 @@ import { useState } from "react"
 import { Plus, Trash2, Pencil, X, ChevronDown, ChevronUp, Save, Star } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { pricingPackageSchema, type PricingPackageInput } from "@/lib/schemas"
 import Pagination from "@/components/pagination"
-
-interface PricingPackage {
-  id: string
-  type: string
-  hours: number
-  price: number
-  discount: number
-  discounted_price: number
-  print_count_limit: number | null
-  sort_order: number
-  visible: boolean
-  favorite: boolean
-}
+import { queryKeys } from "@/hooks/keys"
+import {
+  useAdminPricingAdd,
+  useAdminPricingUpdate,
+  useAdminPricingDelete,
+} from "@/hooks/mutations/use-admin-pricing"
+import type { PricingPackage, PaginatedResponse } from "@/types"
 
 const TABS = [
   { key: "file_only", label: "File Only" },
@@ -35,16 +29,9 @@ export default function PricingPage() {
   const [showHidden, setShowHidden] = useState(true)
   const [page, setPage] = useState(1)
   const [error, setError] = useState("")
-  const queryClient = useQueryClient()
 
-  const { data, isLoading, isError, isFetching } = useQuery<{
-    data: PricingPackage[]
-    total: number
-    page: number
-    limit: number
-    totalPages: number
-  }>({
-    queryKey: ["pricing-packages", page],
+  const { data, isLoading, isError, isFetching } = useQuery<PaginatedResponse<PricingPackage>>({
+    queryKey: queryKeys.pricing.list(page),
     queryFn: async () => {
       const res = await fetch(`/api/pricing/packages?page=${page}&limit=50`)
       if (!res.ok) throw new Error("Failed to fetch")
@@ -63,60 +50,18 @@ export default function PricingPage() {
     defaultValues: { hours: 2, price: 0, discount: 0, print_count_limit: 0 },
   })
 
-  const addMutation = useMutation({
-    mutationFn: async (data: PricingPackageInput) => {
-      const body: Record<string, unknown> = {
-        type: activeTab,
-        hours: data.hours,
-        price: data.price,
-        discount: data.discount,
-        sort_order: filteredPackages.length,
-      }
-      if (activeTab === "limited_print") {
-        body.print_count_limit = data.print_count_limit
-      }
-      const res = await fetch("/api/pricing/packages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      })
-      if (!res.ok) {
-        const json = await res.json()
-        throw new Error(json.error || "Failed to add")
-      }
-    },
+  const addMutation = useAdminPricingAdd(activeTab, filteredPackages.length, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["pricing-packages"] })
       addForm.reset({ hours: 2, price: 0, discount: 0, print_count_limit: 0 })
       setShowAdd(false)
       setError("")
       setPage(1)
     },
-    onError: (err: Error) => setError(err.message),
+    onError: (err) => setError(err.message),
   })
 
-  const updateMutation = useMutation({
-    mutationFn: async ({ id, updates }: { id: string; updates: Record<string, unknown> }) => {
-      const res = await fetch(`/api/pricing/packages/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updates),
-      })
-      if (!res.ok) throw new Error("Failed to update")
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["pricing-packages"] }),
-  })
-
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(`/api/pricing/packages/${id}`, { method: "DELETE" })
-      if (!res.ok) throw new Error("Failed to delete")
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["pricing-packages"] })
-      setPage(1)
-    },
-  })
+  const updateMutation = useAdminPricingUpdate()
+  const deleteMutation = useAdminPricingDelete({ onSuccess: () => setPage(1) })
 
   function handleDeletePackage(id: string) {
     if (!confirm("Delete this package?")) return
@@ -305,7 +250,6 @@ function PackageRow({
   onDelete: () => void
 }) {
   const [editing, setEditing] = useState(false)
-  const queryClient = useQueryClient()
 
   const editForm = useForm<PricingPackageInput>({
     resolver: zodResolver(pricingPackageSchema),
@@ -317,25 +261,8 @@ function PackageRow({
     },
   })
 
-  const updateMutation = useMutation({
-    mutationFn: async (data: PricingPackageInput) => {
-      const updates: Record<string, unknown> = {
-        hours: data.hours,
-        price: data.price,
-        discount: data.discount,
-      }
-      if (showPrintLimit) updates.print_count_limit = data.print_count_limit
-      const res = await fetch(`/api/pricing/packages/${pkg.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updates),
-      })
-      if (!res.ok) throw new Error("Failed to update")
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["pricing-packages"] })
-      setEditing(false)
-    },
+  const updateMutation = useAdminPricingUpdate({
+    onSuccess: () => setEditing(false),
   })
 
   function handleEdit() {
@@ -351,7 +278,15 @@ function PackageRow({
   if (editing) {
     return (
       <div className="border-b border-[rgba(84,82,77,0.06)] bg-[#F5F3EE]/50 px-5 py-4">
-        <form onSubmit={editForm.handleSubmit((data) => updateMutation.mutate(data))}>
+        <form onSubmit={editForm.handleSubmit((data) => {
+          const updates: Record<string, unknown> = {
+            hours: data.hours,
+            price: data.price,
+            discount: data.discount,
+          }
+          if (showPrintLimit) updates.print_count_limit = data.print_count_limit
+          updateMutation.mutate({ id: pkg.id, updates })
+        })}>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <label className="mb-1 block text-xs font-medium text-[#54524D]">Hours</label>

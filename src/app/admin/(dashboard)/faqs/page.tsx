@@ -4,35 +4,27 @@ import { useState } from "react"
 import { Plus, Trash2, Pencil, X, ChevronDown, ChevronUp, Eye, EyeOff } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { faqSchema, type FaqInput } from "@/lib/schemas"
 import Pagination from "@/components/pagination"
-
-interface Faq {
-  id: string
-  question: string
-  answer: string
-  sort_order: number
-  visible: boolean
-}
-
-interface FaqsResponse {
-  data: Faq[]
-  total: number
-  page: number
-  limit: number
-  totalPages: number
-}
+import { queryKeys } from "@/hooks/keys"
+import {
+  useAdminFaqsCreate,
+  useAdminFaqsUpdate,
+  useAdminFaqsToggleVisible,
+  useAdminFaqsDelete,
+  useAdminFaqsReorder,
+} from "@/hooks/mutations/use-admin-faqs"
+import type { Faq, PaginatedResponse } from "@/types"
 
 export default function FaqsPage() {
-  const queryClient = useQueryClient()
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [error, setError] = useState("")
   const [page, setPage] = useState(1)
 
-  const { data, isLoading, isError, isFetching } = useQuery<FaqsResponse>({
-    queryKey: ["faqs", page],
+  const { data, isLoading, isError, isFetching } = useQuery<PaginatedResponse<Faq>>({
+    queryKey: queryKeys.faqs.list(page),
     queryFn: async () => {
       const res = await fetch(`/api/faqs?page=${page}&limit=10`)
       if (!res.ok) throw new Error("Failed to load FAQs")
@@ -64,76 +56,11 @@ export default function FaqsPage() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  const createMutation = useMutation({
-    mutationFn: async (data: FaqInput) => {
-      const res = await fetch("/api/faqs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, sort_order: faqs.length }),
-      })
-      if (!res.ok) {
-        const body = await res.json()
-        throw new Error(body.error || "Failed to create")
-      }
-    },
-    onSuccess: () => {
-      setPage(1)
-      queryClient.invalidateQueries({ queryKey: ["faqs"] })
-    },
-  })
-
-  const updateMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: FaqInput }) => {
-      const res = await fetch(`/api/faqs/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-      if (!res.ok) {
-        const body = await res.json()
-        throw new Error(body.error || "Failed to update")
-      }
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["faqs"] }),
-  })
-
-  const toggleMutation = useMutation({
-    mutationFn: async ({ id, visible }: { id: string; visible: boolean }) => {
-      const res = await fetch(`/api/faqs/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ visible }),
-      })
-      if (!res.ok) throw new Error("Failed to toggle visibility")
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["faqs"] }),
-  })
-
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(`/api/faqs/${id}`, { method: "DELETE" })
-      if (!res.ok) throw new Error("Failed to delete")
-    },
-    onSuccess: () => {
-      setPage(1)
-      queryClient.invalidateQueries({ queryKey: ["faqs"] })
-    },
-  })
-
-  const reorderMutation = useMutation({
-    mutationFn: async (updates: { id: string; sort_order: number }[]) => {
-      await Promise.all(
-        updates.map((u) =>
-          fetch(`/api/faqs/${u.id}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sort_order: u.sort_order }),
-          })
-        )
-      )
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["faqs"] }),
-  })
+  const createMutation = useAdminFaqsCreate({ onSuccess: () => setPage(1) })
+  const updateMutation = useAdminFaqsUpdate()
+  const toggleMutation = useAdminFaqsToggleVisible()
+  const deleteMutation = useAdminFaqsDelete({ onSuccess: () => setPage(1) })
+  const reorderMutation = useAdminFaqsReorder()
 
   async function handleSubmit(data: FaqInput) {
     setError("")
@@ -141,7 +68,7 @@ export default function FaqsPage() {
       if (editingId) {
         await updateMutation.mutateAsync({ id: editingId, data })
       } else {
-        await createMutation.mutateAsync(data)
+        await createMutation.mutateAsync({ data, sortOrder: faqs.length })
       }
       resetForm()
       setShowForm(false)

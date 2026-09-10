@@ -1,19 +1,15 @@
 import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
 import { uploadImage, deleteImage } from "@/lib/imagekit"
 import { v4 as uuid } from "uuid"
+import { requireAuth } from "@/lib/api-helpers"
 
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
-  const supabase = await createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const auth = await requireAuth()
+  if (auth.error) return auth.error
 
   const contentType = request.headers.get("content-type") || ""
   let updateData: Record<string, unknown> = {}
@@ -39,7 +35,7 @@ export async function PATCH(
     if (sortOrder !== null) updateData.sort_order = Number(sortOrder)
 
     if (imageFile && imageFile.size > 0) {
-      const { data: existing } = await supabase
+      const { data: existing } = await auth.supabase
         .from("events")
         .select("image_file_id")
         .eq("id", id)
@@ -58,7 +54,7 @@ export async function PATCH(
       updateData.image_url = uploaded.url ?? null
       updateData.image_file_id = uploaded.fileId ?? null
     } else if (removeImage) {
-      const { data: existing } = await supabase
+      const { data: existing } = await auth.supabase
         .from("events")
         .select("image_file_id")
         .eq("id", id)
@@ -76,7 +72,7 @@ export async function PATCH(
     updateData = body
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await auth.supabase
     .from("events")
     .update(updateData)
     .eq("id", id)
@@ -95,14 +91,10 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
-  const supabase = await createClient()
+  const auth = await requireAuth()
+  if (auth.error) return auth.error
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
-  const { data: existing } = await supabase
+  const { data: existing } = await auth.supabase
     .from("events")
     .select("image_file_id")
     .eq("id", id)
@@ -112,7 +104,7 @@ export async function DELETE(
     try { await deleteImage(existing.image_file_id) } catch {}
   }
 
-  const { error } = await supabase
+  const { error } = await auth.supabase
     .from("events")
     .delete()
     .eq("id", id)
