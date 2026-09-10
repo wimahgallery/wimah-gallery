@@ -433,8 +433,6 @@ img {
     -webkit-backdrop-filter: none !important;
   }
 
-  .animate-marquee-left,
-  .animate-marquee-right,
   .animate-masonry-up,
   .animate-masonry-down {
     animation-duration: 200s !important;

@@ -37,6 +37,7 @@ export default function About() {
     <section id="services" className="relative py-14 sm:py-20 lg:py-32 overflow-hidden texture-noise">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] rounded-full bg-accent/5 pointer-events-none" />
+
       <div ref={sectionRef} className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div data-title className="mb-10 sm:mb-16 text-center">
           <p className="mb-3 sm:mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">Our Commitment</p>
@@ -62,6 +63,33 @@ export default function About() {
               </div>
             )
           })}
+        </div>
+      </div>
+
+      <div className="relative mt-12 sm:mt-16 overflow-hidden">
+        <div className="overflow-hidden">
+          <div className="flex animate-marquee-right whitespace-nowrap">
+            {[...Array(16)].map((_, i) => (
+              <span
+                key={i}
+                className="shrink-0 font-heading text-[32px] sm:text-[48px] lg:text-[80px] font-normal uppercase text-accent/15"
+              >
+                Professional&nbsp;&nbsp;Premium&nbsp;&nbsp;Unforgettable&nbsp;&nbsp;Moments&nbsp;&nbsp;Beautiful&nbsp;&nbsp;&nbsp;&nbsp;
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="overflow-hidden">
+          <div className="flex animate-marquee-left whitespace-nowrap">
+            {[...Array(16)].map((_, i) => (
+              <span
+                key={i}
+                className="shrink-0 font-heading text-[32px] sm:text-[48px] lg:text-[80px] font-normal uppercase text-accent/15"
+              >
+                Professional&nbsp;&nbsp;Premium&nbsp;&nbsp;Unforgettable&nbsp;&nbsp;Moments&nbsp;&nbsp;Beautiful&nbsp;&nbsp;&nbsp;&nbsp;
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>
