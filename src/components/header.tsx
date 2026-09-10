@@ -123,21 +123,6 @@ export function Header() {
                 </svg>
               </a>
               <a
-                href={siteConfig.x}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden md:flex items-center justify-center h-9 w-9 rounded-3xl text-text-secondary transition-colors duration-300 hover:text-accent hover:bg-accent/[0.06]"
-                aria-label="X"
-              >
-                <svg
-                  className="h-[18px] w-[18px]"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-              <a
                 href={siteConfig.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -283,21 +268,6 @@ export function Header() {
                   <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                   <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                </svg>
-              </a>
-              <a
-                href={siteConfig.x}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center h-10 w-10 sm:h-11 sm:w-11 rounded-3xl border border-white/20 text-white/80 transition-all duration-300 hover:text-background hover:border-background/40 hover:bg-white/[0.06]"
-                aria-label="X"
-              >
-                <svg
-                  className="h-4 w-4 sm:h-5 sm:w-5"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
               <a

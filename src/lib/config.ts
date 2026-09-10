@@ -6,7 +6,6 @@ export const siteConfig = {
   whatsappLink: "https://wa.me/6287740812765",
   email: "wimahgallery@gmail.com",
   instagram: "https://www.instagram.com/wimah.photobooth",
-  x: "https://x.com/wimah.photobooth",
   tiktok: "https://www.tiktok.com/@wimah.photobooth",
   facebook: "https://www.facebook.com/share/1ErSHgv2nu/",
   threads: "https://www.threads.com/@wimah.photobooth",
