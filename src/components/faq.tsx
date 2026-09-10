@@ -211,7 +211,7 @@ export default function Faq() {
                 Semua yang perlu Anda ketahui tentang layanan photobooth kami.
               </p>
               <a
-                href={`${siteConfig.whatsappLink}?text=Halo! Saya punya pertanyaan tentang layanan Wimah Gallery.`}
+                href={`${siteConfig.whatsappLink}?text=Halo! Saya punya pertanyaan tentang layanan WIMAH Photobooth.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-text-primary transition-[transform,colors] duration-300 hover:border-accent/30 hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"

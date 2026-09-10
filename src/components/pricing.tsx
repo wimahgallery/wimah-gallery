@@ -100,7 +100,7 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
       </div>
 
       <a
-        href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik dengan paket ${typeLabels[pkg.type] || pkg.type} (${pkg.hours}h) dari Wimah Gallery.`}
+        href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik dengan paket ${typeLabels[pkg.type] || pkg.type} (${pkg.hours}h) dari WIMAH Photobooth.`}
         target="_blank"
         rel="noopener noreferrer"
         className="flex w-full items-center justify-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-2xl border border-border bg-background py-2 sm:py-3.5 text-xs sm:text-sm font-semibold text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(124,132,114,0.1)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
@@ -249,7 +249,7 @@ export default function Pricing() {
         <div className="mt-5 sm:mt-12 text-center">
           <p className="text-xs sm:text-sm text-text-secondary">
             Need a custom package?{" "}
-            <a href={`${siteConfig.whatsappLink}?text=Halo! Saya ingin konsultasi paket custom dari Wimah Gallery.`} target="_blank" rel="noopener noreferrer" className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:text-accent-light hover:decoration-accent/50 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2">Contact us</a>
+            <a href={`${siteConfig.whatsappLink}?text=Halo! Saya ingin konsultasi paket custom dari WIMAH Photobooth.`} target="_blank" rel="noopener noreferrer" className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:text-accent-light hover:decoration-accent/50 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2">Contact us</a>
           </p>
         </div>
       </div>

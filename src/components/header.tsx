@@ -183,7 +183,7 @@ export function Header() {
                 </svg>
               </a>
               <a
-                href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik untuk booking Wimah Gallery untuk acara saya.`}
+                href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik untuk booking WIMAH Photobooth untuk acara saya.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hidden md:inline-flex items-center gap-2.5 bg-accent text-background text-sm font-body font-medium rounded-full px-5 py-2 transition-all will-change-transform duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] hover:bg-accent-light hover:shadow-[0_4px_20px_rgba(124,132,114,0.25)] hover:scale-[1.02] active:scale-[0.98]"
@@ -247,7 +247,7 @@ export function Header() {
               style={{ opacity: 0 }}
             >
               <a
-                href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik untuk booking Wimah Gallery untuk acara saya.`}
+                href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik untuk booking WIMAH Photobooth untuk acara saya.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileOpen(false)}
