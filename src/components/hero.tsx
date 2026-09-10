@@ -130,7 +130,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center relative overflow-hidden"
+      className="lg:min-h-screen py-24 md:py-0 flex items-center relative overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-background via-surface to-background" />
       <div className="absolute top-20 right-0 w-[200px] h-[200px] sm:w-[400px] sm:h-[400px] lg:w-[600px] lg:h-[600px] rounded-full bg-accent/5" />

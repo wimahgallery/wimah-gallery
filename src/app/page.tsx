@@ -29,8 +29,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   useEffect(() => {
-    const isMobile = window.matchMedia("(max-width: 768px)").matches
-    if (isMobile) return
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobile) return;
 
     const lenis = new Lenis({
       smoothWheel: true,
@@ -67,9 +67,9 @@ export default function Home() {
           <Hero />
         </div>
 
-        <div className="relative">
+        {/* <div className="relative">
           <PinnedStory />
-        </div>
+        </div> */}
 
         <div className="relative">
           <About />
@@ -91,11 +91,9 @@ export default function Home() {
           <Portfolio />
         </div>
 
-
-
-        <div className="relative">
+        {/* <div className="relative">
           <ScrollLockReveal />
-        </div>
+        </div> */}
 
         <div className="relative">
           <ClientGallery />
