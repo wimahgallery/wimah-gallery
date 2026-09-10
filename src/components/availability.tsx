@@ -184,7 +184,6 @@ export default function Availability() {
     if (!section) return;
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    if (isMobile) return;
 
     let running = false;
     startTimeRef.current = performance.now();
@@ -201,22 +200,23 @@ export default function Availability() {
         if (!card) return;
         const cfg = floatingConfigs[i];
         const t = elapsed + cfg.delay;
+        const m = isMobile ? 0.4 : 1;
         const targetY =
-          floatingCards[i].y +
-          Math.sin(t * cfg.speed) * cfg.yAmplitude +
-          mp.y * (i === 2 ? -0.04 : -0.02);
+          floatingCards[i].y * m +
+          Math.sin(t * cfg.speed) * cfg.yAmplitude * m +
+          mp.y * (i === 2 ? -0.04 : -0.02) * m;
         const targetX =
-          floatingCards[i].x +
-          Math.cos(t * cfg.speed * 0.7) * cfg.xAmplitude +
-          mp.x * (i === 2 ? 0.04 : 0.02);
+          floatingCards[i].x * m +
+          Math.cos(t * cfg.speed * 0.7) * cfg.xAmplitude * m +
+          mp.x * (i === 2 ? 0.04 : 0.02) * m;
         const targetRot =
           floatingCards[i].rotate +
-          Math.sin(t * cfg.speed * 0.5) * cfg.rotateAmplitude +
-          mp.x * (i === 2 ? 0.008 : 0.004);
+          Math.sin(t * cfg.speed * 0.5) * cfg.rotateAmplitude * m +
+          mp.x * (i === 2 ? 0.008 : 0.004) * m;
         const targetScale =
           1 +
-          Math.sin(t * cfg.speed * 0.3) * cfg.scaleAmplitude +
-          (i === 2 ? 0.08 : 0);
+          Math.sin(t * cfg.speed * 0.3) * cfg.scaleAmplitude * m +
+          (i === 2 ? (isMobile ? 0.04 : 0.08) : 0);
 
         card.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) rotate(${targetRot}deg) scale(${targetScale})`;
       });
