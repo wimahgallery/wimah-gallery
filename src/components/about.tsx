@@ -14,6 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { commitments } from "@/lib/config";
+import Marquee from "@/components/marquee";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,6 +28,8 @@ const commitmentIcons = [
   RefreshCw,
   ShieldCheck,
 ];
+
+const marqueeItems = ["Hadir untuk Setiap Kebutuhan", "Memberikan yang Terbaik", "Di Setiap Momen"];
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -113,32 +116,9 @@ export default function About() {
         </div>
       </div>
 
-      <div className="relative mt-12 sm:mt-16 overflow-hidden">
-        <div className="overflow-hidden">
-          <div className="flex animate-marquee-right whitespace-nowrap">
-            {[...Array(16)].map((_, i) => (
-              <span
-                key={i}
-                className="shrink-0 font-heading text-[32px] sm:text-[48px] lg:text-[80px] font-normal uppercase text-accent/15"
-              >
-                HADIR&nbsp;&nbsp;UNTUK&nbsp;&nbsp;SETIAP&nbsp;&nbsp;KEBUTUHAN,&nbsp;&nbsp;MEMBERIKAN&nbsp;&nbsp;YANG&nbsp;&nbsp;TERBAIK&nbsp;&nbsp;DI&nbsp;&nbsp;SETIAP&nbsp;&nbsp;MOMENT
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="overflow-hidden">
-          <div className="flex animate-marquee-left whitespace-nowrap">
-            {[...Array(16)].map((_, i) => (
-              <span
-                key={i}
-                className="shrink-0 font-heading text-[32px] sm:text-[48px] lg:text-[80px] font-normal uppercase text-accent/15"
-              >
-                WEDDING&nbsp;&nbsp;BIRTHDAY&nbsp;&nbsp;GRADUATION
-                &nbsp;&nbsp;EVENT&nbsp;&nbsp;CORPORATE&nbsp;&nbsp;GATHERING&nbsp;&nbsp;CELEBRATION&nbsp;&nbsp;ETC&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-            ))}
-          </div>
-        </div>
+      <div className="relative mt-12 sm:mt-16">
+        <Marquee items={marqueeItems} className="mb-3" />
+        <Marquee items={["Wedding", "Birthday", "Graduation", "Corporate", "Gathering", "Celebration"]} reverse slow />
       </div>
     </section>
   );

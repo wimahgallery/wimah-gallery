@@ -374,6 +374,27 @@ img {
   animation-play-state: paused;
 }
 
+/* ── Marquee component ── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--marquee-dur, 30s) linear infinite;
+  will-change: transform;
+}
+
+.marquee-reverse {
+  animation-direction: reverse;
+}
+
+.marquee-slow {
+  animation-duration: var(--marquee-slow-dur, 45s);
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 @keyframes masonry-scroll-up {
   0% { transform: translateY(0); }
   100% { transform: translateY(-50%); }

@@ -139,9 +139,14 @@ export default function Hero() {
         MEMORIES
       </div>
       <div className="relative z-10 mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28 w-full">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          <div>
-            <div ref={badgeRef} style={{ opacity: 0 }} />
+        <div className="grid lg:grid-cols-2 items-center">
+          <div className={"space-y-2"}>
+            <div ref={badgeRef} style={{ opacity: 0 }}>
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-[0.15em] uppercase text-accent">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+                Gianyar, Bali • Premium Photobooth
+              </span>
+            </div>
             <div ref={headlineRef} style={{ opacity: 0 }}>
               <h1 className="font-heading text-[32px] sm:text-[52px] md:text-[68px] lg:text-[84px] font-normal leading-[1.05] tracking-tight">
                 Making every moment more{" "}
@@ -179,13 +184,6 @@ export default function Hero() {
               </Link>
             </div>
           </div>
-          {/* <div className="hidden lg:flex relative items-center justify-center">
-            <div className="relative w-full h-[500px]">
-              {cards.map((card, i) => (
-                <AnimatedCard key={i} src={card.src} rotate={card.rotate} x={card.x} y={card.y} delay={card.delay} index={i} w={200 + i * 10} h={280 + i * 20} />
-              ))}
-            </div>
-          </div> */}
         </div>
       </div>
     </section>
