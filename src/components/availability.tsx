@@ -19,91 +19,91 @@ const eventCards = [
 const floatingCards = [
   {
     id: 1,
-    rotate: -18,
-    x: -120,
-    y: 30,
+    rotate: -22,
+    x: -160,
+    y: 40,
     zIndex: 1,
     image: "https://ik.imagekit.io/wimahgallery/Gallery/mepandes.jpg",
-    enterFrom: { x: -250, y: 200, rotate: -45 },
+    enterFrom: { x: -300, y: 250, rotate: -45 },
   },
   {
     id: 2,
-    rotate: -9,
-    x: -60,
-    y: 5,
+    rotate: -10,
+    x: -80,
+    y: 10,
     zIndex: 2,
     image: "https://ik.imagekit.io/wimahgallery/Gallery/raka_devita.jpg",
-    enterFrom: { x: -130, y: 130, rotate: -25 },
+    enterFrom: { x: -160, y: 160, rotate: -25 },
   },
   {
     id: 3,
     rotate: 0,
     x: 0,
-    y: -15,
+    y: -20,
     zIndex: 5,
     image: "https://ik.imagekit.io/wimahgallery/Gallery/dipta_yulia.jpg",
-    enterFrom: { x: 0, y: -260, rotate: 0 },
+    enterFrom: { x: 0, y: -300, rotate: 0 },
   },
   {
     id: 4,
-    rotate: 9,
-    x: 60,
-    y: 5,
+    rotate: 10,
+    x: 80,
+    y: 10,
     zIndex: 2,
     image: "https://ik.imagekit.io/wimahgallery/Gallery/pandi_sukma_celeb.jpg",
-    enterFrom: { x: 130, y: 130, rotate: 25 },
+    enterFrom: { x: 160, y: 160, rotate: 25 },
   },
   {
     id: 5,
-    rotate: 18,
-    x: 120,
-    y: 30,
+    rotate: 22,
+    x: 160,
+    y: 40,
     zIndex: 1,
     image: "https://ik.imagekit.io/wimahgallery/Gallery/pandi_sukma.jpg",
-    enterFrom: { x: 250, y: 200, rotate: 45 },
+    enterFrom: { x: 300, y: 250, rotate: 45 },
   },
 ];
 
 const floatingConfigs = [
   {
-    yAmplitude: 12,
-    xAmplitude: 4,
-    rotateAmplitude: 2,
-    scaleAmplitude: 0.015,
-    speed: 0.0008,
+    yAmplitude: 18,
+    xAmplitude: 8,
+    rotateAmplitude: 3.5,
+    scaleAmplitude: 0.02,
+    speed: 0.0007,
     delay: 0,
   },
   {
-    yAmplitude: 10,
-    xAmplitude: 3,
-    rotateAmplitude: 1.5,
-    scaleAmplitude: 0.01,
-    speed: 0.001,
-    delay: 200,
+    yAmplitude: 14,
+    xAmplitude: 6,
+    rotateAmplitude: 3,
+    scaleAmplitude: 0.015,
+    speed: 0.0009,
+    delay: 250,
+  },
+  {
+    yAmplitude: 22,
+    xAmplitude: 10,
+    rotateAmplitude: 2,
+    scaleAmplitude: 0.025,
+    speed: 0.0006,
+    delay: 450,
   },
   {
     yAmplitude: 14,
-    xAmplitude: 5,
-    rotateAmplitude: 1,
-    scaleAmplitude: 0.02,
-    speed: 0.0007,
-    delay: 400,
-  },
-  {
-    yAmplitude: 10,
-    xAmplitude: 3,
-    rotateAmplitude: 1.5,
-    scaleAmplitude: 0.01,
-    speed: 0.0009,
-    delay: 600,
-  },
-  {
-    yAmplitude: 12,
-    xAmplitude: 4,
-    rotateAmplitude: 2,
+    xAmplitude: 6,
+    rotateAmplitude: 3,
     scaleAmplitude: 0.015,
     speed: 0.0008,
-    delay: 800,
+    delay: 650,
+  },
+  {
+    yAmplitude: 18,
+    xAmplitude: 8,
+    rotateAmplitude: 3.5,
+    scaleAmplitude: 0.02,
+    speed: 0.0007,
+    delay: 850,
   },
 ];
 
@@ -204,14 +204,15 @@ export default function Availability() {
         const targetY =
           floatingCards[i].y +
           Math.sin(t * cfg.speed) * cfg.yAmplitude +
-          mp.y * (i === 2 ? -0.03 : -0.015);
+          mp.y * (i === 2 ? -0.04 : -0.02);
         const targetX =
           floatingCards[i].x +
           Math.cos(t * cfg.speed * 0.7) * cfg.xAmplitude +
-          mp.x * (i === 2 ? 0.03 : 0.015);
+          mp.x * (i === 2 ? 0.04 : 0.02);
         const targetRot =
           floatingCards[i].rotate +
-          Math.sin(t * cfg.speed * 0.5) * cfg.rotateAmplitude;
+          Math.sin(t * cfg.speed * 0.5) * cfg.rotateAmplitude +
+          mp.x * (i === 2 ? 0.008 : 0.004);
         const targetScale =
           1 +
           Math.sin(t * cfg.speed * 0.3) * cfg.scaleAmplitude +
@@ -348,10 +349,10 @@ export default function Availability() {
               }}
             >
               <div
-                className={`relative rounded overflow-hidden border border-white/20 ${
+                className={`relative rounded-xl overflow-hidden border border-white/20 shadow-[0_12px_40px_rgba(0,0,0,0.15)] ${
                   i === 2
-                    ? "w-[140px] sm:w-[220px] lg:w-[290px]"
-                    : "w-[120px] sm:w-[180px] lg:w-[220px]"
+                    ? "w-[180px] sm:w-[280px] lg:w-[340px]"
+                    : "w-[150px] sm:w-[230px] lg:w-[280px]"
                 }`}
               >
                 <div className="relative aspect-[3/4] bg-surface">
@@ -359,7 +360,7 @@ export default function Availability() {
                     src={card.image}
                     alt="Photobooth"
                     fill
-                    sizes="(max-width: 640px) 140px, (max-width: 1024px) 220px, 260px"
+                    sizes="(max-width: 640px) 180px, (max-width: 1024px) 280px, 340px"
                     className="absolute inset-0 h-full w-full"
                   />
                 </div>
