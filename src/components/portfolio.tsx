@@ -7,7 +7,8 @@ import { WhatsApp } from "@/components/whatsapp-icon"
 import { siteConfig } from "@/lib/config"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
+import { X, Download } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -22,6 +23,7 @@ const images = [
 export default function Portfolio() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
+  const [preview, setPreview] = useState<{ src: string; alt: string } | null>(null)
 
   const [emblaRef] = useEmblaCarousel(
     { loop: true, align: "center", dragFree: true },
@@ -39,6 +41,28 @@ export default function Portfolio() {
     return () => ctx.revert()
   }, [])
 
+  const handleDownload = useCallback(async (src: string, alt: string) => {
+    const res = await fetch(src)
+    const blob = await res.blob()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `${alt.replace(/\s+/g, "_")}.jpg`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }, [])
+
+  useEffect(() => {
+    if (preview) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => { document.body.style.overflow = "" }
+  }, [preview])
+
   return (
     <section id="portfolio" ref={sectionRef} className="relative py-14 sm:py-20 lg:py-28 texture-dots overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
@@ -46,7 +70,7 @@ export default function Portfolio() {
 
       <div className="relative mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-12">
 
-        {/* Text — always centered on mobile, left-aligned on desktop */}
+        {/* Text */}
         <div ref={textRef} className="text-center lg:text-left lg:mb-12">
           <p className="mb-3 text-xs font-medium tracking-[0.2em] uppercase text-accent">Our Work</p>
           <h2 className="mb-5 font-heading text-[28px] sm:text-[36px] lg:text-[44px] font-normal leading-tight text-text-primary">
@@ -99,7 +123,11 @@ export default function Portfolio() {
             <div className="flex gap-3 sm:gap-5">
               {images.map((img, i) => (
                 <div key={i} className="shrink-0 w-[30%] sm:w-[220px] lg:w-[260px]">
-                  <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => setPreview(img)}
+                    className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 cursor-pointer w-full"
+                  >
                     <div className="relative aspect-[3/4]">
                       <Image
                         src={img.src}
@@ -109,7 +137,7 @@ export default function Portfolio() {
                         className="object-cover"
                       />
                     </div>
-                  </div>
+                  </button>
                 </div>
               ))}
             </div>
@@ -123,6 +151,47 @@ export default function Portfolio() {
         </div>
 
       </div>
+
+      {/* Preview Modal */}
+      {preview && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 sm:p-8"
+          onClick={() => setPreview(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setPreview(null)}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+          >
+            <X className="h-5 w-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              handleDownload(preview.src, preview.alt)
+            }}
+            className="absolute top-4 right-16 sm:top-6 sm:right-20 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+          >
+            <Download className="h-5 w-5" />
+          </button>
+
+          <div
+            className="relative max-w-[90vw] max-h-[85vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={preview.src}
+              alt={preview.alt}
+              width={1200}
+              height={1600}
+              className="max-h-[85vh] w-auto object-contain rounded-lg"
+            />
+            <p className="mt-3 text-center text-sm text-white/70 font-heading">{preview.alt}</p>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

@@ -20,6 +20,7 @@ interface PricingPackage {
   print_count_limit: number | null
   sort_order: number
   visible: boolean
+  favorite: boolean
 }
 
 const TABS = [
@@ -79,8 +80,23 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
   return (
     <div
       ref={ref}
-      className="group relative rounded-2xl sm:rounded-3xl border border-border bg-surface p-3 sm:p-6 lg:p-8 transition-[transform,colors] duration-500 hover:border-accent/20 hover:bg-surface-secondary hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98]"
+      className={`group relative rounded-2xl sm:rounded-3xl border p-3 sm:p-6 lg:p-8 transition-[transform,colors] duration-500 hover:scale-[1.02] active:scale-[0.98] ${
+        pkg.favorite
+          ? "border-[#D4A853]/40 bg-surface shadow-[0_8px_32px_rgba(212,168,83,0.12)] hover:border-[#D4A853]/60 hover:shadow-[0_12px_40px_rgba(212,168,83,0.18)]"
+          : "border-border bg-surface hover:border-accent/20 hover:bg-surface-secondary hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)]"
+      }`}
     >
+      {pkg.favorite && (
+        <div className="absolute -top-2.5 -right-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#D4A853] text-background shadow-md z-10">
+          <Star className="h-4 w-4" fill="currentColor" />
+        </div>
+      )}
+      {pkg.favorite && (
+        <div className="mb-3 sm:mb-4 inline-flex items-center gap-1.5 rounded-full bg-[#D4A853]/10 px-3 py-1">
+          <Star className="h-3 w-3 text-[#D4A853]" fill="currentColor" />
+          <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase text-[#D4A853]">Favorite</span>
+        </div>
+      )}
       <h3 className="mb-0.5 font-heading text-base sm:text-xl font-normal text-text-primary">{pkg.hours} Hours</h3>
       {pkg.print_count_limit != null && (
         <p className="mb-2 sm:mb-6 text-[11px] sm:text-xs text-text-secondary">{pkg.print_count_limit} prints</p>
@@ -103,7 +119,11 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
         href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik dengan paket ${typeLabels[pkg.type] || pkg.type} (${pkg.hours}h) dari WIMAH Photobooth.`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex w-full items-center justify-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-2xl border border-border bg-background py-2 sm:py-3.5 text-xs sm:text-sm font-semibold text-text-primary transition-all duration-300 hover:border-accent/30 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(124,132,114,0.1)] hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+        className={`flex w-full items-center justify-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-2xl border py-2 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
+          pkg.favorite
+            ? "border-[#D4A853]/30 bg-[#D4A853]/10 text-[#D4A853] hover:bg-[#D4A853]/20 hover:border-[#D4A853]/50 hover:shadow-[0_4px_20px_rgba(212,168,83,0.15)]"
+            : "border-border bg-background text-text-primary hover:border-accent/30 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(124,132,114,0.1)]"
+        }`}
       >
         <WhatsApp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />Book via WhatsApp
       </a>

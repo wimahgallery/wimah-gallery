@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, Trash2, Pencil, X, ChevronDown, ChevronUp, Save } from "lucide-react"
+import { Plus, Trash2, Pencil, X, ChevronDown, ChevronUp, Save, Star } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
@@ -18,6 +18,7 @@ interface PricingPackage {
   print_count_limit: number | null
   sort_order: number
   visible: boolean
+  favorite: boolean
 }
 
 const TABS = [
@@ -267,6 +268,7 @@ export default function PricingPage() {
                 isFirst={i === 0}
                 isLast={i === filteredPackages.length - 1}
                 onToggleVisible={(vis) => updateMutation.mutate({ id: pkg.id, updates: { visible: vis } })}
+                onToggleFavorite={(fav) => updateMutation.mutate({ id: pkg.id, updates: { favorite: fav } })}
                 onMoveUp={() => handleMovePackage(pkg.id, "up")}
                 onMoveDown={() => handleMovePackage(pkg.id, "down")}
                 onDelete={() => handleDeletePackage(pkg.id)}
@@ -287,6 +289,7 @@ function PackageRow({
   isFirst,
   isLast,
   onToggleVisible,
+  onToggleFavorite,
   onMoveUp,
   onMoveDown,
   onDelete,
@@ -296,6 +299,7 @@ function PackageRow({
   isFirst: boolean
   isLast: boolean
   onToggleVisible: (v: boolean) => void
+  onToggleFavorite: (v: boolean) => void
   onMoveUp: () => void
   onMoveDown: () => void
   onDelete: () => void
@@ -460,6 +464,14 @@ function PackageRow({
         className={`rounded-lg px-2 py-1 text-xs transition-colors ${pkg.visible ? "bg-[#7C8472]/10 text-[#7C8472]" : "bg-[#DDD8CC]/50 text-[#8D8A82]"}`}
       >
         {pkg.visible ? "Shown" : "Hidden"}
+      </button>
+
+      <button
+        onClick={() => onToggleFavorite(!pkg.favorite)}
+        title={pkg.favorite ? "Remove favorite" : "Mark as favorite"}
+        className={`rounded-lg p-1.5 transition-colors ${pkg.favorite ? "text-[#D4A853] hover:text-[#8D8A82]" : "text-[#DDD8CC] hover:text-[#D4A853]"}`}
+      >
+        <Star className="h-4 w-4" fill={pkg.favorite ? "currentColor" : "none"} />
       </button>
 
       <button

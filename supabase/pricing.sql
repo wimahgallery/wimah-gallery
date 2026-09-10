@@ -8,6 +8,7 @@ create table if not exists pricing_packages (
   print_count_limit integer,
   sort_order integer default 0 not null,
   visible boolean default true not null,
+  favorite boolean default false not null,
   created_at timestamp with time zone default now() not null
 );
 
