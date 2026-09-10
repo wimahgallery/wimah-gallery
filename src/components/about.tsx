@@ -134,7 +134,7 @@ export default function About() {
                 className="shrink-0 font-heading text-[32px] sm:text-[48px] lg:text-[80px] font-normal uppercase text-accent/15"
               >
                 WEDDING&nbsp;&nbsp;BIRTHDAY&nbsp;&nbsp;GRADUATION
-                &nbsp;&nbsp;VENT&nbsp;&nbsp;CORPORATE&nbsp;&nbsp;GATHERING&nbsp;&nbsp;CELEBRATION&nbsp;&nbsp;ETC&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;EVENT&nbsp;&nbsp;CORPORATE&nbsp;&nbsp;GATHERING&nbsp;&nbsp;CELEBRATION&nbsp;&nbsp;ETC&nbsp;&nbsp;&nbsp;&nbsp;
               </span>
             ))}
           </div>
