@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { siteConfig } from "@/lib/config";
+import { smoothScrollTo } from "@/lib/smooth-scroll";
 
 const cards = [
   {
@@ -178,6 +179,10 @@ export default function Hero() {
               </a>
               <Link
                 href="#pricing"
+                onClick={(e) => {
+                  e.preventDefault();
+                  smoothScrollTo("#pricing", { offset: -64 });
+                }}
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-accent/30 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium text-accent transition-[transform,colors] duration-300 hover:border-accent hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_4px_20px_rgba(124,132,114,0.08)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               >
                 View Packages

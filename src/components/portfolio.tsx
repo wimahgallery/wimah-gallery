@@ -5,6 +5,7 @@ import Autoplay from "embla-carousel-autoplay"
 import Image from "next/image"
 import { WhatsApp } from "@/components/whatsapp-icon"
 import { siteConfig } from "@/lib/config"
+import { smoothScrollTo } from "@/lib/smooth-scroll"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useEffect, useRef, useState, useCallback } from "react"
@@ -98,6 +99,10 @@ export default function Portfolio() {
             </a>
             <a
               href="#pricing"
+              onClick={(e) => {
+                e.preventDefault();
+                smoothScrollTo("#pricing", { offset: -64 });
+              }}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-accent text-background px-6 py-2.5 text-sm font-medium transition-[transform,colors] duration-300 hover:bg-accent-light hover:shadow-[0_4px_20px_rgba(124,132,114,0.25)] hover:scale-[1.02] active:scale-[0.98]"
             >
               Lihat Harga

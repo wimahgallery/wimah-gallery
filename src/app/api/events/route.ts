@@ -10,12 +10,18 @@ export async function GET(request: Request) {
   const limit = Math.min(50, Math.max(1, Number(searchParams.get("limit")) || 10))
   const from = (page - 1) * limit
   const to = from + limit - 1
+  const search = searchParams.get("search")?.trim() || ""
 
-  const { data, error, count } = await supabase
+  let query = supabase
     .from("events")
     .select("*", { count: "exact" })
     .order("event_date", { ascending: false })
-    .range(from, to)
+
+  if (search) {
+    query = query.or(`couple_name.ilike.%${search}%,event_name.ilike.%${search}%`)
+  }
+
+  const { data, error, count } = await query.range(from, to)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })

@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { Menu, X } from "lucide-react";
 import { WhatsApp } from "@/components/whatsapp-icon";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/config";
+import { smoothScrollTo } from "@/lib/smooth-scroll";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,6 +15,8 @@ export function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRefs = useRef<(HTMLDivElement | HTMLAnchorElement | null)[]>([]);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     let ticking = false;
@@ -75,7 +79,7 @@ export function Header() {
         <div className="mx-auto max-w-350 px-4 sm:px-6 lg:px-8">
           <div className="relative flex h-14 sm:h-16 items-center md:justify-between">
             <Link
-              href="#home"
+              href="/"
               className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 flex items-center group"
             >
               <div className="flex w-auto h-14 sm:h-16 items-center justify-center transition-transform duration-300 group-hover:scale-105">
@@ -90,14 +94,22 @@ export function Header() {
             </Link>
             <nav className="hidden lg:flex items-center gap-1">
               {siteConfig.navLinks.map((item) => (
-                <Link
+                <a
                   key={item.href}
-                  href={item.href}
+                  href={isHome ? item.href : `/${item.href}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (isHome) {
+                      smoothScrollTo(item.href, { offset: -64 });
+                    } else {
+                      window.location.href = item.href;
+                    }
+                  }}
                   className="relative px-4 py-2 text-sm font-body font-medium text-text-secondary transition-colors duration-300 hover:text-text-primary group"
                 >
                   <span className="relative z-10">{item.label}</span>
                   <span className="absolute inset-0 rounded-full bg-accent/[0.06] scale-90 opacity-0 transition-[transform,opacity] duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
-                </Link>
+                </a>
               ))}
             </nav>
             <div className="flex items-center gap-2 sm:gap-3 ml-auto">
@@ -206,17 +218,15 @@ export function Header() {
                 style={{ opacity: 0 }}
               >
                 <a
-                  href={item.href}
+                  href={isHome ? item.href : `/${item.href}`}
                   onClick={(e) => {
                     e.preventDefault();
                     document.body.style.overflow = "";
                     setMobileOpen(false);
-                    const id = item.href.replace("#", "");
-                    const el = document.getElementById(id);
-                    if (el) {
-                      const y =
-                        el.getBoundingClientRect().top + window.scrollY - 64;
-                      window.scrollTo({ top: y, behavior: "smooth" });
+                    if (isHome) {
+                      smoothScrollTo(item.href, { offset: -64 });
+                    } else {
+                      window.location.href = item.href;
                     }
                   }}
                   className="font-heading text-2xl sm:text-3xl font-normal text-background transition-colors duration-300 hover:text-white hover:scale-105 inline-block"

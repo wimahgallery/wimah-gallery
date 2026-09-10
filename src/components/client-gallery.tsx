@@ -4,7 +4,8 @@ import { useRef, useEffect } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useQuery } from "@tanstack/react-query"
-import { ExternalLink, Calendar, MapPin } from "lucide-react"
+import { ExternalLink, Calendar, MapPin, ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -32,7 +33,8 @@ export default function ClientGallery() {
     },
   })
 
-  const events = (response?.data ?? []).filter((e) => e.visible)
+  const allEvents = (response?.data ?? []).filter((e) => e.visible)
+  const events = allEvents.slice(0, 4)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -136,6 +138,17 @@ export default function ClientGallery() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {allEvents.length > 0 && (
+          <div className="mt-8 sm:mt-12 text-center">
+            <Link
+              href="/albumn"
+              className="inline-flex items-center gap-2 rounded-full border border-accent/30 text-accent px-6 py-2.5 text-sm font-medium transition-[transform,colors] duration-300 hover:border-accent hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Lihat Semua <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         )}
       </div>

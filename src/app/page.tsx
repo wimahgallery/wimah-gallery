@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { setLenisInstance } from "@/lib/smooth-scroll";
 
 import { Header } from "@/components/header";
 import Hero from "@/components/hero";
@@ -25,10 +26,17 @@ import CustomCursor from "@/components/custom-cursor";
 import ScrollProgress from "@/components/scroll-progress";
 import FloatingWhatsApp from "@/components/floating-whatsapp";
 import Marquee from "@/components/marquee";
+import LoadingScreen from "@/components/loading-screen";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
+  const [loading, setLoading] = useState(true)
+
+  const handleLoadingComplete = useCallback(() => {
+    setLoading(false)
+  }, [])
+
   useEffect(() => {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     if (isMobile) return;
@@ -42,6 +50,8 @@ export default function Home() {
 
     lenis.on("scroll", ScrollTrigger.update);
 
+    setLenisInstance(lenis);
+
     const tickerFn = (time: number) => {
       lenis.raf(time * 1000);
     };
@@ -49,6 +59,7 @@ export default function Home() {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      setLenisInstance(null);
       lenis.destroy();
       gsap.ticker.remove(tickerFn);
     };
@@ -56,6 +67,7 @@ export default function Home() {
 
   return (
     <>
+      {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
       <CustomCursor />
       <ScrollProgress />
       <FloatingWhatsApp />
