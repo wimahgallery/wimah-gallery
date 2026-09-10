@@ -92,20 +92,20 @@ export default function Portfolio() {
 
         {/* Carousel */}
         <div className="relative mt-10 lg:mt-0">
-          <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-14 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-14 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+          <div className="hidden sm:block absolute left-0 top-0 bottom-0 w-14 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="hidden sm:block absolute right-0 top-0 bottom-0 w-14 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-3 sm:gap-5">
               {images.map((img, i) => (
-                <div key={i} className="shrink-0 w-[150px] sm:w-[220px] lg:w-[260px]">
+                <div key={i} className="shrink-0 w-[30%] sm:w-[220px] lg:w-[260px]">
                   <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-white/10">
                     <div className="relative aspect-[3/4]">
                       <Image
                         src={img.src}
                         alt={img.alt}
                         fill
-                        sizes="(max-width: 640px) 150px, (max-width: 1024px) 220px, 260px"
+                        sizes="(max-width: 640px) 30vw, (max-width: 1024px) 220px, 260px"
                         className="object-cover"
                       />
                     </div>

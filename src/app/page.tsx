@@ -24,6 +24,7 @@ import Footer from "@/components/footer";
 import CustomCursor from "@/components/custom-cursor";
 import ScrollProgress from "@/components/scroll-progress";
 import FloatingWhatsApp from "@/components/floating-whatsapp";
+import Marquee from "@/components/marquee";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,6 +67,10 @@ export default function Home() {
         <div className="relative">
           <Hero />
         </div>
+
+        <Marquee items={["Wedding", "Birthday", "Corporate", "Gathering", "Engagement", "Graduation"]} />
+        <div className="h-2" />
+        <Marquee items={["Professional", "Premium", "Unforgettable", "Moments", "Beautiful"]} reverse slow />
 
         {/* <div className="relative">
           <PinnedStory />

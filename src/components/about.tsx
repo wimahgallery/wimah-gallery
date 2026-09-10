@@ -29,7 +29,11 @@ const commitmentIcons = [
   ShieldCheck,
 ];
 
-const marqueeItems = ["Hadir untuk Setiap Kebutuhan", "Memberikan yang Terbaik", "Di Setiap Momen"];
+const marqueeItems = [
+  "Hadir untuk Setiap Kebutuhan",
+  "Memberikan yang Terbaik",
+  "Di Setiap Momen",
+];
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -114,11 +118,6 @@ export default function About() {
             );
           })}
         </div>
-      </div>
-
-      <div className="relative mt-12 sm:mt-16">
-        <Marquee items={marqueeItems} className="mb-3" />
-        <Marquee items={["Wedding", "Birthday", "Graduation", "Corporate", "Gathering", "Celebration"]} reverse slow />
       </div>
     </section>
   );

@@ -130,7 +130,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="lg:min-h-screen py-24 md:py-0 flex items-center relative overflow-hidden"
+      className="lg:min-h-screen pt-10 md:py-0 flex items-center relative overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-background via-surface to-background" />
       <div className="absolute top-20 right-0 w-[200px] h-[200px] sm:w-[400px] sm:h-[400px] lg:w-[600px] lg:h-[600px] rounded-full bg-accent/5" />
@@ -140,7 +140,7 @@ export default function Hero() {
       </div>
       <div className="relative z-10 mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28 w-full">
         <div className="grid lg:grid-cols-2 items-center">
-          <div className={"space-y-2"}>
+          <div className={"space-y-8 "}>
             <div ref={badgeRef} style={{ opacity: 0 }}>
               <span className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-[11px] sm:text-xs font-medium tracking-[0.15em] uppercase text-accent">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
