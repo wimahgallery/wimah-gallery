@@ -5,7 +5,7 @@ import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { siteConfig } from "@/lib/config"
 import { Star, Crown, Zap, ChevronDown, Check } from "lucide-react"
-import { WhatsApp } from "@/components/whatsapp-icon"
+import { WhatsApp } from "@/components/ui/WhatsAppIcon"
 import { usePublicPricing } from "@/hooks/queries/use-pricing"
 import type { PricingPackage } from "@/types"
 

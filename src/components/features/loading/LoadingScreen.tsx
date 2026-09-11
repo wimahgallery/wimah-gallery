@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useState, useEffect, useRef } from "react"
 import gsap from "gsap"
 
 interface LoadingScreenProps {
@@ -8,26 +8,30 @@ interface LoadingScreenProps {
 }
 
 export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
-  const [phase, setPhase] = useState<"waiting" | "enter" | "line" | "text" | "exit" | "done">("waiting")
+  const [phase, setPhase] = useState<"waiting" | "enter" | "done">("waiting")
   const containerRef = useRef<HTMLDivElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
-  const textRef = useRef<HTMLDivElement>(null)
   const brandRef = useRef<HTMLDivElement>(null)
+  const onCompleteRef = useRef(onComplete)
 
-  const handleReady = useCallback(() => {
-    setPhase("enter")
-  }, [])
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+  })
 
   useEffect(() => {
     document.body.style.overflow = "hidden"
+    const start = () => setPhase("enter")
 
     if (document.readyState === "complete") {
-      handleReady()
-    } else {
-      window.addEventListener("load", handleReady)
-      return () => window.removeEventListener("load", handleReady)
+      const id = setTimeout(start, 0)
+      return () => clearTimeout(id)
     }
-  }, [handleReady])
+
+    window.addEventListener("load", start)
+    return () => {
+      window.removeEventListener("load", start)
+    }
+  }, [])
 
   useEffect(() => {
     if (phase !== "enter" || !containerRef.current) return
@@ -57,14 +61,14 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         onComplete: () => {
           document.body.style.overflow = ""
           setPhase("done")
-          onComplete()
+          onCompleteRef.current()
         }
       },
       "-=0.1"
     )
 
     return () => { tl.kill() }
-  }, [phase, onComplete])
+  }, [phase])
 
   if (phase === "done") return null
 

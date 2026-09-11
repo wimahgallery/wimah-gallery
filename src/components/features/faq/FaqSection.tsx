@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { guarantees } from "@/lib/config";
 import { Plus, Minus, Shield } from "lucide-react";
-import { WhatsApp } from "@/components/whatsapp-icon";
+import { WhatsApp } from "@/components/ui/WhatsAppIcon";
 import { siteConfig } from "@/lib/config";
 import { usePublicFaqs } from "@/hooks/queries/use-faqs";
 import type { Faq } from "@/types";

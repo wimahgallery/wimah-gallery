@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter, Playfair_Display } from "next/font/google";
 import type { PropsWithChildren } from "react";
 import { siteConfig } from "@/lib/config";
-import QueryProvider from "@/components/query-provider";
+import QueryProvider from "@/components/ui/QueryProvider";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery } from "@tanstack/react-query"
 import { Trash2, Upload, Plus, X, Eye, EyeOff, Pencil } from "lucide-react"
 import { testimonialSchema, type TestimonialInput } from "@/lib/schemas"
-import Pagination from "@/components/pagination"
+import Pagination from "@/components/ui/Pagination"
 import { queryKeys } from "@/hooks/keys"
 import {
   useAdminTestimonialsCreate,

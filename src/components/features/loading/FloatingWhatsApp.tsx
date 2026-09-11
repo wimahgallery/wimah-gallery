@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { WhatsApp } from "@/components/whatsapp-icon"
+import { WhatsApp } from "@/components/ui/WhatsAppIcon"
 import { siteConfig } from "@/lib/config"
 
 export default function FloatingWhatsApp() {

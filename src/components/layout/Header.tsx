@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { Menu, X } from "lucide-react";
-import { WhatsApp } from "@/components/whatsapp-icon";
+import { WhatsApp } from "@/components/ui/WhatsAppIcon";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/config";
 import { smoothScrollTo } from "@/lib/smooth-scroll";

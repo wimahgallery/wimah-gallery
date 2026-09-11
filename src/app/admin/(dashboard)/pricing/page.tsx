@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery } from "@tanstack/react-query"
 import { pricingPackageSchema, type PricingPackageInput } from "@/lib/schemas"
-import Pagination from "@/components/pagination"
+import Pagination from "@/components/ui/Pagination"
 import { queryKeys } from "@/hooks/keys"
 import {
   useAdminPricingAdd,

@@ -2,7 +2,7 @@
 
 import { siteConfig } from "@/lib/config"
 import { Mail } from "lucide-react"
-import { WhatsApp } from "@/components/whatsapp-icon"
+import { WhatsApp } from "@/components/ui/WhatsAppIcon"
 import Image from "next/image"
 import Link from "next/link"
 
