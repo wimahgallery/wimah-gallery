@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingWhatsApp from "@/components/features/loading/FloatingWhatsApp";
-import AlbumnContent from "@/components/features/albumn/AlbumnContent";
+import AlbumContent from "@/components/features/album/AlbumContent";
 
-export default function AlbumnPage() {
+export default function AlbumPage() {
   return (
     <>
       <div className="min-h-screen bg-background">
@@ -13,7 +13,7 @@ export default function AlbumnPage() {
           {/* Back + Title */}
           <div className="mb-8 sm:mb-12">
             <Link
-              href="/#albumn"
+              href="/#album"
               className="inline-flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-accent mb-6"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -30,7 +30,7 @@ export default function AlbumnPage() {
             </p>
           </div>
 
-          <AlbumnContent />
+          <AlbumContent />
         </div>
       </div>
     </>

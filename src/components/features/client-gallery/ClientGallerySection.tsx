@@ -122,7 +122,7 @@ export default function ClientGallery() {
         {allEvents.length > 0 && (
           <div className="mt-8 sm:mt-12 text-center">
             <Link
-              href="/albumn"
+              href="/album"
               className="inline-flex items-center gap-2 rounded-full border border-accent/30 text-accent px-6 py-2.5 text-sm font-medium transition-[transform,colors] duration-300 hover:border-accent hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98]"
             >
               Lihat Semua <ArrowRight className="h-4 w-4" />

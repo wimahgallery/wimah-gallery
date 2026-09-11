@@ -49,7 +49,7 @@ export async function PATCH(
       const buffer = Buffer.from(bytes)
       const ext = imageFile.name.split(".").pop() || "jpg"
       const fileName = `event-${uuid()}.${ext}`
-      const uploaded = await uploadImage(buffer, fileName, "Albumn")
+      const uploaded = await uploadImage(buffer, fileName, "Album")
 
       updateData.image_url = uploaded.url ?? null
       updateData.image_file_id = uploaded.fileId ?? null

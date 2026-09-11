@@ -13,9 +13,9 @@ export function usePublicEvents() {
   })
 }
 
-export function useAlbumnEvents(page: number, search: string) {
+export function useAlbumEvents(page: number, search: string) {
   return useQuery({
-    queryKey: queryKeys.events.albumn(page, search),
+    queryKey: queryKeys.events.album(page, search),
     queryFn: async () => {
       const params = new URLSearchParams({ page: String(page), limit: "12" })
       if (search) params.set("search", search)

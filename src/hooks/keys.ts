@@ -3,7 +3,7 @@ export const queryKeys = {
     all: ["events"] as const,
     list: (page: number) => ["events", page] as const,
     public: ["events-public"] as const,
-    albumn: (page: number, search: string) => ["events-albumn", page, search] as const,
+    album: (page: number, search: string) => ["events-album", page, search] as const,
     dashboard: ["dash-events"] as const,
   },
   pricing: {

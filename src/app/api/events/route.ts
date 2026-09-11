@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     const ext = imageFile.name.split(".").pop() || "jpg"
     const fileName = `event-${uuid()}.${ext}`
 
-    const uploaded = await uploadImage(buffer, fileName, "Albumn")
+    const uploaded = await uploadImage(buffer, fileName, "Album")
     imageUrl = uploaded.url ?? null
     imageFileId = uploaded.fileId ?? null
   }

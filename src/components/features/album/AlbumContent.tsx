@@ -9,14 +9,14 @@ import {
 } from "lucide-react"
 import Pagination from "@/components/ui/Pagination"
 import { formatDate } from "@/lib/utils"
-import { useAlbumnEvents } from "@/hooks/queries/use-events"
+import { useAlbumEvents } from "@/hooks/queries/use-events"
 
-export default function AlbumnContent() {
+export default function AlbumContent() {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState("")
   const [inputValue, setInputValue] = useState("")
 
-  const { data: response, isLoading, isError } = useAlbumnEvents(page, search)
+  const { data: response, isLoading, isError } = useAlbumEvents(page, search)
 
   const events = (response?.data ?? []).filter((e) => e.visible)
   const total = response?.total ?? 0
