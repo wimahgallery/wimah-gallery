@@ -13,63 +13,108 @@ export default function TypographyStorytelling() {
   const wordRefs = useRef<(HTMLDivElement | null)[]>([])
   const subtitleRef = useRef<HTMLDivElement>(null)
   const scrollHintRef = useRef<HTMLDivElement>(null)
+  const textureRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (prefersReduced) {
+      wordRefs.current.forEach((el) => { if (el) el.style.opacity = "1" })
+      if (subtitleRef.current) subtitleRef.current.style.opacity = "1"
+      if (scrollHintRef.current) scrollHintRef.current.style.display = "none"
+      if (textureRef.current) textureRef.current.style.display = "none"
+      return
+    }
+
+    const mm = gsap.matchMedia()
+
     const ctx = gsap.context(() => {
       const wordEls = wordRefs.current.filter(Boolean) as HTMLDivElement[]
       if (!wordEls.length || !containerRef.current) return
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.2,
-          invalidateOnRefresh: true,
-        },
-      })
+      const buildTimeline = (isMobile: boolean) => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: isMobile ? 0.3 : 0.2,
+            invalidateOnRefresh: true,
+          },
+        })
 
-      const wordDur = 1 / words.length
-      const fadeDur = wordDur * 0.15
+        const wordDur = 1 / words.length
+        const fadeDur = wordDur * 0.15
 
-      wordEls.forEach((word, i) => {
-        const segStart = i * wordDur
-        const segEnd = segStart + wordDur
+        wordEls.forEach((word, i) => {
+          const segStart = i * wordDur
+          const segEnd = segStart + wordDur
 
-        tl.fromTo(word,
-          { opacity: 0, scale: 0.85, y: 50 },
-          { opacity: 1, scale: 1, y: 0, duration: fadeDur, ease: "power2.out" },
-          segStart
-        )
-        tl.to(word,
-          { opacity: 1, scale: 1, y: 0, duration: wordDur - fadeDur * 2, ease: "none" },
-          segStart + fadeDur
-        )
-        tl.to(word,
-          { opacity: 0, scale: 1.05, y: -50, duration: fadeDur, ease: "power2.in" },
-          segEnd - fadeDur
-        )
-      })
+          if (isMobile) {
+            tl.fromTo(word,
+              { opacity: 0, y: 30 },
+              { opacity: 1, y: 0, duration: fadeDur, ease: "power1.out" },
+              segStart
+            )
+            tl.to(word,
+              { opacity: 1, y: 0, duration: wordDur - fadeDur * 2, ease: "none" },
+              segStart + fadeDur
+            )
+            tl.to(word,
+              { opacity: 0, y: -30, duration: fadeDur, ease: "power1.in" },
+              segEnd - fadeDur
+            )
+          } else {
+            tl.fromTo(word,
+              { opacity: 0, scale: 0.85, y: 50 },
+              { opacity: 1, scale: 1, y: 0, duration: fadeDur, ease: "power2.out" },
+              segStart
+            )
+            tl.to(word,
+              { opacity: 1, scale: 1, y: 0, duration: wordDur - fadeDur * 2, ease: "none" },
+              segStart + fadeDur
+            )
+            tl.to(word,
+              { opacity: 0, scale: 1.05, y: -50, duration: fadeDur, ease: "power2.in" },
+              segEnd - fadeDur
+            )
+          }
+        })
 
-      const lastWordEnd = 1 * wordDur
+        const lastWordEnd = 1 * wordDur
 
-      if (subtitleRef.current) {
-        tl.fromTo(subtitleRef.current,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" },
-          lastWordEnd - 0.08
-        )
+        if (subtitleRef.current) {
+          tl.fromTo(subtitleRef.current,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" },
+            lastWordEnd - 0.08
+          )
+        }
+
+        if (scrollHintRef.current) {
+          tl.to(scrollHintRef.current,
+            { opacity: 0, duration: 0.04, ease: "power2.in" },
+            0.02
+          )
+        }
+
+        return tl
       }
 
-      if (scrollHintRef.current) {
-        tl.to(scrollHintRef.current,
-          { opacity: 0, duration: 0.04, ease: "power2.in" },
-          0.02
-        )
-      }
+      mm.add("(max-width: 639px)", () => {
+        if (textureRef.current) textureRef.current.style.display = "none"
+        if (containerRef.current) containerRef.current.style.height = "250vh"
+        buildTimeline(true)
+      })
+
+      mm.add("(min-width: 640px)", () => {
+        buildTimeline(false)
+      })
     }, containerRef)
 
-    return () => ctx.revert()
+    return () => {
+      mm.revert()
+      ctx.revert()
+    }
   }, [])
 
   return (
@@ -77,7 +122,7 @@ export default function TypographyStorytelling() {
       <div ref={containerRef} className="h-[400vh]">
         <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
-          <div className="absolute inset-0 texture-noise opacity-20" />
+          <div ref={textureRef} className="absolute inset-0 texture-noise opacity-20" />
 
           <div className="relative z-10 w-full">
             <div className="relative h-[160px] sm:h-[260px] md:h-[300px] flex items-center justify-center">
@@ -86,7 +131,7 @@ export default function TypographyStorytelling() {
                   key={word}
                   ref={(el) => { wordRefs.current[i] = el }}
                   className="absolute inset-0 flex items-center justify-center"
-                  style={{ opacity: 0 }}
+                  style={{ opacity: 0, willChange: "transform, opacity" }}
                 >
                   <span className="font-heading text-[48px] sm:text-[80px] md:text-[100px] lg:text-[120px] font-normal uppercase tracking-tight text-text-primary">
                     {word}

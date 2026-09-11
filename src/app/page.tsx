@@ -12,7 +12,7 @@ import About from "@/components/about";
 import TypographyStorytelling from "@/components/typography-storytelling";
 import HowItWorks from "@/components/how-it-works";
 import Availability from "@/components/availability";
-import Portfolio from "@/components/portfolio";
+import PortfolioGallery from "@/components/portfolio-gallery";
 import ClientGallery from "@/components/client-gallery";
 import Pricing from "@/components/pricing";
 import Testimonials from "@/components/testimonials";
@@ -98,7 +98,7 @@ export default function Home() {
         </div>
 
         <div className="relative">
-          <Portfolio />
+          <PortfolioGallery />
         </div>
 
         <div className="relative">
