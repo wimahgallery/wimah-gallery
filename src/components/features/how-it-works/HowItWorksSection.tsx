@@ -38,7 +38,7 @@ export default function HowItWorks() {
             scrollTrigger: {
               trigger: step,
               start: "top 85%",
-              toggleActions: "play none none none",
+              once: true,
             },
           }
         )

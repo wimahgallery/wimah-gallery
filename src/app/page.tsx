@@ -1,11 +1,4 @@
-"use client";
-
-import { useEffect, useState, useCallback } from "react";
-import Lenis from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { setLenisInstance } from "@/lib/smooth-scroll";
-
+import SmoothScroll from "@/components/providers/SmoothScroll";
 import { Header } from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/features/hero/HeroSection";
@@ -25,105 +18,51 @@ import FloatingWhatsApp from "@/components/features/loading/FloatingWhatsApp";
 import Marquee from "@/components/ui/Marquee";
 import LoadingScreen from "@/components/features/loading/LoadingScreen";
 
-gsap.registerPlugin(ScrollTrigger);
+const MARQUEE_EVENTS = [
+  "Wedding",
+  "Birthday",
+  "Corporate",
+  "Gathering",
+  "Engagement",
+  "Graduation",
+] as const;
+
+const MARQUEE_VALUES = [
+  "Professional",
+  "Premium",
+  "Unforgettable",
+  "Moments",
+  "Beautiful",
+] as const;
 
 export default function Home() {
-  const [loading, setLoading] = useState(true)
-
-  const handleLoadingComplete = useCallback(() => {
-    setLoading(false)
-  }, [])
-
-  useEffect(() => {
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    if (isMobile) return;
-
-    const lenis = new Lenis({
-      smoothWheel: true,
-      syncTouch: true,
-      gestureOrientation: "vertical",
-      respectReducedMotion: true,
-    });
-
-    lenis.on("scroll", ScrollTrigger.update);
-
-    setLenisInstance(lenis);
-
-    const tickerFn = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-    gsap.ticker.add(tickerFn);
-    gsap.ticker.lagSmoothing(0);
-
-    return () => {
-      setLenisInstance(null);
-      lenis.destroy();
-      gsap.ticker.remove(tickerFn);
-    };
-  }, []);
-
   return (
     <>
-      {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
+      <LoadingScreen />
+      <SmoothScroll />
       <CustomCursor />
       <ScrollProgress />
       <FloatingWhatsApp />
+
       <main className="relative">
-        <div className="relative">
-          <Header />
-        </div>
+        <Header />
+        <Hero />
 
-        <div className="relative">
-          <Hero />
-        </div>
-
-        <Marquee items={["Wedding", "Birthday", "Corporate", "Gathering", "Engagement", "Graduation"]} />
+        <Marquee items={[...MARQUEE_EVENTS]} />
         <div className="h-2" />
-        <Marquee items={["Professional", "Premium", "Unforgettable", "Moments", "Beautiful"]} reverse slow />
+        <Marquee items={[...MARQUEE_VALUES]} reverse slow />
 
-        <div className="relative">
-          <About />
-        </div>
-
-        <div className="relative">
-          <TypographyStorytelling />
-        </div>
-
-        <div className="relative">
-          <HowItWorks />
-        </div>
-
-        <div className="relative">
-          <Availability />
-        </div>
-
-        <div className="relative">
-          <PortfolioGallery />
-        </div>
-
-        <div className="relative">
-          <ClientGallery />
-        </div>
-
-        <div className="relative">
-          <Pricing />
-        </div>
-
-        <div className="relative">
-          <Testimonials />
-        </div>
-
-        <div className="relative">
-          <FAQ />
-        </div>
-
-        <div className="relative">
-          <FinalCTA />
-        </div>
-
-        <div className="relative">
-          <Footer />
-        </div>
+        <About />
+        <TypographyStorytelling />
+        <HowItWorks />
+        <Availability />
+        <PortfolioGallery />
+        <ClientGallery />
+        <Pricing />
+        <Testimonials />
+        <FAQ />
+        <FinalCTA />
+        <Footer />
       </main>
     </>
   );

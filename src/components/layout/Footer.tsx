@@ -1,5 +1,3 @@
-"use client"
-
 import { siteConfig } from "@/lib/config"
 import { Mail } from "lucide-react"
 import { WhatsApp } from "@/components/ui/WhatsAppIcon"

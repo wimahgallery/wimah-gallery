@@ -1,16 +1,30 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { WhatsApp } from "@/components/ui/WhatsAppIcon"
 import { siteConfig } from "@/lib/config"
 
 export default function FloatingWhatsApp() {
   const [visible, setVisible] = useState(false)
+  const wasAbove = useRef(true)
 
   useEffect(() => {
+    let ticking = false
+
     const onScroll = () => {
-      setVisible(window.scrollY > 300)
+      if (ticking) return
+      ticking = true
+
+      requestAnimationFrame(() => {
+        const isAbove = window.scrollY <= 300
+        if (wasAbove.current !== isAbove) {
+          wasAbove.current = isAbove
+          setVisible(!isAbove)
+        }
+        ticking = false
+      })
     }
+
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
