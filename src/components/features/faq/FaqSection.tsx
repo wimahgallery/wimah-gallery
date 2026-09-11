@@ -151,7 +151,6 @@ export default function Faq() {
     data: response,
     isLoading,
     isError,
-    isFetching,
   } = usePublicFaqs();
 
   const faqs = (response?.data ?? []).filter((f) => f.visible);

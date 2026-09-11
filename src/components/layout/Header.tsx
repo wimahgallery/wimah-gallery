@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import gsap from "gsap";
 import { Menu, X } from "lucide-react";
 import { WhatsApp } from "@/components/ui/WhatsAppIcon";
@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export function Header() {
+  const segment = useSelectedLayoutSegment();
   const headerRef = useRef<HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navRefs = useRef<(HTMLDivElement | HTMLAnchorElement | null)[]>([]);
@@ -67,6 +68,8 @@ export function Header() {
   }, [mobileOpen]);
 
   const totalItems = siteConfig.navLinks.length + 1;
+
+  if (segment === "admin") return;
 
   return (
     <>

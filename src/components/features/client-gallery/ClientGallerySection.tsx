@@ -7,7 +7,6 @@ import { ExternalLink, Calendar, MapPin, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { formatDate } from "@/lib/utils"
 import { usePublicEvents } from "@/hooks/queries/use-events"
-import type { Event } from "@/types"
 
 gsap.registerPlugin(ScrollTrigger)
 

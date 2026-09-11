@@ -2,104 +2,10 @@
 
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 import { smoothScrollTo } from "@/lib/smooth-scroll";
-
-const cards = [
-  {
-    src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=200&h=280&fit=crop&q=60",
-    rotate: -8,
-    x: -60,
-    y: -20,
-    delay: 0.3,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=220&h=320&fit=crop&q=60",
-    rotate: 3,
-    x: 40,
-    y: -40,
-    delay: 0.5,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=190&h=260&fit=crop&q=60",
-    rotate: -2,
-    x: -20,
-    y: 20,
-    delay: 0.7,
-  },
-];
-
-function AnimatedCard({
-  src,
-  rotate,
-  x,
-  y,
-  delay,
-  index,
-  w,
-  h,
-}: {
-  src: string;
-  rotate: number;
-  x: number;
-  y: number;
-  delay: number;
-  index: number;
-  w: number;
-  h: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    gsap.fromTo(
-      ref.current,
-      { opacity: 0, scale: 0.85, rotateZ: rotate - 10 },
-      {
-        opacity: 1,
-        scale: 1,
-        rotateZ: rotate,
-        duration: 0.8,
-        ease: "power2.out",
-        delay,
-      },
-    );
-  }, [rotate, delay]);
-
-  return (
-    <div
-      ref={ref}
-      style={{
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        marginLeft: -w / 2,
-        marginTop: -h / 2,
-        width: w,
-        height: h,
-        zIndex: index,
-      }}
-    >
-      <div
-        className="rounded-[28px] border border-border shadow-[0_8px_40px_rgba(95,101,88,0.15)] overflow-hidden bg-surface backdrop-blur-sm"
-        style={{ transform: `translate(${x}px, ${y}px) rotate(${rotate}deg)` }}
-      >
-        <Image
-          src={src}
-          alt="Photobooth moment"
-          width={w}
-          height={h}
-          priority
-          className="object-cover"
-          sizes={`${w}px`}
-        />
-      </div>
-    </div>
-  );
-}
 
 export default function Hero() {
   const badgeRef = useRef<HTMLDivElement>(null);

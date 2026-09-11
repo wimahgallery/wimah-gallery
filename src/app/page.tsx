@@ -38,14 +38,7 @@ const MARQUEE_VALUES = [
 export default function Home() {
   return (
     <>
-      <LoadingScreen />
-      <SmoothScroll />
-      <CustomCursor />
-      <ScrollProgress />
-      <FloatingWhatsApp />
-
       <main className="relative">
-        <Header />
         <Hero />
 
         <Marquee items={[...MARQUEE_EVENTS]} />
@@ -62,7 +55,6 @@ export default function Home() {
         <Testimonials />
         <FAQ />
         <FinalCTA />
-        <Footer />
       </main>
     </>
   );

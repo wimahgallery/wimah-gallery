@@ -3,7 +3,14 @@ import { Cormorant_Garamond, Inter, Playfair_Display } from "next/font/google";
 import type { PropsWithChildren } from "react";
 import { siteConfig } from "@/lib/config";
 import QueryProvider from "@/components/ui/QueryProvider";
+import FloatingWhatsApp from "@/components/features/loading/FloatingWhatsApp";
 import "./globals.css";
+import LoadingScreen from "@/components/features/loading/LoadingScreen";
+import SmoothScroll from "@/components/providers/SmoothScroll";
+import CustomCursor from "@/components/ui/CustomCursor";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import { Header } from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -52,7 +59,16 @@ export default function RootLayout({ children }: PropsWithChildren) {
       className={`${cormorant.variable} ${inter.variable} ${playfair.variable}`}
     >
       <body className="min-h-screen bg-background text-text-primary antialiased">
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <LoadingScreen />
+          <SmoothScroll />
+          <CustomCursor />
+          <ScrollProgress />
+          <FloatingWhatsApp />
+          <Header />
+          {children}
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   );
