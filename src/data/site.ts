@@ -13,7 +13,7 @@ export const siteConfig = {
     { href: "#home", label: "Home" },
     { href: "#services", label: "Services" },
     { href: "#portfolio", label: "Portfolio" },
-    { href: "#gallery", label: "Gallery" },
+    { href: "#albumn", label: "Albumn" },
     { href: "#pricing", label: "Pricing" },
     { href: "#faq", label: "FAQ" },
   ] as NavItem[],

@@ -13,7 +13,7 @@ export default function AlbumnPage() {
           {/* Back + Title */}
           <div className="mb-8 sm:mb-12">
             <Link
-              href="/#gallery"
+              href="/#albumn"
               className="inline-flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-accent mb-6"
             >
               <ArrowLeft className="h-4 w-4" />
