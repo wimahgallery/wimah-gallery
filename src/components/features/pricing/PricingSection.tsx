@@ -88,50 +88,51 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
   return (
     <div
       ref={ref}
-      className={`group relative rounded-2xl sm:rounded-3xl border p-3 sm:p-6 lg:p-8 transition-[transform,colors] duration-500 hover:scale-[1.02] active:scale-[0.98] ${
+      className={`group relative rounded-2xl border p-2.5 sm:p-4 lg:p-5 transition-[transform,colors] duration-500 hover:scale-[1.02] active:scale-[0.98] ${
         pkg.favorite
           ? "border-[#D4A853]/40 bg-surface shadow-[0_8px_32px_rgba(212,168,83,0.12)] hover:border-[#D4A853]/60 hover:shadow-[0_12px_40px_rgba(212,168,83,0.18)]"
           : "border-border bg-surface hover:border-accent/20 hover:bg-surface-secondary hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)]"
       }`}
     >
       {pkg.favorite && (
-        <div className="absolute -top-2.5 -right-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#D4A853] text-background shadow-md z-10">
-          <Star className="h-4 w-4" fill="currentColor" />
+        <div className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#D4A853] text-background shadow-md z-10">
+          <Star className="h-3 w-3" fill="currentColor" />
         </div>
       )}
       {pkg.favorite && (
-        <div className="mb-3 sm:mb-4 inline-flex items-center gap-1.5 rounded-full bg-[#D4A853]/10 px-3 py-1">
-          <Star className="h-3 w-3 text-[#D4A853]" fill="currentColor" />
-          <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase text-[#D4A853]">
+        <div className="mb-2 inline-flex items-center gap-1 rounded-full bg-[#D4A853]/10 px-2 py-0.5">
+          <Star className="h-2.5 w-2.5 text-[#D4A853]" fill="currentColor" />
+          <span className="text-[9px] font-semibold tracking-wide uppercase text-[#D4A853]">
             Favorite
           </span>
         </div>
       )}
-      <h3 className="mb-0.5 font-heading text-base sm:text-xl font-normal text-text-primary">
+
+      <h3 className="mb-0.5 font-heading text-sm sm:text-base lg:text-lg font-normal text-text-primary">
         {pkg.hours} Hours
       </h3>
       {pkg.print_count_limit != null && (
-        <p className="mb-2 sm:mb-6 text-[11px] sm:text-xs text-text-secondary">
+        <p className="mb-1.5 sm:mb-3 text-[10px] sm:text-xs text-text-secondary">
           {pkg.print_count_limit} prints
         </p>
       )}
-      {pkg.print_count_limit == null && <div className="mb-2 sm:mb-6" />}
+      {pkg.print_count_limit == null && <div className="mb-1.5 sm:mb-3" />}
 
-      <div className="mb-3 sm:mb-8">
+      <div className="mb-2 sm:mb-4">
         {hasDiscount ? (
-          <div className="flex flex-wrap items-baseline gap-1 sm:gap-2">
-            <span className="text-[11px] sm:text-sm text-text-secondary line-through">
+          <div className="flex flex-wrap items-baseline gap-1">
+            <span className="text-[10px] sm:text-xs text-text-secondary line-through">
               {formatPrice(pkg.price)}
             </span>
-            <span className="font-heading text-xl sm:text-3xl font-normal tracking-tight text-accent">
+            <span className="font-heading text-base sm:text-xl lg:text-2xl font-normal tracking-tight text-accent">
               {formatPrice(pkg.discounted_price)}
             </span>
-            <span className="rounded-full bg-accent/10 px-1.5 py-0.5 text-[9px] sm:text-xs font-medium text-accent">
+            <span className="rounded-full bg-accent/10 px-1.5 py-0.5 text-[8px] sm:text-[10px] font-medium text-accent">
               -{pkg.discount}%
             </span>
           </div>
         ) : (
-          <span className="font-heading text-xl sm:text-3xl font-normal tracking-tight text-text-primary">
+          <span className="font-heading text-base sm:text-xl lg:text-2xl font-normal tracking-tight text-text-primary">
             {formatPrice(pkg.price)}
           </span>
         )}
@@ -141,13 +142,13 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
         href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik dengan paket ${typeLabels[pkg.type] || pkg.type} (${pkg.hours}h) dari WIMAH Photobooth.`}
         target="_blank"
         rel="noopener noreferrer"
-        className={`flex w-full items-center justify-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-2xl border py-2 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
+        className={`flex w-full items-center justify-center gap-1.5 rounded-lg border py-1.5 sm:py-2.5 text-[10px] sm:text-xs font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
           pkg.favorite
             ? "border-[#D4A853]/30 bg-[#D4A853]/10 text-[#D4A853] hover:bg-[#D4A853]/20 hover:border-[#D4A853]/50 hover:shadow-[0_4px_20px_rgba(212,168,83,0.15)]"
             : "border-border bg-background text-text-primary hover:border-accent/30 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(124,132,114,0.1)]"
         }`}
       >
-        <WhatsApp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+        <WhatsApp className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
         Book via WhatsApp
       </a>
     </div>
@@ -278,11 +279,11 @@ export default function Pricing() {
 
         {/* Packages grid */}
         {isLoading ? (
-          <div className="grid gap-3 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {[0, 1, 2].map((i) => (
+          <div className="grid gap-2 sm:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+            {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="animate-pulse rounded-2xl sm:rounded-3xl bg-[#E8E3D8]/30 h-40 sm:h-72"
+                className="animate-pulse rounded-2xl bg-[#E8E3D8]/30 h-40 sm:h-52"
               />
             ))}
           </div>
@@ -299,7 +300,7 @@ export default function Pricing() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-3 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-2 sm:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
             {filteredPackages.map((pkg, i) => (
               <PackageCard key={pkg.id} pkg={pkg} index={i} />
             ))}

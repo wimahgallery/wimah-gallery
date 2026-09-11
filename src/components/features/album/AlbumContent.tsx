@@ -4,7 +4,6 @@ import { useState } from "react"
 import {
   Calendar,
   MapPin,
-  ExternalLink,
   Search,
 } from "lucide-react"
 import Pagination from "@/components/ui/Pagination"
@@ -54,16 +53,16 @@ export default function AlbumContent() {
 
       {/* Results */}
       {isLoading ? (
-        <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:gap-4 grid-cols-2">
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <div
               key={i}
-              className="animate-pulse rounded-3xl bg-[#E8E3D8]/30 overflow-hidden"
+              className="animate-pulse rounded-2xl bg-[#E8E3D8]/30 overflow-hidden"
             >
               <div className="aspect-[4/3] bg-[#E8E3D8]/40" />
-              <div className="p-4 sm:p-5 space-y-2 sm:space-y-3">
-                <div className="h-5 w-3/4 rounded bg-[#E8E3D8]/50" />
-                <div className="h-4 w-1/2 rounded bg-[#E8E3D8]/40" />
+              <div className="p-3 sm:p-4 space-y-2">
+                <div className="h-4 w-3/4 rounded bg-[#E8E3D8]/50" />
+                <div className="h-3 w-1/2 rounded bg-[#E8E3D8]/40" />
                 <div className="h-3 w-2/3 rounded bg-[#E8E3D8]/30" />
               </div>
             </div>
@@ -88,11 +87,11 @@ export default function AlbumContent() {
           <p className="mb-4 sm:mb-6 text-xs text-text-secondary">
             {total} event ditemukan
           </p>
-          <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 sm:gap-4 grid-cols-2">
             {events.map((ev) => (
               <div
                 key={ev.id}
-                className="group overflow-hidden rounded-3xl border border-border bg-surface hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-[transform,colors] duration-300"
+                className="group overflow-hidden rounded-2xl border border-border bg-surface hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-[transform,colors] duration-300"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-surface-secondary/30">
                   {ev.image_url ? (
@@ -103,15 +102,15 @@ export default function AlbumContent() {
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center text-4xl font-heading text-text-secondary/30">
+                    <div className="flex h-full w-full items-center justify-center text-3xl font-heading text-text-secondary/30">
                       {ev.couple_name.split(" ").map((n) => n[0]).join("")}
                     </div>
                   )}
                 </div>
-                <div className="p-4 sm:p-5">
-                  <h3 className="text-base sm:text-lg font-heading font-normal text-text-primary">{ev.couple_name}</h3>
-                  <p className="mt-1 text-xs sm:text-sm font-medium text-accent-light">{ev.event_name}</p>
-                  <div className="mt-2 flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-text-secondary">
+                <div className="p-3 sm:p-4">
+                  <h3 className="text-sm sm:text-base font-heading font-normal text-text-primary">{ev.couple_name}</h3>
+                  <p className="mt-0.5 text-[11px] sm:text-xs font-medium text-accent-light">{ev.event_name}</p>
+                  <div className="mt-1.5 flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] text-text-secondary">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
                       {formatDate(ev.event_date)}
@@ -126,9 +125,9 @@ export default function AlbumContent() {
                       href={ev.images_source}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 sm:mt-4 flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs sm:text-sm font-medium text-text-primary transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:border-accent hover:bg-accent/15 hover:text-accent"
+                      className="mt-2 sm:mt-3 flex items-center justify-center gap-1.5 w-full rounded-lg border border-border bg-surface px-3 py-1.5 text-[11px] sm:text-xs font-medium text-text-primary transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] hover:border-accent hover:bg-accent/15 hover:text-accent"
                     >
-                      View Gallery<ExternalLink className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                      View Gallery
                     </a>
                   )}
                 </div>
