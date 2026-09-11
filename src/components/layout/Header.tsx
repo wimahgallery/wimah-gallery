@@ -90,7 +90,7 @@ export function Header() {
                   src="/wimah.png"
                   width={1024}
                   height={1024}
-                  alt="Wimah Gallery"
+                  alt="Wimah Photobooth"
                   className="h-full w-auto object-contain invert"
                 />
               </div>

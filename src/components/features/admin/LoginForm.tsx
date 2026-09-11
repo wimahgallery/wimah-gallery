@@ -46,7 +46,7 @@ export default function LoginForm() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <h1 className="font-heading text-2xl text-[#54524D]">
-            Wimah Gallery
+            Wimah Photobooth
           </h1>
           <p className="mt-2 text-sm text-[#8D8A82]">Admin Dashboard</p>
         </div>

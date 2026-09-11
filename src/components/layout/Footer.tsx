@@ -22,7 +22,7 @@ export default function Footer() {
                   width={1024}
                   height={1024}
                   src="/wimah.png"
-                  alt="Wimah Gallery"
+                  alt="Wimah Photobooth"
                   className="h-full w-full object-contain invert"
                 />
               </div>

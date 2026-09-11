@@ -1,37 +1,53 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useRouter, usePathname } from "next/navigation"
-import Link from "next/link"
-import { LayoutDashboard, MessageSquareQuote, DollarSign, HelpCircle, CalendarDays, ExternalLink, LogOut } from "lucide-react"
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
+import {
+  LayoutDashboard,
+  MessageSquareQuote,
+  DollarSign,
+  HelpCircle,
+  CalendarDays,
+  ExternalLink,
+  LogOut,
+} from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
+  {
+    href: "/admin/testimonials",
+    label: "Testimonials",
+    icon: MessageSquareQuote,
+  },
   { href: "/admin/events", label: "Events", icon: CalendarDays },
   { href: "/admin/pricing", label: "Pricing", icon: DollarSign },
   { href: "/admin/faqs", label: "FAQ", icon: HelpCircle },
-]
+];
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const [authorized, setAuthorized] = useState(false)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [authorized, setAuthorized] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/auth/me")
       .then((res) => {
-        if (!res.ok) throw new Error("Unauthorized")
-        return res.json()
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
       })
       .then(() => setAuthorized(true))
-      .catch(() => router.push("/admin/login"))
-  }, [router, pathname])
+      .catch(() => router.push("/admin/login"));
+  }, [router, pathname]);
 
   async function handleLogout() {
-    await fetch("/api/auth/logout", { method: "POST" })
-    router.push("/admin/login")
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/admin/login");
   }
 
   if (!authorized) {
@@ -39,7 +55,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="flex min-h-screen items-center justify-center bg-[#F5F3EE]">
         <div className="text-sm text-[#8D8A82]">Loading...</div>
       </div>
-    )
+    );
   }
 
   return (
@@ -56,14 +72,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       >
         <div className="flex h-14 items-center border-b border-[rgba(84,82,77,0.12)] px-5">
           <Link href="/admin" className="font-heading text-lg text-[#54524D]">
-            Wimah Gallery
+            Wimah Photobooth
           </Link>
         </div>
 
         <nav className="flex-1 space-y-1 px-3 py-4">
           {navItems.map((item) => {
-            const Icon = item.icon
-            const isActive = item.href === "/admin" ? pathname === "/admin" : pathname.startsWith(item.href)
+            const Icon = item.icon;
+            const isActive =
+              item.href === "/admin"
+                ? pathname === "/admin"
+                : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.href}
@@ -74,7 +93,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <Icon className="h-4 w-4" />
                 {item.label}
               </Link>
-            )
+            );
           })}
         </nav>
 
@@ -103,12 +122,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             onClick={() => setSidebarOpen(true)}
             className="mr-3 rounded-lg p-1.5 text-[#8D8A82] hover:bg-[#F5F3EE] lg:hidden"
           >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           </button>
           <h2 className="text-sm font-medium text-[#54524D]">
-            {navItems.find((n) => n.href === "/admin" ? pathname === "/admin" : pathname.startsWith(n.href))?.label || "Admin"}
+            {navItems.find((n) =>
+              n.href === "/admin"
+                ? pathname === "/admin"
+                : pathname.startsWith(n.href),
+            )?.label || "Admin"}
           </h2>
         </header>
 
@@ -117,5 +150,5 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </main>
       </div>
     </div>
-  )
+  );
 }
