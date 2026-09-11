@@ -93,7 +93,7 @@ export default function LoadingScreen() {
       {/* Brand name */}
       <div ref={brandRef} style={{ opacity: 0 }}>
         <h1 className="font-display text-2xl sm:text-4xl font-light tracking-[0.15em] sm:tracking-[0.3em] text-text-primary uppercase">
-          Wimah Gallery
+          Wimah Photobooth
         </h1>
       </div>
     </div>
