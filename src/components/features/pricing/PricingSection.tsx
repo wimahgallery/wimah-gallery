@@ -214,6 +214,9 @@ export default function Pricing() {
           <p className="mx-auto max-w-[480px] text-xs sm:text-base text-text-secondary leading-relaxed">
             Choose the perfect package for your event.
           </p>
+          <p className="mt-3 sm:mt-4 font-heading text-lg sm:text-xl lg:text-2xl font-normal text-text-primary">
+            Photobooth
+          </p>
         </div>
 
         {/* Mobile/Tablet: Accordion categories */}
@@ -222,22 +225,33 @@ export default function Pricing() {
             {TABS.map((tab) => {
               const Icon = tab.icon;
               const isOpen = openAccordion === tab.key;
-              const count = visiblePackages.filter((p) => p.type === tab.key).length;
+              const count = visiblePackages.filter(
+                (p) => p.type === tab.key,
+              ).length;
               const pkgs = visiblePackages.filter((p) => p.type === tab.key);
 
               return (
-                <div key={tab.key} className="rounded-xl sm:rounded-2xl border border-border bg-surface overflow-hidden">
+                <div
+                  key={tab.key}
+                  className="rounded-xl sm:rounded-2xl border border-border bg-surface overflow-hidden"
+                >
                   <button
                     type="button"
                     onClick={() => toggleAccordion(tab.key)}
                     className="flex w-full items-center gap-3 px-3 sm:px-5 py-3 sm:py-4 text-left transition-colors duration-300 hover:bg-surface-secondary/50"
                   >
-                    <div className={`flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl transition-colors duration-300 ${isOpen ? "bg-accent/15 text-accent" : "bg-surface-secondary/50 text-text-secondary"}`}>
+                    <div
+                      className={`flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl transition-colors duration-300 ${isOpen ? "bg-accent/15 text-accent" : "bg-surface-secondary/50 text-text-secondary"}`}
+                    >
                       <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs sm:text-sm font-medium text-text-primary">{tab.label}</p>
-                      <p className="text-[10px] sm:text-xs text-text-secondary">{tab.desc}</p>
+                      <p className="text-xs sm:text-sm font-medium text-text-primary">
+                        {tab.label}
+                      </p>
+                      <p className="text-[10px] sm:text-xs text-text-secondary">
+                        {tab.desc}
+                      </p>
                     </div>
                     <span className="text-[10px] sm:text-xs text-text-secondary mr-1">
                       {count} {count === 1 ? "pkg" : "pkgs"}
@@ -249,12 +263,16 @@ export default function Pricing() {
 
                   <div
                     className={`transition-all duration-300 ease-in-out ${
-                      isOpen ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                      isOpen
+                        ? "max-h-[2000px] opacity-100"
+                        : "max-h-0 opacity-0"
                     }`}
                   >
                     <div className="px-3 sm:px-5 pb-3 sm:pb-5">
                       {pkgs.length === 0 ? (
-                        <p className="text-xs text-text-secondary py-4 text-center">No packages available.</p>
+                        <p className="text-xs text-text-secondary py-4 text-center">
+                          No packages available.
+                        </p>
                       ) : (
                         <div className="grid gap-2 sm:gap-3 grid-cols-2">
                           {pkgs.map((pkg, i) => (
@@ -318,9 +336,7 @@ export default function Pricing() {
                         <Icon className="h-5 w-5" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium">
-                          {tab.label}
-                        </p>
+                        <p className="text-sm font-medium">{tab.label}</p>
                         <p className="text-xs text-text-secondary">
                           {tab.desc}
                         </p>
@@ -366,6 +382,21 @@ export default function Pricing() {
             )}
           </div>
         )}
+
+        {/* Mingle Booth - Coming Soon */}
+        <div className="mt-12 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:p-14 text-center">
+          <div className="mb-3 sm:mb-4 inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-3 py-1">
+            <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase text-accent">
+              Coming Soon
+            </span>
+          </div>
+          <h3 className="font-heading text-xl sm:text-2xl lg:text-3xl font-normal text-text-primary mb-2">
+            Mingle Booth
+          </h3>
+          <p className="mx-auto max-w-[400px] text-xs sm:text-sm text-text-secondary leading-relaxed">
+            A new way to capture candid moments at your event. Stay tuned!
+          </p>
+        </div>
 
         {/* What's Included */}
         <div className="mt-8 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-4 sm:p-8 lg:p-12">
