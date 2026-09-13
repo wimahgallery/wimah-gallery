@@ -7,6 +7,7 @@ import { X, ChevronLeft, ChevronRight, Download } from "lucide-react"
 export interface PortfolioImage {
   src: string
   alt: string
+  description?: string
 }
 
 interface PortfolioLightboxProps {

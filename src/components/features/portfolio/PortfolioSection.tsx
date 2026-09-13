@@ -19,22 +19,27 @@ const images: PortfolioImage[] = [
   {
     src: "https://ik.imagekit.io/wimahgallery/Gallery/dipta_yulia.jpg",
     alt: "Dipta & Yulia",
+    description: "Wedding reception in Bali",
   },
   {
     src: "https://ik.imagekit.io/wimahgallery/Gallery/raka_devita.jpg",
     alt: "Raka & Devita",
+    description: "Intimate garden ceremony",
   },
   {
     src: "https://ik.imagekit.io/wimahgallery/Gallery/mepandes.jpg",
     alt: "Mepandes",
+    description: "Traditional Balinese celebration",
   },
   {
     src: "https://ik.imagekit.io/wimahgallery/Gallery/pandi_sukma_celeb.jpg",
     alt: "Pandi & Sukma",
+    description: "Pre-wedding photoshoot",
   },
   {
     src: "https://ik.imagekit.io/wimahgallery/Gallery/pandi_sukma.jpg",
     alt: "Pandi & Sukma Wedding",
+    description: "Grand wedding day",
   },
 ];
 
@@ -46,10 +51,9 @@ export default function PortfolioGallery() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
-      align: "start",
+      align: "center",
       slidesToScroll: 1,
       containScroll: "trimSnaps",
-      dragFree: true,
     },
     [Autoplay({ delay: 4000, stopOnInteraction: true })],
   );
@@ -195,28 +199,35 @@ export default function PortfolioGallery() {
         </div>
 
         {/* Carousel */}
-        <div className="relative" ref={carouselWrapRef}>
+        <div className="relative -mx-4 sm:-mx-6 lg:mx-0" ref={carouselWrapRef}>
           <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex -ml-2 sm:-ml-3">
+            <div className="flex gap-3 px-1.5">
               {images.map((img, i) => (
                 <div
                   key={i}
-                  className="relative flex-none w-[75vw] sm:w-[50vw] lg:w-[30vw] pl-2 sm:pl-3 cursor-pointer group"
+                  className="relative flex-none w-[88vw] sm:w-screen lg:w-[30vw] cursor-pointer group"
                   onClick={() => handleOpen(i)}
                 >
-                  <div className="relative h-[60vw] sm:h-[50vw] lg:h-[450px] overflow-hidden rounded-xl sm:rounded-2xl bg-surface-secondary/30">
+                  <div className="relative h-[70vh] sm:h-[60vh] lg:h-[450px] overflow-hidden rounded-2xl bg-surface-secondary/30">
                     <Image
                       src={img.src}
                       alt={img.alt}
                       fill
-                      sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 30vw"
+                      sizes="(max-width: 1024px) 100vw, 30vw"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       priority={i === 0}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <span className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 text-sm sm:text-base lg:text-lg font-heading text-white/90 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
-                      {img.alt}
-                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                      <h3 className="font-heading text-base sm:text-lg lg:text-xl font-normal text-white leading-snug">
+                        {img.alt}
+                      </h3>
+                      {img.description && (
+                        <p className="mt-1 text-xs sm:text-sm text-white/70">
+                          {img.description}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
