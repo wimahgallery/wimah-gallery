@@ -19,27 +19,23 @@ const images: PortfolioImage[] = [
   {
     src: "https://ik.imagekit.io/wimahgallery/Gallery/dipta_yulia.jpg",
     alt: "Dipta & Yulia",
-    description: "Wedding reception in Bali",
+    description: "Wedding Reception",
   },
   {
     src: "https://ik.imagekit.io/wimahgallery/Gallery/raka_devita.jpg",
     alt: "Raka & Devita",
-    description: "Intimate garden ceremony",
+    description: "Pawiwahan",
   },
   {
     src: "https://ik.imagekit.io/wimahgallery/Gallery/mepandes.jpg",
-    alt: "Mepandes",
-    description: "Traditional Balinese celebration",
+    alt: "Keluarga Dayu Ardiati",
+    description: "Mepandes",
   },
-  {
-    src: "https://ik.imagekit.io/wimahgallery/Gallery/pandi_sukma_celeb.jpg",
-    alt: "Pandi & Sukma",
-    description: "Pre-wedding photoshoot",
-  },
+
   {
     src: "https://ik.imagekit.io/wimahgallery/Gallery/pandi_sukma.jpg",
-    alt: "Pandi & Sukma Wedding",
-    description: "Grand wedding day",
+    alt: "Pandi & Sukma",
+    description: "Wedding Reception",
   },
 ];
 
