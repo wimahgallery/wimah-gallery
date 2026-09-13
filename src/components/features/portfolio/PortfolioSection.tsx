@@ -29,7 +29,7 @@ const images: PortfolioImage[] = [
   {
     src: "https://ik.imagekit.io/wimahgallery/Gallery/mepandes.jpg",
     alt: "Keluarga Dayu Ardiati",
-    description: "Mepandes",
+    description: "Reception Mepandes",
   },
 
   {

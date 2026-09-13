@@ -22,7 +22,7 @@ const TABS = [
     key: "limited_print",
     label: "Limited Print",
     icon: Star,
-    desc: "Limited prints included",
+    desc: "Limited prints",
   },
   {
     key: "unlimited_print",
