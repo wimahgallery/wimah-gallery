@@ -53,7 +53,7 @@ export default function SignupForm() {
           </p>
           <Link
             href="/admin/login"
-            className="mt-6 inline-block rounded-lg bg-[#7C8472] px-6 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558]"
+            className="mt-6 inline-block rounded-lg bg-[#7C8472] px-6 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558]"
           >
             Go to Login
           </Link>
@@ -90,7 +90,7 @@ export default function SignupForm() {
               id="email"
               type="email"
               autoComplete="username"
-              className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
+              className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors duration-300focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
               {...register("email")}
             />
             {errors.email && (
@@ -111,7 +111,7 @@ export default function SignupForm() {
               id="password"
               type="password"
               autoComplete="new-password"
-              className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
+              className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors duration-300focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
               {...register("password")}
             />
             {errors.password && (
@@ -132,7 +132,7 @@ export default function SignupForm() {
               id="confirmPassword"
               type="password"
               autoComplete="new-password"
-              className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
+              className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors duration-300focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
               {...register("confirmPassword")}
             />
             {errors.confirmPassword && (
@@ -145,7 +145,7 @@ export default function SignupForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558] disabled:opacity-50"
+            className="w-full rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558] disabled:opacity-50"
           >
             {isSubmitting ? "Creating account..." : "Create Account"}
           </button>
@@ -155,7 +155,7 @@ export default function SignupForm() {
           Already have an account?{" "}
           <Link
             href="/admin/login"
-            className="font-medium text-[#7C8472] hover:text-[#5F6558]"
+            className="font-medium text-[#7C8472] transition-colors duration-300duration-300 hover:text-[#5F6558]"
           >
             Sign in
           </Link>

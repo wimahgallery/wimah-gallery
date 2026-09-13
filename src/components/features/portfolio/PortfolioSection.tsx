@@ -4,12 +4,14 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { WhatsApp } from "@/components/ui/WhatsAppIcon";
 import { siteConfig } from "@/lib/config";
 import { smoothScrollTo } from "@/lib/smooth-scroll";
 import PortfolioLightbox from "./PortfolioLightbox";
 import type { PortfolioImage } from "./PortfolioLightbox";
-import { Camera, Star, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,8 +41,43 @@ const images: PortfolioImage[] = [
 export default function PortfolioGallery() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
+  const carouselWrapRef = useRef<HTMLDivElement>(null);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "start",
+      slidesToScroll: 1,
+      containScroll: "trimSnaps",
+      dragFree: true,
+    },
+    [Autoplay({ delay: 4000, stopOnInteraction: true })],
+  );
+
+  const [prevEnabled, setPrevEnabled] = useState(false);
+  const [nextEnabled, setNextEnabled] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => {
+      setPrevEnabled(emblaApi.canScrollPrev());
+      setNextEnabled(emblaApi.canScrollNext());
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
+    };
+  }, [emblaApi]);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia(
@@ -66,27 +103,27 @@ export default function PortfolioGallery() {
         });
       }
 
-      if (gridRef.current) {
-        const items = gridRef.current.querySelectorAll(".bento-cell");
-        gsap.set(items, { opacity: 0, y: 30, scale: 0.97 });
-        gsap.to(items, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.6,
-          ease: "power2.out",
-          stagger: 0.06,
-          scrollTrigger: {
-            trigger: gridRef.current,
-            start: "top 85%",
-            once: true,
+      if (carouselWrapRef.current) {
+        gsap.fromTo(
+          carouselWrapRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: carouselWrapRef.current,
+              start: "top 85%",
+              once: true,
+            },
           },
-        });
+        );
       }
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [emblaRef, carouselWrapRef]);
 
   const handleOpen = useCallback((i: number) => setPreviewIndex(i), []);
   const handleClose = useCallback(() => setPreviewIndex(null), []);
@@ -157,114 +194,71 @@ export default function PortfolioGallery() {
           </div>
         </div>
 
-        {/* Bento Grid — 60:40 images:text */}
-        <div
-          ref={gridRef}
-          className="grid grid-cols-4 sm:grid-cols-12 auto-rows-[100px] sm:auto-rows-[110px] lg:auto-rows-[120px] gap-2.5 sm:gap-3"
-        >
-          {/* Row 1-3: Image 1 (big) + About box */}
-          <BentoImage
-            src={images[0].src}
-            alt={images[0].alt}
-            index={0}
-            className="col-span-4 sm:col-span-7 row-span-3"
-            onClick={() => handleOpen(0)}
-          />
-
-          <div className="bento-cell col-span-4 sm:col-span-5 row-span-3 rounded-2xl sm:rounded-3xl bg-accent flex flex-col justify-center p-5 sm:p-7 lg:p-8">
-            <p className="text-[10px] sm:text-[11px] font-medium tracking-[0.15em] uppercase text-background/50 mb-2">
-              About WIMAH
-            </p>
-            <h3 className="font-heading text-lg sm:text-xl lg:text-2xl font-normal text-background leading-snug mb-3">
-              Premium photobooth experience for your special moments.
-            </h3>
-            <p className="text-xs sm:text-sm text-background/60 leading-relaxed mb-4">
-              Kami menangkap kebahagiaan, tawa, dan momen tak terlupakan yang
-              membuat acara Anda istimewa.
-            </p>
-            <a
-              href="#about"
-              onClick={(e) => {
-                e.preventDefault();
-                smoothScrollTo("#about", { offset: -64 });
-              }}
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-background/80 font-medium hover:text-background transition-colors self-start"
-            >
-              Pelajari lebih lanjut
-              <svg
-                className="h-3.5 w-3.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </a>
-          </div>
-
-          {/* Row 4-5: Image 2 + Stats + Quote */}
-          <BentoImage
-            src={images[1].src}
-            alt={images[1].alt}
-            index={1}
-            className="col-span-2 sm:col-span-4 row-span-2"
-            onClick={() => handleOpen(1)}
-          />
-
-          <div className="bento-cell col-span-2 sm:col-span-4 row-span-2 rounded-2xl sm:rounded-3xl bg-surface border border-border flex flex-col items-center justify-center p-4 sm:p-5 text-center">
-            <Camera className="h-5 w-5 sm:h-6 sm:w-6 text-accent mb-2" />
-            <p className="font-heading text-2xl sm:text-3xl lg:text-4xl font-normal text-text-primary leading-none">
-              100%
-            </p>
-            <p className="text-[10px] sm:text-xs text-text-secondary mt-1">
-              Commitment
-            </p>
-          </div>
-
-          <div className="bento-cell col-span-2 sm:col-span-4 row-span-2 rounded-2xl sm:rounded-3xl bg-surface-secondary/40 border border-border flex flex-col justify-between p-4 sm:p-5">
-            <Quote className="h-4 w-4 sm:h-5 sm:w-5 text-accent/30" />
-            <div>
-              <p className="font-elegant italic text-sm sm:text-base lg:text-lg text-text-primary leading-snug">
-                &ldquo;Moment indah yang tak terlupakan, terima kasih
-                WIMAH!&rdquo;
-              </p>
-              <div className="flex items-center gap-1.5 mt-2">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-3 w-3 text-gold fill-gold" />
-                ))}
-              </div>
+        {/* Carousel */}
+        <div className="relative" ref={carouselWrapRef}>
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex -ml-2 sm:-ml-3">
+              {images.map((img, i) => (
+                <div
+                  key={i}
+                  className="relative flex-none w-[75vw] sm:w-[50vw] lg:w-[30vw] pl-2 sm:pl-3 cursor-pointer group"
+                  onClick={() => handleOpen(i)}
+                >
+                  <div className="relative h-[60vw] sm:h-[50vw] lg:h-[450px] overflow-hidden rounded-xl sm:rounded-2xl bg-surface-secondary/30">
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 30vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      priority={i === 0}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <span className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 text-sm sm:text-base lg:text-lg font-heading text-white/90 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
+                      {img.alt}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Row 6-7: Image 3 + Image 4 + Image 5 */}
-          <BentoImage
-            src={images[2].src}
-            alt={images[2].alt}
-            index={2}
-            className="col-span-2 sm:col-span-4 row-span-2"
-            onClick={() => handleOpen(2)}
-          />
+          {/* Nav arrows */}
+          <div className="hidden sm:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 justify-between px-2 pointer-events-none">
+            <button
+              type="button"
+              onClick={scrollPrev}
+              className="pointer-events-auto flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-text-primary shadow-lg backdrop-blur-sm transition-[colors,transform] duration-300 hover:bg-white hover:scale-105 active:scale-95"
+              aria-label="Previous"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={scrollNext}
+              className="pointer-events-auto flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-text-primary shadow-lg backdrop-blur-sm transition-[colors,transform] duration-300 hover:bg-white hover:scale-105 active:scale-95"
+              aria-label="Next"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
 
-          <BentoImage
-            src={images[3].src}
-            alt={images[3].alt}
-            index={3}
-            className="col-span-2 sm:col-span-4 row-span-2"
-            onClick={() => handleOpen(3)}
-          />
-
-          <BentoImage
-            src={images[4].src}
-            alt={images[4].alt}
-            index={4}
-            className="col-span-4 sm:col-span-4 row-span-2"
-            onClick={() => handleOpen(4)}
-          />
+          {/* Dots */}
+          <div className="mt-4 flex justify-center gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => emblaApi?.scrollTo(i)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  i === selectedIndex
+                    ? "w-6 bg-accent"
+                    : "w-2 bg-border hover:bg-accent/40"
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -277,50 +271,5 @@ export default function PortfolioGallery() {
         />
       )}
     </section>
-  );
-}
-
-function BentoImage({
-  src,
-  alt,
-  index,
-  className,
-  onClick,
-}: {
-  src: string;
-  alt: string;
-  index: number;
-  className?: string;
-  onClick: () => void;
-}) {
-  const ref = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      gsap.set(el, { opacity: 1 });
-    }
-  }, [index]);
-
-  return (
-    <button
-      ref={ref}
-      type="button"
-      onClick={onClick}
-      className={`bento-cell relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer group ${className ?? ""}`}
-    >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        sizes="(max-width: 640px) 50vw, 25vw"
-        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <span className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-xs sm:text-sm font-heading text-white/90 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
-        {alt}
-      </span>
-    </button>
   );
 }

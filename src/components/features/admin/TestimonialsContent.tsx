@@ -147,7 +147,7 @@ export default function TestimonialsContent() {
         </div>
         <button
           onClick={() => { resetForm(); setShowForm(!showForm) }}
-          className="inline-flex items-center gap-2 rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558]"
+          className="inline-flex items-center gap-2 rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558]"
         >
           {showForm ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
           {showForm ? "Cancel" : "Add Testimonial"}
@@ -174,7 +174,7 @@ export default function TestimonialsContent() {
               <textarea
                 {...register("message")}
                 rows={3}
-                className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20 resize-none"
+                className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors duration-300focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20 resize-none"
                 placeholder="What the client said..."
               />
               {errors.message && (
@@ -190,7 +190,7 @@ export default function TestimonialsContent() {
                 <input
                   type="text"
                   {...register("username")}
-                  className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
+                  className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors duration-300focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
                   placeholder="Angela & David"
                 />
                 {errors.username && (
@@ -204,7 +204,7 @@ export default function TestimonialsContent() {
                 <input
                   type="text"
                   {...register("role")}
-                  className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
+                  className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors duration-300focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
                   placeholder="Wedding, Corporate Event..."
                 />
                 {errors.role && (
@@ -219,7 +219,7 @@ export default function TestimonialsContent() {
               </label>
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className="flex cursor-pointer items-center gap-3 rounded-lg border border-dashed border-[rgba(84,82,77,0.2)] bg-[#F5F3EE] px-4 py-3 transition-colors hover:border-[#7C8472]"
+                className="flex cursor-pointer items-center gap-3 rounded-lg border border-dashed border-[rgba(84,82,77,0.2)] bg-[#F5F3EE] px-4 py-3 transition-colors duration-300hover:border-[#7C8472]"
               >
                 <Upload className="h-4 w-4 text-[#8D8A82]" />
                 <span className="text-sm text-[#8D8A82]">
@@ -257,7 +257,7 @@ export default function TestimonialsContent() {
               <button
                 type="button"
                 onClick={() => setValue("visible", !visibleValue)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${visibleValue ? "bg-[#7C8472]" : "bg-[#DDD8CC]"}`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300${visibleValue ? "bg-[#7C8472]" : "bg-[#DDD8CC]"}`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${visibleValue ? "translate-x-6" : "translate-x-1"}`}
@@ -268,7 +268,7 @@ export default function TestimonialsContent() {
             <button
               type="submit"
               disabled={createMutation.isPending || updateMutation.isPending}
-              className="w-full rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558] disabled:opacity-50"
+              className="w-full rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558] disabled:opacity-50"
             >
               {createMutation.isPending || updateMutation.isPending
                 ? "Saving..."
@@ -322,21 +322,21 @@ export default function TestimonialsContent() {
                   <button
                     onClick={() => handleToggleVisibility(t.id, t.visible)}
                     title={t.visible ? "Hide from website" : "Show on website"}
-                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-[#F5F3EE] hover:text-[#54524D]"
+                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-[#F5F3EE] hover:text-[#54524D]"
                   >
                     {t.visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                   </button>
                   <button
                     onClick={() => openEdit(t)}
                     title="Edit"
-                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-[#F5F3EE] hover:text-[#54524D]"
+                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-[#F5F3EE] hover:text-[#54524D]"
                   >
                     <Pencil className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(t.id)}
                     title="Delete"
-                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-red-50 hover:text-red-500"
+                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-red-50 hover:text-red-500"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>

@@ -257,14 +257,14 @@ export default function EventsContent() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-lg bg-[#7C8472] px-4 py-2 text-xs font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558] disabled:opacity-50"
+              className="rounded-lg bg-[#7C8472] px-4 py-2 text-xs font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558] disabled:opacity-50"
             >
               {submitting ? "Saving..." : editingId ? "Update" : "Create"}
             </button>
             <button
               type="button"
               onClick={resetForm}
-              className="rounded-lg border border-[rgba(84,82,77,0.12)] px-4 py-2 text-xs text-[#8D8A82] hover:text-[#54524D]"
+              className="rounded-lg border border-[rgba(84,82,77,0.12)] px-4 py-2 text-xs text-[#8D8A82] transition-colors duration-300duration-300 hover:text-[#54524D]"
             >
               Cancel
             </button>
@@ -278,7 +278,7 @@ export default function EventsContent() {
           {!showForm && (
             <button
               onClick={() => setShowForm(true)}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#7C8472] px-3 py-1.5 text-xs font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558]"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#7C8472] px-3 py-1.5 text-xs font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558]"
             >
               <Plus className="h-3.5 w-3.5" /> Add
             </button>
@@ -307,14 +307,14 @@ export default function EventsContent() {
                   <button
                     onClick={() => handleMove(ev.id, "up")}
                     disabled={i === 0}
-                    className="rounded p-0.5 text-[#8D8A82] hover:text-[#54524D] disabled:opacity-30"
+                    className="rounded p-0.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:text-[#54524D] disabled:opacity-30"
                   >
                     <ChevronUp className="h-3.5 w-3.5" />
                   </button>
                   <button
                     onClick={() => handleMove(ev.id, "down")}
                     disabled={i === events.length - 1}
-                    className="rounded p-0.5 text-[#8D8A82] hover:text-[#54524D] disabled:opacity-30"
+                    className="rounded p-0.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:text-[#54524D] disabled:opacity-30"
                   >
                     <ChevronDown className="h-3.5 w-3.5" />
                   </button>
@@ -350,7 +350,7 @@ export default function EventsContent() {
                     target="_blank"
                     rel="noopener noreferrer"
                     title="Open images"
-                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-[#F5F3EE] hover:text-[#7C8472]"
+                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-[#F5F3EE] hover:text-[#7C8472]"
                   >
                     <ExternalLink className="h-4 w-4" />
                   </a>
@@ -358,7 +358,7 @@ export default function EventsContent() {
 
                 <button
                   onClick={() => handleToggleVisible(ev.id, !ev.visible)}
-                  className={`rounded-lg px-2 py-1 text-xs transition-colors ${ev.visible ? "bg-[#7C8472]/10 text-[#7C8472]" : "bg-[#DDD8CC]/50 text-[#8D8A82]"}`}
+                  className={`rounded-lg px-2 py-1 text-xs transition-colors duration-300${ev.visible ? "bg-[#7C8472]/10 text-[#7C8472]" : "bg-[#DDD8CC]/50 text-[#8D8A82]"}`}
                 >
                   {ev.visible ? "Shown" : "Hidden"}
                 </button>
@@ -366,7 +366,7 @@ export default function EventsContent() {
                 <button
                   onClick={() => openEdit(ev)}
                   title="Edit"
-                  className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-[#F5F3EE] hover:text-[#54524D]"
+                  className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-[#F5F3EE] hover:text-[#54524D]"
                 >
                   <Pencil className="h-4 w-4" />
                 </button>
@@ -374,7 +374,7 @@ export default function EventsContent() {
                 <button
                   onClick={() => handleDelete(ev.id)}
                   title="Delete"
-                  className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-red-50 hover:text-red-500"
+                  className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-red-50 hover:text-red-500"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>

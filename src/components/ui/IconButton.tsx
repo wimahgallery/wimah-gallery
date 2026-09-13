@@ -24,7 +24,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center rounded-full transition-colors",
+          "inline-flex items-center justify-center rounded-full     transition-colors duration-300",
           variantStyles[variant],
           sizeStyles[size],
           className

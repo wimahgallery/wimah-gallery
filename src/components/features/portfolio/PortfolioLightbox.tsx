@@ -69,7 +69,7 @@ export default function PortfolioLightbox({
       <button
         type="button"
         onClick={onClose}
-        className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+        className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors duration-300 hover:bg-white/20"
         aria-label="Close preview"
       >
         <X className="h-5 w-5" />
@@ -82,7 +82,7 @@ export default function PortfolioLightbox({
           e.stopPropagation()
           handleDownload(current.src, current.alt)
         }}
-        className="absolute top-4 right-16 sm:top-6 sm:right-20 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+        className="absolute top-4 right-16 sm:top-6 sm:right-20 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors duration-300 hover:bg-white/20"
         aria-label="Download image"
       >
         <Download className="h-5 w-5" />
@@ -101,7 +101,7 @@ export default function PortfolioLightbox({
             e.stopPropagation()
             handlePrev()
           }}
-          className="absolute left-2 sm:left-4 z-10 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+          className="absolute left-2 sm:left-4 z-10 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors duration-300 hover:bg-white/20"
           aria-label="Previous image"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -116,7 +116,7 @@ export default function PortfolioLightbox({
             e.stopPropagation()
             handleNext()
           }}
-          className="absolute right-2 sm:right-4 z-10 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+          className="absolute right-2 sm:right-4 z-10 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors duration-300 hover:bg-white/20"
           aria-label="Next image"
         >
           <ChevronRight className="h-5 w-5" />

@@ -114,7 +114,7 @@ export default function FaqsContent() {
         </div>
         <button
           onClick={() => { resetForm(); setShowForm(!showForm) }}
-          className="inline-flex items-center gap-2 rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558]"
+          className="inline-flex items-center gap-2 rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558]"
         >
           {showForm ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
           {showForm ? "Cancel" : "Add FAQ"}
@@ -141,7 +141,7 @@ export default function FaqsContent() {
               <input
                 type="text"
                 {...form.register("question")}
-                className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
+                className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors duration-300focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
                 placeholder="The question..."
               />
               {form.formState.errors.question && (
@@ -158,7 +158,7 @@ export default function FaqsContent() {
               <textarea
                 {...form.register("answer")}
                 rows={4}
-                className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20 resize-none"
+                className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors duration-300focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20 resize-none"
                 placeholder="The answer..."
               />
               {form.formState.errors.answer && (
@@ -171,7 +171,7 @@ export default function FaqsContent() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558] disabled:opacity-50"
+              className="w-full rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558] disabled:opacity-50"
             >
               {isSubmitting ? "Saving..." : editingId ? "Update FAQ" : "Save FAQ"}
             </button>
@@ -203,14 +203,14 @@ export default function FaqsContent() {
                   <button
                     onClick={() => handleMove(faq.id, "up")}
                     disabled={i === 0}
-                    className="rounded p-0.5 text-[#8D8A82] hover:text-[#54524D] disabled:opacity-30"
+                    className="rounded p-0.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:text-[#54524D] disabled:opacity-30"
                   >
                     <ChevronUp className="h-3.5 w-3.5" />
                   </button>
                   <button
                     onClick={() => handleMove(faq.id, "down")}
                     disabled={i === faqs.length - 1}
-                    className="rounded p-0.5 text-[#8D8A82] hover:text-[#54524D] disabled:opacity-30"
+                    className="rounded p-0.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:text-[#54524D] disabled:opacity-30"
                   >
                     <ChevronDown className="h-3.5 w-3.5" />
                   </button>
@@ -225,21 +225,21 @@ export default function FaqsContent() {
                   <button
                     onClick={() => handleToggleVisibility(faq.id, faq.visible)}
                     title={faq.visible ? "Hide" : "Show"}
-                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-[#F5F3EE] hover:text-[#54524D]"
+                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-[#F5F3EE] hover:text-[#54524D]"
                   >
                     {faq.visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                   </button>
                   <button
                     onClick={() => openEdit(faq)}
                     title="Edit"
-                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-[#F5F3EE] hover:text-[#54524D]"
+                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-[#F5F3EE] hover:text-[#54524D]"
                   >
                     <Pencil className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(faq.id)}
                     title="Delete"
-                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-red-50 hover:text-red-500"
+                    className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-red-50 hover:text-red-500"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>

@@ -97,7 +97,7 @@ export default function PricingContent() {
           <button
             key={tab.key}
             onClick={() => { setActiveTab(tab.key); setShowAdd(false); setError("") }}
-            className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${activeTab === tab.key ? "bg-[#7C8472] text-[#F5F3EE]" : "text-[#8D8A82] hover:text-[#54524D]"}`}
+            className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors duration-300duration-300 ${activeTab === tab.key ? "bg-[#7C8472] text-[#F5F3EE]" : "text-[#8D8A82] hover:text-[#54524D]"}`}
           >
             {tab.label}
           </button>
@@ -126,7 +126,7 @@ export default function PricingContent() {
           </div>
           <button
             onClick={() => { setShowAdd(!showAdd); addForm.reset({ hours: 2, price: 0, discount: 0, print_count_limit: 0 }); setError("") }}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#7C8472] px-3 py-1.5 text-xs font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558]"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#7C8472] px-3 py-1.5 text-xs font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558]"
           >
             {showAdd ? <X className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
             {showAdd ? "Cancel" : "Add"}
@@ -182,7 +182,7 @@ export default function PricingContent() {
             <button
               type="submit"
               disabled={addMutation.isPending}
-              className="mt-3 rounded-lg bg-[#7C8472] px-4 py-2 text-xs font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558] disabled:opacity-50"
+              className="mt-3 rounded-lg bg-[#7C8472] px-4 py-2 text-xs font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558] disabled:opacity-50"
             >
               {addMutation.isPending ? "Saving..." : "Save Package"}
             </button>
@@ -332,14 +332,14 @@ function PackageRow({
             <button
               type="submit"
               disabled={updateMutation.isPending}
-              className="inline-flex items-center gap-1 rounded-lg bg-[#7C8472] px-3 py-1.5 text-xs font-semibold text-[#F5F3EE] hover:bg-[#5F6558] disabled:opacity-50"
+              className="inline-flex items-center gap-1 rounded-lg bg-[#7C8472] px-3 py-1.5 text-xs font-semibold text-[#F5F3EE] transition-colors duration-300duration-300 hover:bg-[#5F6558] disabled:opacity-50"
             >
               <Save className="h-3 w-3" /> {updateMutation.isPending ? "Saving..." : "Save"}
             </button>
             <button
               type="button"
               onClick={() => setEditing(false)}
-              className="rounded-lg border border-[rgba(84,82,77,0.12)] px-3 py-1.5 text-xs text-[#8D8A82] hover:text-[#54524D]"
+              className="rounded-lg border border-[rgba(84,82,77,0.12)] px-3 py-1.5 text-xs text-[#8D8A82] transition-colors duration-300duration-300 hover:text-[#54524D]"
             >
               Cancel
             </button>
@@ -355,14 +355,14 @@ function PackageRow({
         <button
           onClick={onMoveUp}
           disabled={isFirst}
-          className="rounded p-0.5 text-[#8D8A82] hover:text-[#54524D] disabled:opacity-30"
+          className="rounded p-0.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:text-[#54524D] disabled:opacity-30"
         >
           <ChevronUp className="h-3.5 w-3.5" />
         </button>
         <button
           onClick={onMoveDown}
           disabled={isLast}
-          className="rounded p-0.5 text-[#8D8A82] hover:text-[#54524D] disabled:opacity-30"
+          className="rounded p-0.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:text-[#54524D] disabled:opacity-30"
         >
           <ChevronDown className="h-3.5 w-3.5" />
         </button>
@@ -396,7 +396,7 @@ function PackageRow({
 
       <button
         onClick={() => onToggleVisible(!pkg.visible)}
-        className={`rounded-lg px-2 py-1 text-xs transition-colors ${pkg.visible ? "bg-[#7C8472]/10 text-[#7C8472]" : "bg-[#DDD8CC]/50 text-[#8D8A82]"}`}
+        className={`rounded-lg px-2 py-1 text-xs transition-colors duration-300${pkg.visible ? "bg-[#7C8472]/10 text-[#7C8472]" : "bg-[#DDD8CC]/50 text-[#8D8A82]"}`}
       >
         {pkg.visible ? "Shown" : "Hidden"}
       </button>
@@ -404,7 +404,7 @@ function PackageRow({
       <button
         onClick={() => onToggleFavorite(!pkg.favorite)}
         title={pkg.favorite ? "Remove favorite" : "Mark as favorite"}
-        className={`rounded-lg p-1.5 transition-colors ${pkg.favorite ? "text-[#D4A853] hover:text-[#8D8A82]" : "text-[#DDD8CC] hover:text-[#D4A853]"}`}
+        className={`rounded-lg p-1.5 transition-colors duration-300duration-300 ${pkg.favorite ? "text-[#D4A853] hover:text-[#8D8A82]" : "text-[#DDD8CC] hover:text-[#D4A853]"}`}
       >
         <Star className="h-4 w-4" fill={pkg.favorite ? "currentColor" : "none"} />
       </button>
@@ -412,7 +412,7 @@ function PackageRow({
       <button
         onClick={handleEdit}
         title="Edit"
-        className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-[#F5F3EE] hover:text-[#54524D]"
+        className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-[#F5F3EE] hover:text-[#54524D]"
       >
         <Pencil className="h-4 w-4" />
       </button>
@@ -420,7 +420,7 @@ function PackageRow({
       <button
         onClick={onDelete}
         title="Delete"
-        className="rounded-lg p-1.5 text-[#8D8A82] transition-colors hover:bg-red-50 hover:text-red-500"
+        className="rounded-lg p-1.5 text-[#8D8A82] transition-colors duration-300duration-300 hover:bg-red-50 hover:text-red-500"
       >
         <Trash2 className="h-4 w-4" />
       </button>

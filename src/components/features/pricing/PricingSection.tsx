@@ -142,7 +142,7 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
         href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik dengan paket ${typeLabels[pkg.type] || pkg.type} (${pkg.hours}h) dari WIMAH Photobooth.`}
         target="_blank"
         rel="noopener noreferrer"
-        className={`flex w-full items-center justify-center gap-1.5 rounded-lg border py-1.5 sm:py-2.5 text-[10px] sm:text-xs font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
+        className={`flex w-full items-center justify-center gap-1.5 rounded-lg border py-1.5 sm:py-2.5 text-[10px] sm:text-xs font-semibold transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
           pkg.favorite
             ? "border-[#D4A853]/30 bg-[#D4A853]/10 text-[#D4A853] hover:bg-[#D4A853]/20 hover:border-[#D4A853]/50 hover:shadow-[0_4px_20px_rgba(212,168,83,0.15)]"
             : "border-border bg-background text-text-primary hover:border-accent/30 hover:bg-accent/5 hover:shadow-[0_4px_20px_rgba(124,132,114,0.1)]"
@@ -159,6 +159,7 @@ export default function Pricing() {
   const titleRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<TabKey>("file_only");
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<TabKey | null>(null);
 
   const { data: response, isLoading, isError } = usePublicPricing();
 
@@ -190,6 +191,10 @@ export default function Pricing() {
 
   const activeTabData = TABS.find((t) => t.key === activeTab)!;
 
+  function toggleAccordion(key: TabKey) {
+    setOpenAccordion((prev) => (prev === key ? null : key));
+  }
+
   return (
     <section
       id="pricing"
@@ -211,33 +216,87 @@ export default function Pricing() {
           </p>
         </div>
 
-        {/* Dropdown selector */}
-        <div className="mb-5 sm:mb-12 flex justify-center">
+        {/* Mobile/Tablet: Accordion categories */}
+        <div className="mb-5 sm:mb-12 lg:hidden">
+          <div className="space-y-2">
+            {TABS.map((tab) => {
+              const Icon = tab.icon;
+              const isOpen = openAccordion === tab.key;
+              const count = visiblePackages.filter((p) => p.type === tab.key).length;
+              const pkgs = visiblePackages.filter((p) => p.type === tab.key);
+
+              return (
+                <div key={tab.key} className="rounded-xl sm:rounded-2xl border border-border bg-surface overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => toggleAccordion(tab.key)}
+                    className="flex w-full items-center gap-3 px-3 sm:px-5 py-3 sm:py-4 text-left transition-colors duration-300 hover:bg-surface-secondary/50"
+                  >
+                    <div className={`flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl transition-colors duration-300 ${isOpen ? "bg-accent/15 text-accent" : "bg-surface-secondary/50 text-text-secondary"}`}>
+                      <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs sm:text-sm font-medium text-text-primary">{tab.label}</p>
+                      <p className="text-[10px] sm:text-xs text-text-secondary">{tab.desc}</p>
+                    </div>
+                    <span className="text-[10px] sm:text-xs text-text-secondary mr-1">
+                      {count} {count === 1 ? "pkg" : "pkgs"}
+                    </span>
+                    <ChevronDown
+                      className={`h-4 w-4 shrink-0 text-text-secondary transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+
+                  <div
+                    className={`transition-all duration-300 ease-in-out ${
+                      isOpen ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="px-3 sm:px-5 pb-3 sm:pb-5">
+                      {pkgs.length === 0 ? (
+                        <p className="text-xs text-text-secondary py-4 text-center">No packages available.</p>
+                      ) : (
+                        <div className="grid gap-2 sm:gap-3 grid-cols-2">
+                          {pkgs.map((pkg, i) => (
+                            <PackageCard key={pkg.id} pkg={pkg} index={i} />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Desktop: Dropdown selector */}
+        <div className="mb-5 sm:mb-12 hidden lg:flex lg:justify-center">
           <div className="relative w-full max-w-md">
             <button
               onClick={() => setOpenDropdown(!openDropdown)}
-              className="flex w-full items-center justify-between gap-3 rounded-xl sm:rounded-2xl border border-border bg-surface px-3 sm:px-6 py-2.5 sm:py-4 text-left backdrop-blur-sm transition-all duration-300 hover:border-accent/30 hover:bg-surface"
+              className="flex w-full items-center justify-between gap-3 rounded-2xl border border-border bg-surface px-6 py-4 text-left backdrop-blur-sm transition-all duration-300 hover:border-accent/30 hover:bg-surface"
             >
-              <div className="flex items-center gap-2.5 sm:gap-3">
-                <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                  <activeTabData.icon className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                  <activeTabData.icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs sm:text-sm font-medium text-text-primary">
+                  <p className="text-sm font-medium text-text-primary">
                     {activeTabData.label}
                   </p>
-                  <p className="text-[10px] sm:text-xs text-text-secondary">
+                  <p className="text-xs text-text-secondary">
                     {activeTabData.desc}
                   </p>
                 </div>
               </div>
               <ChevronDown
-                className={`h-3.5 w-3.5 sm:h-5 sm:w-5 text-text-secondary transition-transform duration-300 ${openDropdown ? "rotate-180" : ""}`}
+                className={`h-5 w-5 text-text-secondary transition-transform duration-300 ${openDropdown ? "rotate-180" : ""}`}
               />
             </button>
 
             {openDropdown && (
-              <div className="absolute top-full left-0 z-50 mt-2 w-full overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-surface shadow-[0_16px_48px_rgba(0,0,0,0.12)]">
+              <div className="absolute top-full left-0 z-50 mt-2 w-full overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_16px_48px_rgba(0,0,0,0.12)]">
                 {TABS.map((tab) => {
                   const Icon = tab.icon;
                   const isActive = tab.key === activeTab;
@@ -251,22 +310,22 @@ export default function Pricing() {
                         setActiveTab(tab.key);
                         setOpenDropdown(false);
                       }}
-                      className={`flex w-full items-center gap-3 px-3 sm:px-6 py-2.5 sm:py-4 text-left transition-colors duration-200 ${isActive ? "bg-accent/10 text-accent" : "text-text-primary hover:bg-surface-secondary/50"}`}
+                      className={`flex w-full items-center gap-3 px-6 py-4 text-left transition-colors duration-200 ${isActive ? "bg-accent/10 text-accent" : "text-text-primary hover:bg-surface-secondary/50"}`}
                     >
                       <div
-                        className={`flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl ${isActive ? "bg-accent/15 text-accent" : "bg-surface-secondary/50 text-text-secondary"}`}
+                        className={`flex h-10 w-10 items-center justify-center rounded-xl ${isActive ? "bg-accent/15 text-accent" : "bg-surface-secondary/50 text-text-secondary"}`}
                       >
-                        <Icon className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
+                        <Icon className="h-5 w-5" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-xs sm:text-sm font-medium">
+                        <p className="text-sm font-medium">
                           {tab.label}
                         </p>
-                        <p className="text-[10px] sm:text-xs text-text-secondary">
+                        <p className="text-xs text-text-secondary">
                           {tab.desc}
                         </p>
                       </div>
-                      <span className="text-[10px] sm:text-xs text-text-secondary">
+                      <span className="text-xs text-text-secondary">
                         {count} {count === 1 ? "pkg" : "pkgs"}
                       </span>
                     </button>
@@ -277,13 +336,13 @@ export default function Pricing() {
           </div>
         </div>
 
-        {/* Packages grid */}
+        {/* Desktop: Packages grid */}
         {isLoading ? (
-          <div className="grid gap-2 sm:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="hidden lg:grid gap-4 grid-cols-3 lg:grid-cols-4">
             {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="animate-pulse rounded-2xl bg-[#E8E3D8]/30 h-40 sm:h-52"
+                className="animate-pulse rounded-2xl bg-[#E8E3D8]/30 h-52"
               />
             ))}
           </div>
@@ -293,17 +352,18 @@ export default function Pricing() {
               Failed to load. Please try again.
             </p>
           </div>
-        ) : filteredPackages.length === 0 ? (
-          <div className="py-10 sm:py-16 text-center">
-            <p className="text-xs sm:text-sm text-text-secondary">
-              No packages available for this category.
-            </p>
-          </div>
         ) : (
-          <div className="grid gap-2 sm:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="hidden lg:grid gap-4 grid-cols-3 lg:grid-cols-4">
             {filteredPackages.map((pkg, i) => (
               <PackageCard key={pkg.id} pkg={pkg} index={i} />
             ))}
+            {filteredPackages.length === 0 && (
+              <div className="col-span-full py-16 text-center">
+                <p className="text-sm text-text-secondary">
+                  No packages available for this category.
+                </p>
+              </div>
+            )}
           </div>
         )}
 
@@ -342,7 +402,7 @@ export default function Pricing() {
               href={`${siteConfig.whatsappLink}?text=Halo! Saya ingin konsultasi paket custom dari WIMAH Photobooth.`}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:text-accent-light hover:decoration-accent/50 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors duration-300 hover:text-accent-light hover:decoration-accent/50 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >
               Contact us
             </a>

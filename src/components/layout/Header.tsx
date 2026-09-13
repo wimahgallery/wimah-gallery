@@ -232,7 +232,7 @@ export function Header() {
                       window.location.href = item.href;
                     }
                   }}
-                  className="font-heading text-2xl sm:text-3xl font-normal text-background transition-colors duration-300 hover:text-white hover:scale-105 inline-block"
+                  className="font-heading text-2xl sm:text-3xl font-normal text-background transition-[colors,transform] duration-300 hover:text-white hover:scale-105 inline-block"
                 >
                   {item.label}
                 </a>

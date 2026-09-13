@@ -156,13 +156,13 @@ export default function Testimonials() {
 
             <button
               onClick={scrollPrev}
-              className="absolute left-0 top-1/2 z-10 flex h-7 w-7 sm:h-10 sm:w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-text-secondary backdrop-blur-sm transition-all hover:border-accent/30 hover:text-accent"
+              className="absolute left-0 top-1/2 z-10 flex h-7 w-7 sm:h-10 sm:w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-text-secondary backdrop-blur-sm transition-[colors,border-color] duration-300 hover:border-accent/30 hover:text-accent"
             >
               <ChevronLeft className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
             </button>
             <button
               onClick={scrollNext}
-              className="absolute right-0 top-1/2 z-10 flex h-7 w-7 sm:h-10 sm:w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-text-secondary backdrop-blur-sm transition-all hover:border-accent/30 hover:text-accent"
+              className="absolute right-0 top-1/2 z-10 flex h-7 w-7 sm:h-10 sm:w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-text-secondary backdrop-blur-sm transition-[colors,border-color] duration-300 hover:border-accent/30 hover:text-accent"
             >
               <ChevronRight className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
             </button>

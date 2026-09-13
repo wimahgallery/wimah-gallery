@@ -40,7 +40,7 @@ export default function AlbumContent() {
           </div>
           <button
             type="submit"
-            className="rounded-xl bg-accent px-5 py-2.5 text-sm font-medium text-background transition-colors hover:bg-accent-light"
+            className="rounded-xl bg-accent px-5 py-2.5 text-sm font-medium text-background transition-colors duration-300 hover:bg-accent-light"
           >
             Cari
           </button>

@@ -120,7 +120,7 @@ function QuickLink({
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
-      className="flex items-center gap-2 rounded-lg border border-[rgba(84,82,77,0.12)] px-4 py-2.5 text-sm text-[#54524D] transition-colors hover:border-[#7C8472] hover:bg-[#7C8472]/5"
+      className="flex items-center gap-2 rounded-lg border border-[rgba(84,82,77,0.12)] px-4 py-2.5 text-sm text-[#54524D] transition-colors duration-300 hover:border-[#7C8472] hover:bg-[#7C8472]/5"
     >
       {label}
       {external && (

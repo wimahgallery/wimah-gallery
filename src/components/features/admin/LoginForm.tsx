@@ -69,7 +69,7 @@ export default function LoginForm() {
               id="email"
               type="email"
               autoComplete="username"
-              className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
+              className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors duration-300focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
               {...register("email")}
             />
           </div>
@@ -85,7 +85,7 @@ export default function LoginForm() {
               id="password"
               type="password"
               autoComplete="current-password"
-              className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
+              className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-4 py-2.5 text-sm text-[#54524D] outline-none transition-colors duration-300focus:border-[#7C8472] focus:ring-2 focus:ring-[#7C8472]/20"
               {...register("password")}
             />
           </div>
@@ -93,7 +93,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors hover:bg-[#5F6558] disabled:opacity-50"
+            className="w-full rounded-lg bg-[#7C8472] px-4 py-2.5 text-sm font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558] disabled:opacity-50"
           >
             {isSubmitting ? "Signing in..." : "Sign In"}
           </button>
