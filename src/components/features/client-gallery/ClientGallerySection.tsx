@@ -67,8 +67,8 @@ export default function ClientGallery() {
       id="album"
       className="relative py-14 sm:py-20 lg:py-32 texture-noise"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      <div className="absolute inset-0 bg-accent/5" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" aria-hidden="true" />
+      <div className="absolute inset-0 bg-accent/5" aria-hidden="true" />
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div ref={titleRef} className="mb-10 sm:mb-16 text-center">
           <h2 className="font-heading text-[28px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
@@ -112,9 +112,9 @@ export default function ClientGallery() {
             className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
           >
             {events.map((ev) => (
-              <div data-card key={ev.id}>
+              <article data-card key={ev.id}>
                 <EventCard event={ev} />
-              </div>
+              </article>
             ))}
           </div>
         )}

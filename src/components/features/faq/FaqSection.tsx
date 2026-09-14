@@ -27,6 +27,7 @@ function FaqItem({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const faqId = `faq-answer-${index}`;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -64,7 +65,10 @@ function FaqItem({
         className={`border-b transition-colors duration-300 ${isOpen ? "border-accent/30" : "border-border"}`}
       >
         <button
+          id={`faq-question-${index}`}
           onClick={onClick}
+          aria-expanded={isOpen}
+          aria-controls={faqId}
           className="flex w-full items-center gap-3 sm:gap-4 py-4 sm:py-5 text-left transition-colors duration-300 group active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-xl"
         >
           <div
@@ -84,6 +88,9 @@ function FaqItem({
         </button>
         <div
           ref={contentRef}
+          id={faqId}
+          role="region"
+          aria-labelledby={`faq-question-${index}`}
           style={{ height: 0, opacity: 0, overflow: "hidden" }}
         >
           <div className="pl-10 sm:pl-12 pr-3 sm:pr-4 pb-4 sm:pb-5">
@@ -126,7 +133,7 @@ function GuaranteeCard({
   }, [index]);
 
   return (
-    <div
+    <article
       ref={ref}
       className="flex items-start gap-3 rounded-2xl border border-border bg-surface p-3 sm:p-4 transition-colors duration-300 hover:border-accent/20 hover:bg-surface"
     >
@@ -139,7 +146,7 @@ function GuaranteeCard({
           {item.description}
         </p>
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -179,8 +186,8 @@ export default function Faq() {
 
   return (
     <section id="faq" className="relative py-14 sm:py-20 lg:py-32 texture-grid">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" />
-      <div className="absolute inset-0 bg-accent/5 blur-3xl" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" aria-hidden="true" />
+      <div className="absolute inset-0 bg-accent/5 blur-3xl" aria-hidden="true" />
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 sm:gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
           <div ref={titleRef}>

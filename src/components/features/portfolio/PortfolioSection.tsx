@@ -135,8 +135,8 @@ export default function PortfolioGallery() {
       ref={sectionRef}
       className="relative py-16 sm:py-20 lg:py-28 texture-dots"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      <div className="absolute inset-0 bg-accent/5" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" aria-hidden="true" />
+      <div className="absolute inset-0 bg-accent/5" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-12">
         {/* Headline */}
@@ -199,9 +199,9 @@ export default function PortfolioGallery() {
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-3 px-1.5">
               {images.map((img, i) => (
-                <div
+                <figure
                   key={i}
-                  className="relative flex-none w-[88vw] sm:w-screen lg:w-[30vw] cursor-pointer group"
+                  className="relative flex-none w-[88vw] sm:w-screen lg:w-[30vw] cursor-pointer group m-0"
                   onClick={() => handleOpen(i)}
                 >
                   <div className="relative h-[70vh] sm:h-[60vh] lg:h-[450px] overflow-hidden rounded-2xl bg-surface-secondary/30">
@@ -213,8 +213,8 @@ export default function PortfolioGallery() {
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       priority={i === 0}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" aria-hidden="true" />
+                    <figcaption className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
                       <h3 className="font-heading text-base sm:text-lg lg:text-xl font-normal text-white leading-snug">
                         {img.alt}
                       </h3>
@@ -223,15 +223,15 @@ export default function PortfolioGallery() {
                           {img.description}
                         </p>
                       )}
-                    </div>
+                    </figcaption>
                   </div>
-                </div>
+                </figure>
               ))}
             </div>
           </div>
 
           {/* Nav arrows */}
-          <div className="hidden sm:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 justify-between px-2 pointer-events-none">
+          <div className="hidden sm:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 justify-between px-2 pointer-events-none" role="group" aria-label="Carousel navigation">
             <button
               type="button"
               onClick={scrollPrev}

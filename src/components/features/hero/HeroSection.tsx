@@ -39,10 +39,10 @@ export default function Hero() {
       id="home"
       className="lg:min-h-screen pt-10 md:py-0 flex items-center relative overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-surface to-background" />
-      <div className="absolute top-20 right-0 w-[200px] h-[200px] sm:w-[400px] sm:h-[400px] lg:w-[600px] lg:h-[600px] rounded-full bg-accent/5" />
-      <div className="absolute bottom-0 left-0 w-[150px] h-[150px] sm:w-[300px] sm:h-[300px] lg:w-[400px] lg:h-[400px] rounded-full bg-accent/5" />
-      <div className="absolute [paint-order:stroke_fill] [-webkit-text-stroke:1px_rgba(124,132,114,0.12)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-heading text-[20vw] font-black text-text-primary/[0.03] pointer-events-none select-none whitespace-nowrap">
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-surface to-background" aria-hidden="true" />
+      <div className="absolute top-20 right-0 w-[200px] h-[200px] sm:w-[400px] sm:h-[400px] lg:w-[600px] lg:h-[600px] rounded-full bg-accent/5" aria-hidden="true" />
+      <div className="absolute bottom-0 left-0 w-[150px] h-[150px] sm:w-[300px] sm:h-[300px] lg:w-[400px] lg:h-[400px] rounded-full bg-accent/5" aria-hidden="true" />
+      <div className="absolute [paint-order:stroke_fill] [-webkit-text-stroke:1px_rgba(124,132,114,0.12)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-heading text-[20vw] font-black text-text-primary/[0.03] pointer-events-none select-none whitespace-nowrap" aria-hidden="true">
         MEMORIES
       </div>
       <div className="relative z-10 mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28 w-full">

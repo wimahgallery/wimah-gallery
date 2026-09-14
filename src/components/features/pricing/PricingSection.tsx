@@ -200,8 +200,8 @@ export default function Pricing() {
       id="pricing"
       className="relative py-10 sm:py-20 lg:py-32 texture-diagonal"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
-      <div className="absolute inset-0 bg-accent/5 blur-3xl" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" aria-hidden="true" />
+      <div className="absolute inset-0 bg-accent/5 blur-3xl" aria-hidden="true" />
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div ref={titleRef} className="mb-6 sm:mb-16 text-center">
           <p className="mb-2 sm:mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
@@ -314,7 +314,7 @@ export default function Pricing() {
             </button>
 
             {openDropdown && (
-              <div className="absolute top-full left-0 z-50 mt-2 w-full overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_16px_48px_rgba(0,0,0,0.12)]">
+              <div className="absolute top-full left-0 z-50 mt-2 w-full overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_16px_48px_rgba(0,0,0,0.12)]" role="listbox" aria-label="Package type selector">
                 {TABS.map((tab) => {
                   const Icon = tab.icon;
                   const isActive = tab.key === activeTab;
@@ -384,7 +384,7 @@ export default function Pricing() {
         )}
 
         {/* Mingle Booth - Coming Soon */}
-        <div className="mt-12 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:p-14 text-center">
+        <section aria-label="Mingle Booth - Coming Soon" className="mt-12 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:p-14 text-center">
           <div className="mb-3 sm:mb-4 inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-3 py-1">
             <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase text-accent">
               Coming Soon
@@ -396,10 +396,10 @@ export default function Pricing() {
           <p className="mx-auto max-w-[400px] text-xs sm:text-sm text-text-secondary leading-relaxed">
             A new way to capture candid moments at your event. Stay tuned!
           </p>
-        </div>
+        </section>
 
         {/* What's Included */}
-        <div className="mt-8 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-4 sm:p-8 lg:p-12">
+        <section aria-label="Yang Termasuk" className="mt-8 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-4 sm:p-8 lg:p-12">
           <div className="mb-4 sm:mb-8 text-center">
             <p className="mb-1.5 sm:mb-3 text-[10px] sm:text-xs font-medium tracking-[0.2em] uppercase text-accent">
               Every Package
@@ -408,9 +408,9 @@ export default function Pricing() {
               What&apos;s Included
             </h3>
           </div>
-          <div className="grid gap-1 sm:gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid gap-1 sm:gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0">
             {includedItems.map((item, i) => (
-              <div
+              <li
                 key={i}
                 className="flex items-start gap-2 sm:gap-3 rounded-lg sm:rounded-xl px-2.5 sm:px-4 py-1.5 sm:py-3"
               >
@@ -418,13 +418,13 @@ export default function Pricing() {
                 <span className="text-[11px] sm:text-sm leading-relaxed text-text-secondary">
                   {item}
                 </span>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
           <p className="mt-4 sm:mt-8 text-center text-[10px] sm:text-xs text-text-secondary italic">
             * Paket tidak termasuk Backdrop atau Dekorasi Photo
           </p>
-        </div>
+        </section>
 
         <div className="mt-5 sm:mt-12 text-center">
           <p className="text-xs sm:text-sm text-text-secondary">

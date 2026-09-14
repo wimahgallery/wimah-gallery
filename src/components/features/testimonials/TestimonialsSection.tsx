@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; isActive: boolean }) {
   return (
-    <div className={`h-full rounded-3xl border bg-surface p-5 sm:p-8 transition-all duration-500 ${isActive ? "border-accent/30 shadow-[0_8px_32px_rgba(124,132,114,0.12)]" : "border-border"}`}>
+    <article className={`h-full rounded-3xl border bg-surface p-5 sm:p-8 transition-all duration-500 ${isActive ? "border-accent/30 shadow-[0_8px_32px_rgba(124,132,114,0.12)]" : "border-border"}`}>
       <Quote className="mb-3 sm:mb-4 h-6 w-6 sm:h-8 sm:w-8 text-accent/40" />
       <div className="mb-3 sm:mb-4 flex gap-1">
         {Array.from({ length: 5 }).map((_, j) => (
@@ -30,7 +30,7 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; 
             className="h-8 w-8 sm:h-10 sm:w-10 rounded-full object-cover"
           />
         ) : (
-          <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-accent/10 text-xs sm:text-sm font-bold text-accent">
+          <div role="img" aria-label={testimonial.username} className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-accent/10 text-xs sm:text-sm font-bold text-accent">
             {testimonial.username.split(" ").map((n) => n[0]).join("")}
           </div>
         )}
@@ -39,7 +39,7 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; 
           <p className="text-[10px] sm:text-xs text-text-secondary">{testimonial.role}</p>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 
@@ -101,9 +101,9 @@ export default function Testimonials() {
 
   return (
     <section className="relative py-14 sm:py-20 lg:py-32 texture-wave">
-      <div className="absolute inset-0" />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" />
-      <div className="absolute inset-0 bg-accent/5 blur-3xl" />
+      <div className="absolute inset-0" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/20 to-background" aria-hidden="true" />
+      <div className="absolute inset-0 bg-accent/5 blur-3xl" aria-hidden="true" />
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <div ref={titleRef} className="mb-8 sm:mb-16 text-center">
           <h2 className="font-heading text-[28px] sm:text-[40px] lg:text-[48px] font-normal text-text-primary">
@@ -156,12 +156,14 @@ export default function Testimonials() {
 
             <button
               onClick={scrollPrev}
+              aria-label="Previous testimonial"
               className="absolute left-0 top-1/2 z-10 flex h-7 w-7 sm:h-10 sm:w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-text-secondary backdrop-blur-sm transition-[colors,border-color] duration-300 hover:border-accent/30 hover:text-accent"
             >
               <ChevronLeft className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
             </button>
             <button
               onClick={scrollNext}
+              aria-label="Next testimonial"
               className="absolute right-0 top-1/2 z-10 flex h-7 w-7 sm:h-10 sm:w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-text-secondary backdrop-blur-sm transition-[colors,border-color] duration-300 hover:border-accent/30 hover:text-accent"
             >
               <ChevronRight className="h-3.5 w-3.5 sm:h-5 sm:w-5" />

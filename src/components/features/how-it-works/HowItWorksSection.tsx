@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger)
 export default function HowItWorks() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([])
+  const stepRefs = useRef<(HTMLLIElement | null)[]>([])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -29,7 +29,7 @@ export default function HowItWorks() {
         )
       }
 
-      const stepEls = stepRefs.current.filter(Boolean) as HTMLDivElement[]
+      const stepEls = stepRefs.current.filter(Boolean) as HTMLLIElement[]
       stepEls.forEach((step) => {
         gsap.fromTo(step,
           { opacity: 0, y: 20 },
@@ -50,8 +50,8 @@ export default function HowItWorks() {
 
   return (
     <section ref={sectionRef} className="relative py-14 sm:py-20 lg:py-32 overflow-hidden texture-crosshatch">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] lg:w-[800px] h-[200px] sm:h-[300px] lg:h-[400px] rounded-full bg-accent/5 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" aria-hidden="true" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] lg:w-[800px] h-[200px] sm:h-[300px] lg:h-[400px] rounded-full bg-accent/5 pointer-events-none" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-[800px] px-4 sm:px-6 lg:px-8">
         <div className="mb-10 sm:mb-16 text-center">
@@ -66,8 +66,8 @@ export default function HowItWorks() {
           </h2>
         </div>
 
-        <div className="relative">
-          <div className="absolute left-[27px] top-0 bottom-0 w-px bg-border">
+        <ol className="relative list-none p-0 m-0">
+          <div className="absolute left-[27px] top-0 bottom-0 w-px bg-border" aria-hidden="true">
             <div
               ref={lineRef}
               className="absolute top-0 left-0 right-0 bg-gradient-to-b from-accent/60 to-accent origin-top"
@@ -76,7 +76,7 @@ export default function HowItWorks() {
           </div>
 
           {steps.map((step, i) => (
-            <div
+            <li
               key={step.number}
               ref={(el) => { stepRefs.current[i] = el }}
               className={`relative flex items-start gap-4 sm:gap-6 ${
@@ -98,9 +98,9 @@ export default function HowItWorks() {
                   {step.description}
                 </p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   )

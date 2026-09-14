@@ -4,8 +4,8 @@ import type { Event } from "@/types";
 
 export default function EventCard({ event }: { event: Event }) {
   return (
-    <div className="group overflow-hidden rounded-2xl border border-border bg-surface hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-[transform,colors] duration-300">
-      <div className="relative aspect-[4/3] overflow-hidden bg-surface-secondary/30">
+    <article className="group overflow-hidden rounded-2xl border border-border bg-surface hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-[transform,colors] duration-300">
+      <figure className="relative aspect-[4/3] overflow-hidden bg-surface-secondary/30 m-0">
         {event.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -21,7 +21,7 @@ export default function EventCard({ event }: { event: Event }) {
               .join("")}
           </div>
         )}
-      </div>
+      </figure>
       <div className="p-3 sm:p-4">
         <h3 className="text-sm sm:text-base font-heading font-normal text-text-primary">
           {event.couple_name}
@@ -44,12 +44,13 @@ export default function EventCard({ event }: { event: Event }) {
             href={event.images_source}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`View gallery for ${event.couple_name}`}
             className="mt-2 sm:mt-3 flex items-center justify-center gap-1.5 w-full rounded-lg border border-border bg-surface px-3 py-1.5 text-[11px] sm:text-xs font-medium text-text-primary transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] hover:border-accent hover:bg-accent/15 hover:text-accent"
           >
             View Gallery
           </a>
         )}
       </div>
-    </div>
+    </article>
   );
 }

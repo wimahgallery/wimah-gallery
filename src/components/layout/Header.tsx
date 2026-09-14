@@ -208,6 +208,9 @@ export function Header() {
       </header>
       <div
         className={`fixed inset-0 z-40 bg-accent-dark lg:hidden transition-[opacity] duration-300 ease-out ${mobileOpen ? "opacity-100 backdrop-blur-xl pointer-events-auto" : "opacity-0 backdrop-blur-0 pointer-events-none"}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile navigation menu"
         aria-hidden={!mobileOpen}
       >
         {mobileOpen && (

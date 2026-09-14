@@ -76,7 +76,7 @@ export default function FinalCTA() {
 
   return (
     <section ref={containerRef} className="relative overflow-hidden py-16 sm:py-24 lg:py-32">
-      <div className="absolute inset-0">
+      <div className="absolute inset-0" aria-hidden="true">
         <div
           ref={bgRef}
           className="absolute inset-0 bg-gradient-to-b from-surface/40 via-accent/10 to-surface/30"
@@ -102,7 +102,7 @@ export default function FinalCTA() {
           ))}
         </h2>
 
-        <div ref={lineRef} className="mx-auto mb-8 sm:mb-12 h-px w-16 sm:w-24 origin-left bg-accent/40" />
+        <div ref={lineRef} className="mx-auto mb-8 sm:mb-12 h-px w-16 sm:w-24 origin-left bg-accent/40" aria-hidden="true" />
 
         <p
           ref={paraRef}

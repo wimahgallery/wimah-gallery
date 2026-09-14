@@ -71,8 +71,8 @@ export default function About() {
       id="services"
       className="relative py-14 sm:py-20 lg:py-32 overflow-hidden texture-noise"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] rounded-full bg-accent/5 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background" aria-hidden="true" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] rounded-full bg-accent/5 pointer-events-none" aria-hidden="true" />
 
       <div
         ref={sectionRef}
@@ -95,7 +95,7 @@ export default function About() {
           {commitments.map((item, i) => {
             const Icon = commitmentIcons[i] || Check;
             return (
-              <div data-card key={item.title}>
+              <article data-card key={item.title}>
                 <div className="group relative h-full rounded-3xl border border-border bg-surface p-5 sm:p-6 transition-[transform,colors] duration-500 hover:border-accent/20 hover:bg-surface-secondary hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)] hover:scale-[1.02] active:scale-[0.98]">
                   <div className="mb-3 sm:mb-4 inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-accent/10 text-accent transition-colors duration-300 group-hover:bg-accent/15">
                     <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -107,7 +107,7 @@ export default function About() {
                     {item.description}
                   </p>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>

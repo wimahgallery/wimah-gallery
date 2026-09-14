@@ -35,6 +35,7 @@ export default function Footer() {
                 href={siteConfig.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Instagram"
                 className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-3xl border border-border transition-[transform,colors] duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
                 <svg
@@ -57,6 +58,7 @@ export default function Footer() {
                 href={siteConfig.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="TikTok"
                 className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-3xl border border-border transition-[transform,colors] duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
                 <svg
@@ -77,6 +79,7 @@ export default function Footer() {
                 href={siteConfig.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Facebook"
                 className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-3xl border border-border transition-[transform,colors] duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
                 <svg
@@ -93,6 +96,7 @@ export default function Footer() {
                 href={siteConfig.threads}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Threads"
                 className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-3xl border border-border transition-[transform,colors] duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
                 <svg
@@ -109,6 +113,7 @@ export default function Footer() {
                 href={siteConfig.whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="WhatsApp"
                 className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-3xl border border-border transition-[transform,colors] duration-300 hover:border-accent/30 hover:text-accent hover:scale-110 active:scale-95 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 hover:bg-accent/10"
               >
                 <WhatsApp className="h-[16px] w-[16px] sm:h-[18px] sm:w-[18px]" />
@@ -116,9 +121,9 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <p className="text-[11px] sm:text-xs font-medium tracking-[0.15em] uppercase text-text-primary mb-3 sm:mb-4">
+            <h3 className="text-[11px] sm:text-xs font-medium tracking-[0.15em] uppercase text-text-primary mb-3 sm:mb-4">
               Navigasi
-            </p>
+            </h3>
             <ul className="space-y-1.5 sm:space-y-2">
               {siteConfig.navLinks.map((link) => (
                 <li key={link.href}>
@@ -133,9 +138,9 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <p className="text-[11px] sm:text-xs font-medium tracking-[0.15em] uppercase text-text-primary mb-3 sm:mb-4">
+            <h3 className="text-[11px] sm:text-xs font-medium tracking-[0.15em] uppercase text-text-primary mb-3 sm:mb-4">
               Kontak
-            </p>
+            </h3>
             <ul className="space-y-2 sm:space-y-3">
               <li>
                 <a

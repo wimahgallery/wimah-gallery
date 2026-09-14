@@ -109,7 +109,7 @@ const floatingConfigs = [
 
 export default function Availability() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const titleRef = useRef<HTMLDivElement>(null);
   const mousePosRef = useRef({ x: 0, y: 0 });
   const animFrameRef = useRef<number>(0);
@@ -278,10 +278,10 @@ export default function Availability() {
 
   return (
     <section className="relative py-14 sm:py-20 lg:py-32 overflow-hidden texture-crosshatch">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] lg:w-[800px] h-[200px] sm:h-[300px] lg:h-[400px] rounded-full bg-accent/5 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" aria-hidden="true" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] sm:w-[500px] lg:w-[800px] h-[200px] sm:h-[300px] lg:h-[400px] rounded-full bg-accent/5 pointer-events-none" aria-hidden="true" />
 
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div className="absolute top-[30%] left-0 right-0 overflow-hidden">
           <div className="flex animate-marquee-right whitespace-nowrap">
             {[...Array(16)].map((_, i) => (
@@ -310,7 +310,7 @@ export default function Availability() {
 
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div ref={titleRef} className="mb-10 sm:mb-16 text-center">
-          <div className="flex items-center justify-center gap-1 mb-3 sm:mb-4">
+          <div role="img" aria-label="5 out of 5 stars" className="flex items-center justify-center gap-1 mb-3 sm:mb-4">
             {[...Array(5)].map((_, i) => (
               <svg
                 key={i}
@@ -336,12 +336,12 @@ export default function Availability() {
           className="pointer-events-none relative h-[280px] sm:h-[400px] lg:h-[450px] flex items-center justify-center mb-12 sm:mb-20"
         >
           {floatingCards.map((card, i) => (
-            <div
+            <figure
               key={card.id}
               ref={(el) => {
                 cardRefs.current[i] = el;
               }}
-              className="absolute"
+              className="absolute m-0"
               style={{
                 zIndex: card.zIndex,
                 transformOrigin: "center bottom",
@@ -365,7 +365,7 @@ export default function Availability() {
                   />
                 </div>
               </div>
-            </div>
+            </figure>
           ))}
         </div>
 
@@ -418,7 +418,7 @@ function EventCard({
   }, [index]);
 
   return (
-    <div
+    <article
       ref={ref}
       className="group relative flex flex-col items-center gap-3 sm:gap-4 bg-surface border border-border rounded-3xl p-4 sm:p-6 transition-[colors] duration-500 hover:border-accent/20 hover:bg-surface cursor-default"
     >
@@ -428,6 +428,6 @@ function EventCard({
       <span className="font-heading text-sm sm:text-base font-normal text-text-primary text-center">
         {event.label}
       </span>
-    </div>
+    </article>
   );
 }
