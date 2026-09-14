@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: "Wimah Photobooth",
-  tagline: "Premium Photobooth Experience",
+  tagline: "Pengalaman Photobooth Premium",
   description:
-    "Capture unforgettable memories with instant prints, digital galleries, GIFs, boomerangs, and a premium guest experience your guests will never forget.",
+    "Abadikan momen tak terlupakan dengan cetak instan, galeri digital, GIF, boomerang, dan pengalaman premium yang tidak akan terlupakan oleh tamu Anda.",
   whatsappLink: "https://wa.me/6287740812765",
   email: "wimahgallery@gmail.com",
   instagram: "https://www.instagram.com/wimah.photobooth",
@@ -10,11 +10,11 @@ export const siteConfig = {
   facebook: "https://www.facebook.com/share/1ErSHgv2nu/",
   threads: "https://www.threads.com/@wimah.photobooth",
   navLinks: [
-    { href: "#home", label: "Home" },
-    { href: "#services", label: "Services" },
-    { href: "#portfolio", label: "Portfolio" },
+    { href: "#home", label: "Beranda" },
+    { href: "#services", label: "Layanan" },
+    { href: "#portfolio", label: "Portofolio" },
     { href: "#album", label: "Album" },
-    { href: "#pricing", label: "Packages" },
+    { href: "#pricing", label: "Harga" },
     { href: "#faq", label: "FAQ" },
   ] as NavItem[],
 };

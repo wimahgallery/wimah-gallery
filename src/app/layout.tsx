@@ -33,6 +33,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://wimahphotobooth.id/",
+  ),
   title: `${siteConfig.name} — ${siteConfig.tagline}`,
   description: siteConfig.description,
   keywords: [
@@ -45,6 +48,7 @@ export const metadata: Metadata = {
     "photobooth Bali",
   ],
   openGraph: {
+    images: "/wimah.png",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
     type: "website",
@@ -58,6 +62,28 @@ export default function RootLayout({ children }: PropsWithChildren) {
       lang="id"
       className={`${cormorant.variable} ${inter.variable} ${playfair.variable}`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: siteConfig.name,
+              description: siteConfig.description,
+              url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
+              logo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"}/wimah.png`,
+              email: siteConfig.email,
+              sameAs: [
+                siteConfig.instagram,
+                siteConfig.tiktok,
+                siteConfig.facebook,
+                siteConfig.threads,
+              ],
+            }),
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-background text-text-primary antialiased">
         <QueryProvider>
           <LoadingScreen />

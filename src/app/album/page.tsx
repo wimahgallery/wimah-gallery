@@ -1,26 +1,13 @@
-import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { Header } from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import FloatingWhatsApp from "@/components/features/loading/FloatingWhatsApp";
-import AlbumContent from "@/components/features/album/AlbumContent";
 
-export const metadata: Metadata = {
-  title: "Album — Wimah Photobooth",
-  description: "Semua event yang telah kami abadikan dalam satu gallery. Lihat koleksi foto photobooth dari berbagai acara spesial.",
-  openGraph: {
-    title: "Album — Wimah Photobooth",
-    description: "Semua event yang telah kami abadikan dalam satu gallery.",
-    type: "website",
-  },
-};
+import AlbumContent from "@/components/features/album/AlbumContent";
 
 export default function AlbumPage() {
   return (
     <>
       <div className="min-h-screen bg-background">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-8 sm:py-12 pt-20 sm:pt-24">
+        <div className="mx-auto max-w-300 px-4 sm:px-6 lg:px-8 py-8 sm:py-12 pt-20 sm:pt-24">
           {/* Back + Title */}
           <div className="mb-8 sm:mb-12">
             <Link
