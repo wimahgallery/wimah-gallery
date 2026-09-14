@@ -1,9 +1,20 @@
+import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingWhatsApp from "@/components/features/loading/FloatingWhatsApp";
 import AlbumContent from "@/components/features/album/AlbumContent";
+
+export const metadata: Metadata = {
+  title: "Album — Wimah Photobooth",
+  description: "Semua event yang telah kami abadikan dalam satu gallery. Lihat koleksi foto photobooth dari berbagai acara spesial.",
+  openGraph: {
+    title: "Album — Wimah Photobooth",
+    description: "Semua event yang telah kami abadikan dalam satu gallery.",
+    type: "website",
+  },
+};
 
 export default function AlbumPage() {
   return (
