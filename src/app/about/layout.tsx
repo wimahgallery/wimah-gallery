@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   ),
   title: "Tentang Kami — Wimah Photobooth",
   description:
-    "Kenali lebih dekat tim di balik Wimah Photobooth. Cerita kami, passion kami, dan mengapa kami menciptakan pengalaman photobooth premium di Bali.",
+    "Kenali lebih dekat tim di balik Wimah Photobooth. Cerita kami, passion kami, dan mengapa kami menciptakan pengalaman photobooth premium di Bali sejak 2020.",
   keywords: [
     "photobooth",
     "photobooth premium",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     images: "/wimah.png",
     title: "Tentang Kami — Wimah Photobooth",
     description:
-      "Kenali lebih dekat tim di balik Wimah Photobooth. Cerita kami, passion kami, dan mengapa kami menciptakan pengalaman photobooth premium di Bali.",
+      "Kenali lebih dekat tim di balik Wimah Photobooth. Cerita kami, passion kami, dan mengapa kami menciptakan pengalaman photobooth premium di Bali sejak 2020.",
     type: "website",
     locale: "id_ID",
   },

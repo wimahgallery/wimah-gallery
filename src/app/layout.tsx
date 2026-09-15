@@ -36,23 +36,57 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "https://wimahphotobooth.id/",
   ),
-  title: `${siteConfig.name} — ${siteConfig.tagline}`,
+  title: {
+    default: `${siteConfig.name} — ${siteConfig.tagline}`,
+    template: `%s | ${siteConfig.name}`,
+  },
   description: siteConfig.description,
   keywords: [
     "photobooth",
     "photobooth premium",
     "photobooth pernikahan",
+    "photobooth Bali",
     "fotografi acara",
     "cetak instan",
     "galeri digital",
-    "photobooth Bali",
+    "sewa photobooth Bali",
+    "photobooth Gianyar",
+    "event organizer Bali",
   ],
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
   openGraph: {
-    images: "/wimah.png",
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
     type: "website",
     locale: "id_ID",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://wimahphotobooth.id/",
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    images: [
+      {
+        url: "/wimah.png",
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    images: ["/wimah.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -68,17 +102,39 @@ export default function RootLayout({ children }: PropsWithChildren) {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
+              "@type": "LocalBusiness",
               name: siteConfig.name,
               description: siteConfig.description,
               url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
               logo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"}/wimah.png`,
               email: siteConfig.email,
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Gianyar",
+                addressRegion: "Bali",
+                addressCountry: "ID",
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: -8.5447,
+                longitude: 115.3343,
+              },
+              areaServed: {
+                "@type": "State",
+                name: "Bali",
+              },
+              serviceType: [
+                "Photobooth Rental",
+                "Event Photography",
+                "Instant Print",
+              ],
+              priceRange: "$$",
               sameAs: [
                 siteConfig.instagram,
                 siteConfig.tiktok,
                 siteConfig.facebook,
                 siteConfig.threads,
+                siteConfig.mapsLink,
               ],
             }),
           }}

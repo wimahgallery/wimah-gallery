@@ -5,6 +5,8 @@ export const siteConfig = {
     "Abadikan momen tak terlupakan dengan cetak instan, galeri digital, GIF, boomerang, dan pengalaman premium yang tidak akan terlupakan oleh tamu Anda.",
   whatsappLink: "https://wa.me/6287740812765",
   email: "wimahgallery@gmail.com",
+  mapsLink: "https://maps.app.goo.gl/FmdQZzJuhdsWaBgT6",
+  address: "Gianyar, Bali, Indonesia",
   instagram: "https://www.instagram.com/wimah.photobooth",
   tiktok: "https://www.tiktok.com/@wimah.photobooth",
   facebook: "https://www.facebook.com/share/1ErSHgv2nu/",
