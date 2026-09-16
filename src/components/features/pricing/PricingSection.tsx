@@ -139,7 +139,7 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
       </div>
 
       <a
-        href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik dengan paket ${typeLabels[pkg.type] || pkg.type} (${pkg.hours}h) dari WIMAH Photobooth.`}
+        href={`${siteConfig.whatsappLink}?text=${encodeURIComponent(`Halo WIMAH Photobooth\n\nSaya tertarik ingin booking paket ${typeLabels[pkg.type] || pkg.type} ${pkg.hours} hours untuk Acara saya.\n\nTanggal Acara:\nVenue / Lokasi:\nJenis Acara: (Wedding/ Birthday/ Corporate/ dll)\n\nMohon informasi mengenai ketersediaan tanggal dan proses booking.\n\nTerima kasih.`)}`}
         target="_blank"
         rel="noopener noreferrer"
         className={`flex w-full items-center justify-center gap-1.5 rounded-lg border py-1.5 sm:py-2.5 text-[10px] sm:text-xs font-semibold transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
@@ -430,7 +430,7 @@ export default function Pricing() {
           <p className="text-xs sm:text-sm text-text-secondary">
             Need a custom package?{" "}
             <a
-              href={`${siteConfig.whatsappLink}?text=Halo! Saya ingin konsultasi paket custom dari WIMAH Photobooth.`}
+        href={`${siteConfig.whatsappLink}?text=${encodeURIComponent("Halo WIMAH Photobooth\n\nSaya tertarik ingin booking paket Custom untuk Acara saya.\n\nTanggal Acara:\nVenue / Lokasi:\nJenis Acara: (Wedding/ Birthday/ Corporate/ dll)\n\nMohon informasi mengenai ketersediaan tanggal dan proses booking.\n\nTerima kasih.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors duration-300 hover:text-accent-light hover:decoration-accent/50 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"

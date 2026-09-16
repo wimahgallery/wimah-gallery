@@ -114,7 +114,7 @@ export default function FinalCTA() {
 
         <a
           ref={ctaRef}
-          href={siteConfig.whatsappLink}
+          href={`${siteConfig.whatsappLink}?text=${encodeURIComponent(siteConfig.whatsappBookingMessage)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 sm:gap-2.5 rounded-full bg-accent px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-background transition-[transform,colors] duration-300 hover:bg-accent-light hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_4px_24px_rgba(124,132,114,0.3)] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"

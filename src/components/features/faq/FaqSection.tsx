@@ -154,11 +154,7 @@ export default function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const titleRef = useRef<HTMLDivElement>(null);
 
-  const {
-    data: response,
-    isLoading,
-    isError,
-  } = usePublicFaqs();
+  const { data: response, isLoading, isError } = usePublicFaqs();
 
   const faqs = (response?.data ?? []).filter((f) => f.visible);
 
@@ -186,8 +182,14 @@ export default function Faq() {
 
   return (
     <section id="faq" className="relative py-14 sm:py-20 lg:py-32 texture-grid">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background" aria-hidden="true" />
-      <div className="absolute inset-0 bg-accent/5 blur-3xl" aria-hidden="true" />
+      <div
+        className="absolute inset-0 bg-gradient-to-b from-background via-surface/15 to-background"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 bg-accent/5 blur-3xl"
+        aria-hidden="true"
+      />
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 sm:gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
           <div ref={titleRef}>
@@ -203,7 +205,7 @@ export default function Faq() {
                 Semua yang perlu Anda ketahui tentang layanan photobooth kami.
               </p>
               <a
-                href={`${siteConfig.whatsappLink}?text=Halo! Saya punya pertanyaan tentang layanan WIMAH Photobooth.`}
+                href={`${siteConfig.whatsappLink}?text=${encodeURIComponent(siteConfig.whatsappAsk)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-medium text-text-primary transition-[transform,colors] duration-300 hover:border-accent/30 hover:bg-accent/5 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"

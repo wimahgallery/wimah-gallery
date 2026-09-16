@@ -31,7 +31,7 @@ export default function FloatingWhatsApp() {
 
   return (
     <a
-      href={`${siteConfig.whatsappLink}?text=Halo! Saya tertarik untuk booking WIMAH Photobooth untuk acara saya.`}
+      href={`${siteConfig.whatsappLink}?text=${encodeURIComponent(siteConfig.whatsappBookingMessage)}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat via WhatsApp"
