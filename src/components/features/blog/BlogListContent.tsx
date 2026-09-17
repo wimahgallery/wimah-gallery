@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Search } from "lucide-react"
+import { ArrowLeft, Search, ArrowRight } from "lucide-react"
 import { usePublicBlogs } from "@/hooks/queries/use-blogs"
 import type { Blog } from "@/types"
 import { formatDate } from "@/lib/utils"
@@ -12,8 +12,9 @@ function BlogCard({ blog }: { blog: Blog }) {
   return (
     <Link
       href={`/blog/${blog.slug}`}
-      className="group rounded-2xl border border-border bg-surface overflow-hidden transition-[transform,colors] duration-300 hover:scale-[1.02] hover:border-accent/20 hover:shadow-[0_8px_32px_rgba(124,132,114,0.08)] active:scale-[0.98]"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-300 hover:border-accent/20 hover:shadow-[0_8px_40px_rgba(124,132,114,0.1)] active:scale-[0.98]"
     >
+      {/* Image */}
       <div className="relative aspect-[16/10] overflow-hidden bg-surface-secondary/30">
         {blog.cover_image_url ? (
           <Image
@@ -24,32 +25,43 @@ function BlogCard({ blog }: { blog: Blog }) {
             className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
           />
         ) : (
-          <div className="flex h-full items-center justify-center">
-            <span className="text-4xl text-accent/20 font-heading">W</span>
+          <div className="flex h-full items-center justify-center bg-gradient-to-br from-accent/5 to-accent/10">
+            <span className="text-5xl font-heading text-accent/15">W</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-        <div className="absolute bottom-3 left-3 right-3">
-          {blog.category && (
-            <span className="inline-block rounded-full bg-white/90 px-2.5 py-0.5 text-[10px] font-medium text-text-primary backdrop-blur-sm">
+        {/* Category badge */}
+        {blog.category && (
+          <div className="absolute top-3 left-3">
+            <span className="inline-block rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold tracking-wide uppercase text-text-primary backdrop-blur-sm shadow-sm">
               {blog.category}
             </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-      <div className="p-4 sm:p-5">
-        <h3 className="font-heading text-base sm:text-lg font-normal text-text-primary line-clamp-2 group-hover:text-accent transition-colors">
+
+      {/* Content */}
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <h3 className="font-heading text-[15px] sm:text-base lg:text-lg font-normal leading-snug text-text-primary line-clamp-2 group-hover:text-accent transition-colors">
           {blog.title}
         </h3>
+
         {blog.excerpt && (
-          <p className="mt-2 text-xs sm:text-sm text-text-secondary line-clamp-2 leading-relaxed">
+          <p className="mt-2 text-xs sm:text-[13px] text-text-secondary line-clamp-2 leading-relaxed">
             {blog.excerpt}
           </p>
         )}
-        <div className="mt-3 flex items-center gap-2 text-[11px] text-text-secondary">
-          <span>{blog.author}</span>
-          <span>·</span>
-          <time dateTime={blog.created_at}>{formatDate(blog.created_at)}</time>
+
+        {/* Meta + Read more */}
+        <div className="mt-auto pt-3 sm:pt-4 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 text-[11px] text-text-secondary/70">
+            <span className="font-medium">{blog.author}</span>
+            <span>·</span>
+            <time dateTime={blog.created_at}>{formatDate(blog.created_at)}</time>
+          </div>
+          <span className="flex items-center gap-1 text-[11px] font-medium text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            Baca
+            <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </span>
         </div>
       </div>
     </Link>
@@ -123,8 +135,8 @@ export default function BlogListContent() {
 
         {/* Results */}
         {isLoading ? (
-          <div className="grid gap-4 sm:gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-            {[0, 1, 2].map((i) => (
+          <div className="grid gap-4 sm:gap-5 lg:gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+            {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
               <div
                 key={i}
                 className="animate-pulse rounded-2xl bg-surface overflow-hidden"
@@ -133,7 +145,7 @@ export default function BlogListContent() {
                 <div className="p-4 sm:p-5 space-y-3">
                   <div className="h-5 w-3/4 rounded bg-surface-secondary/50" />
                   <div className="h-4 w-full rounded bg-surface-secondary/30" />
-                  <div className="h-3 w-1/3 rounded bg-surface-secondary/30" />
+                  <div className="h-3 w-1/2 rounded bg-surface-secondary/30" />
                 </div>
               </div>
             ))}
@@ -153,7 +165,7 @@ export default function BlogListContent() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-4 sm:gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid gap-4 sm:gap-5 lg:gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
             {filteredBlogs.map((blog) => (
               <BlogCard key={blog.id} blog={blog} />
             ))}
