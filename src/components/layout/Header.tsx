@@ -109,7 +109,7 @@ export function Header() {
                       } else if (isHome) {
                         smoothScrollTo(item.href, { offset: -64 });
                       } else {
-                        window.location.href = item.href;
+                        window.location.href = `/${item.href}`;
                       }
                     }}
                     className="relative px-4 py-2 text-sm font-body font-medium text-text-secondary transition-colors duration-300 hover:text-text-primary group"
@@ -241,7 +241,7 @@ export function Header() {
                       } else if (isHome) {
                         smoothScrollTo(item.href, { offset: -64 });
                       } else {
-                        window.location.href = item.href;
+                        window.location.href = `/${item.href}`;
                       }
                     }}
                     className="font-heading text-2xl sm:text-3xl font-normal text-background transition-[colors,transform] duration-300 hover:text-white hover:scale-105 inline-block"
