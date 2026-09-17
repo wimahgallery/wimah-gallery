@@ -18,6 +18,37 @@ async function getBlog(slug: string): Promise<Blog | null> {
   return data as Blog
 }
 
+async function getRelatedBlogs(currentId: string, category: string | null): Promise<Blog[]> {
+  const supabase = await createClient()
+
+  // First try: same category
+  if (category) {
+    const { data } = await supabase
+      .from("blogs")
+      .select("*")
+      .eq("published", true)
+      .eq("visible", true)
+      .eq("category", category)
+      .neq("id", currentId)
+      .order("created_at", { ascending: false })
+      .limit(3)
+
+    if (data && data.length > 0) return data as Blog[]
+  }
+
+  // Fallback: other published blogs
+  const { data } = await supabase
+    .from("blogs")
+    .select("*")
+    .eq("published", true)
+    .eq("visible", true)
+    .neq("id", currentId)
+    .order("created_at", { ascending: false })
+    .limit(3)
+
+  return (data ?? []) as Blog[]
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -48,5 +79,7 @@ export default async function BlogDetailPage({
   const blog = await getBlog(slug)
   if (!blog) notFound()
 
-  return <BlogDetailContent blog={blog} />
+  const relatedBlogs = await getRelatedBlogs(blog.id, blog.category)
+
+  return <BlogDetailContent blog={blog} relatedBlogs={relatedBlogs} />
 }

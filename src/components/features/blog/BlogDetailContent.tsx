@@ -5,11 +5,70 @@ import Image from "next/image"
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import ImageExtension from "@tiptap/extension-image"
-import { ArrowLeft, Calendar, User } from "lucide-react"
+import { ArrowLeft, ArrowRight, Calendar, User } from "lucide-react"
 import type { Blog } from "@/types"
 import { formatDate } from "@/lib/utils"
 
-export default function BlogDetailContent({ blog }: { blog: Blog }) {
+function RelatedCard({ blog }: { blog: Blog }) {
+  return (
+    <Link
+      href={`/blog/${blog.slug}`}
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-300 hover:border-accent/20 hover:shadow-[0_8px_40px_rgba(124,132,114,0.1)] active:scale-[0.98]"
+    >
+      <div className="relative aspect-[16/10] overflow-hidden bg-surface-secondary/30">
+        {blog.cover_image_url ? (
+          <Image
+            src={blog.cover_image_url}
+            alt={blog.title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center bg-gradient-to-br from-accent/5 to-accent/10">
+            <span className="text-4xl font-heading text-accent/15">W</span>
+          </div>
+        )}
+        {blog.category && (
+          <div className="absolute top-3 left-3">
+            <span className="inline-block rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold tracking-wide uppercase text-text-primary backdrop-blur-sm shadow-sm">
+              {blog.category}
+            </span>
+          </div>
+        )}
+      </div>
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className="font-heading text-sm sm:text-base font-normal leading-snug text-text-primary line-clamp-2 group-hover:text-accent transition-colors">
+          {blog.title}
+        </h3>
+        {blog.excerpt && (
+          <p className="mt-1.5 text-xs text-text-secondary line-clamp-2 leading-relaxed">
+            {blog.excerpt}
+          </p>
+        )}
+        <div className="mt-auto pt-3 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 text-[11px] text-text-secondary/70">
+            <span className="font-medium">{blog.author}</span>
+            <span>·</span>
+            <time dateTime={blog.created_at}>{formatDate(blog.created_at)}</time>
+          </div>
+          <span className="flex items-center gap-1 text-[11px] font-medium text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            Baca
+            <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </span>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+export default function BlogDetailContent({
+  blog,
+  relatedBlogs = [],
+}: {
+  blog: Blog
+  relatedBlogs?: Blog[]
+}) {
   const editor = useEditor({
     immediatelyRender: true,
     extensions: [
@@ -91,6 +150,31 @@ export default function BlogDetailContent({ blog }: { blog: Blog }) {
           </Link>
         </div>
       </article>
+
+      {/* Related Articles */}
+      {relatedBlogs.length > 0 && (
+        <section className="border-t border-border bg-surface/30">
+          <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="font-heading text-xl sm:text-2xl font-normal text-text-primary">
+                Artikel Lainnya
+              </h2>
+              <Link
+                href="/blog"
+                className="flex items-center gap-1.5 text-sm font-medium text-accent transition-colors hover:text-accent-light"
+              >
+                Lihat Semua
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:gap-5 lg:gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+              {relatedBlogs.map((related) => (
+                <RelatedCard key={related.id} blog={related} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   )
 }

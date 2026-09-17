@@ -21,7 +21,7 @@ export async function GET(request: Request) {
   let query = supabase
     .from("blogs")
     .select("*", { count: "exact" })
-    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false })
 
   if (search) {
     query = query.or(`title.ilike.%${search}%,category.ilike.%${search}%`)
