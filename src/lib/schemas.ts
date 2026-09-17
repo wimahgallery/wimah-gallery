@@ -52,3 +52,15 @@ export const pricingPackageSchema = z.object({
 })
 
 export type PricingPackageInput = z.infer<typeof pricingPackageSchema>
+
+export const blogSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  slug: z.string().min(1, "Slug is required"),
+  excerpt: z.string().optional(),
+  content: z.string().optional(),
+  author: z.string().min(1, "Author is required"),
+  category: z.string().optional(),
+  published: z.boolean(),
+})
+
+export type BlogInput = z.infer<typeof blogSchema>

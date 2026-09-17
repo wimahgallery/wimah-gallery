@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, useRef } from "react"
+import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery } from "@tanstack/react-query"
-import { Plus, Trash2, Pencil, ExternalLink, ChevronDown, ChevronUp } from "lucide-react"
+import { Plus, Trash2, Pencil, ExternalLink, ChevronDown, ChevronUp, ImageIcon, X } from "lucide-react"
 import { eventSchema, type EventInput } from "@/lib/schemas"
 import Pagination from "@/components/ui/Pagination"
 import { queryKeys } from "@/hooks/keys"
@@ -228,30 +229,59 @@ export default function EventsContent() {
           </div>
           <div>
             <label className="mb-1 block text-xs font-medium text-[#54524D]">Event Image</label>
-            <div className="flex items-start gap-4">
-              <div className="flex-1">
+            {currentImage ? (
+              <div className="relative inline-block">
+                <Image
+                  src={currentImage}
+                  alt="Preview"
+                  width={280}
+                  height={160}
+                  unoptimized
+                  className="h-40 w-full max-w-[280px] rounded-xl object-cover border border-[rgba(84,82,77,0.12)]"
+                />
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="absolute top-2 right-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white shadow-md hover:bg-red-600 transition-colors"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+                <div className="mt-2">
+                  <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-3 py-1.5 text-xs text-[#8D8A82] transition-colors hover:bg-[#F5F3EE] hover:text-[#54524D]">
+                    <Pencil className="h-3 w-3" />
+                    Change image
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              </div>
+            ) : (
+              <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[rgba(84,82,77,0.15)] bg-[#FAFAF8] px-4 py-8 transition-colors hover:border-[#7C8472]/40 hover:bg-[#7C8472]/5">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#7C8472]/10">
+                  <ImageIcon className="h-5 w-5 text-[#7C8472]" />
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-medium text-[#54524D]">
+                    Click to upload event image
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-[#8D8A82]">
+                    JPG, PNG or WebP. Max 5MB. Square ratio recommended.
+                  </p>
+                </div>
                 <input
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="w-full rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-3 py-2 text-sm text-[#54524D] file:mr-2 file:rounded file:border-0 file:bg-[#7C8472]/10 file:px-2 file:py-0.5 file:text-xs file:font-medium file:text-[#7C8472]"
+                  className="hidden"
                 />
-                <p className="mt-1 text-xs text-[#8D8A82]">Max 5MB. Recommended: square ratio for best display.</p>
-              </div>
-              {currentImage && (
-                <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border border-[rgba(84,82,77,0.12)]">
-                  <img src={currentImage} alt="Preview" className="h-full w-full object-cover" />
-                  <button
-                    type="button"
-                    onClick={removeImage}
-                    className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white text-xs"
-                  >
-                    &times;
-                  </button>
-                </div>
-              )}
-            </div>
+              </label>
+            )}
           </div>
           <div className="flex gap-2">
             <button
@@ -321,9 +351,12 @@ export default function EventsContent() {
                 </div>
 
                 {ev.image_url && (
-                  <img
+                  <Image
                     src={ev.image_url}
                     alt={ev.couple_name}
+                    width={48}
+                    height={48}
+                    unoptimized
                     className="h-12 w-12 flex-shrink-0 rounded-lg object-cover"
                   />
                 )}

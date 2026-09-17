@@ -96,24 +96,29 @@ export function Header() {
               </div>
             </Link>
             <nav className="hidden lg:flex items-center gap-1">
-              {siteConfig.navLinks.map((item) => (
-                <a
-                  key={item.href}
-                  href={isHome ? item.href : `/${item.href}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (isHome) {
-                      smoothScrollTo(item.href, { offset: -64 });
-                    } else {
-                      window.location.href = item.href;
-                    }
-                  }}
-                  className="relative px-4 py-2 text-sm font-body font-medium text-text-secondary transition-colors duration-300 hover:text-text-primary group"
-                >
-                  <span className="relative z-10">{item.label}</span>
-                  <span className="absolute inset-0 rounded-full bg-accent/[0.06] scale-90 opacity-0 transition-[transform,opacity] duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
-                </a>
-              ))}
+              {siteConfig.navLinks.map((item) => {
+                const isRoute = item.href.startsWith("/");
+                return (
+                  <a
+                    key={item.href}
+                    href={isRoute ? item.href : isHome ? item.href : `/${item.href}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (isRoute) {
+                        window.location.href = item.href;
+                      } else if (isHome) {
+                        smoothScrollTo(item.href, { offset: -64 });
+                      } else {
+                        window.location.href = item.href;
+                      }
+                    }}
+                    className="relative px-4 py-2 text-sm font-body font-medium text-text-secondary transition-colors duration-300 hover:text-text-primary group"
+                  >
+                    <span className="relative z-10">{item.label}</span>
+                    <span className="absolute inset-0 rounded-full bg-accent/[0.06] scale-90 opacity-0 transition-[transform,opacity] duration-300 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100 group-hover:opacity-100" />
+                  </a>
+                );
+              })}
             </nav>
             <div className="flex items-center gap-2 sm:gap-3 ml-auto">
               <a
@@ -215,32 +220,37 @@ export function Header() {
       >
         {mobileOpen && (
           <nav className="flex flex-col items-center justify-center h-full gap-2 px-4">
-            {siteConfig.navLinks.map((item, i) => (
-              <div
-                key={item.href}
-                ref={(el) => {
-                  navRefs.current[i] = el;
-                }}
-                style={{ opacity: 0 }}
-              >
-                <a
-                  href={isHome ? item.href : `/${item.href}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.body.style.overflow = "";
-                    setMobileOpen(false);
-                    if (isHome) {
-                      smoothScrollTo(item.href, { offset: -64 });
-                    } else {
-                      window.location.href = item.href;
-                    }
+            {siteConfig.navLinks.map((item, i) => {
+              const isRoute = item.href.startsWith("/");
+              return (
+                <div
+                  key={item.href}
+                  ref={(el) => {
+                    navRefs.current[i] = el;
                   }}
-                  className="font-heading text-2xl sm:text-3xl font-normal text-background transition-[colors,transform] duration-300 hover:text-white hover:scale-105 inline-block"
+                  style={{ opacity: 0 }}
                 >
-                  {item.label}
-                </a>
-              </div>
-            ))}
+                  <a
+                    href={isRoute ? item.href : isHome ? item.href : `/${item.href}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.body.style.overflow = "";
+                      setMobileOpen(false);
+                      if (isRoute) {
+                        window.location.href = item.href;
+                      } else if (isHome) {
+                        smoothScrollTo(item.href, { offset: -64 });
+                      } else {
+                        window.location.href = item.href;
+                      }
+                    }}
+                    className="font-heading text-2xl sm:text-3xl font-normal text-background transition-[colors,transform] duration-300 hover:text-white hover:scale-105 inline-block"
+                  >
+                    {item.label}
+                  </a>
+                </div>
+              );
+            })}
             <div
               ref={(el) => {
                 navRefs.current[totalItems - 1] = el;

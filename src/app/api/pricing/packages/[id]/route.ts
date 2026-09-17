@@ -11,9 +11,15 @@ export async function PATCH(
 
   const body = await request.json()
 
+  const allowedFields = ["type", "hours", "price", "features", "sort_order", "visible"]
+  const updateData: Record<string, unknown> = {}
+  for (const key of allowedFields) {
+    if (key in body) updateData[key] = body[key]
+  }
+
   const { data, error } = await auth.supabase
     .from("pricing_packages")
-    .update(body)
+    .update(updateData)
     .eq("id", id)
     .select()
     .single()

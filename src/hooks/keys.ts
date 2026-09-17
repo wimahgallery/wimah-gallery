@@ -24,4 +24,10 @@ export const queryKeys = {
     public: ["faqs-public"] as const,
     dashboard: ["dash-faqs"] as const,
   },
+  blogs: {
+    all: ["blogs"] as const,
+    list: (page: number) => ["blogs", page] as const,
+    public: ["blogs-public"] as const,
+    dashboard: ["dash-blogs"] as const,
+  },
 } as const

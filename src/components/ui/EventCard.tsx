@@ -1,4 +1,5 @@
 import { Calendar, MapPin } from "lucide-react";
+import Image from "next/image";
 import { formatDate } from "@/lib/utils";
 import type { Event } from "@/types";
 
@@ -7,11 +8,12 @@ export default function EventCard({ event }: { event: Event }) {
     <article className="group overflow-hidden rounded-2xl border border-border bg-surface hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(95,101,88,0.08)] hover:border-accent/20 transition-[transform,colors] duration-300">
       <figure className="relative aspect-[4/3] overflow-hidden bg-surface-secondary/30 m-0">
         {event.image_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={event.image_url}
             alt={event.couple_name}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-3xl font-heading text-text-secondary/30">

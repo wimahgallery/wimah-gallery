@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, useRef } from "react"
+import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQuery } from "@tanstack/react-query"
-import { Trash2, Upload, Plus, X, Eye, EyeOff, Pencil } from "lucide-react"
+import { Trash2, Plus, X, Eye, EyeOff, Pencil, ImageIcon } from "lucide-react"
 import { testimonialSchema, type TestimonialInput } from "@/lib/schemas"
 import Pagination from "@/components/ui/Pagination"
 import { queryKeys } from "@/hooks/keys"
@@ -217,38 +218,58 @@ export default function TestimonialsContent() {
               <label className="mb-1 block text-sm font-medium text-[#54524D]">
                 Photo
               </label>
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="flex cursor-pointer items-center gap-3 rounded-lg border border-dashed border-[rgba(84,82,77,0.2)] bg-[#F5F3EE] px-4 py-3 transition-colors duration-300hover:border-[#7C8472]"
-              >
-                <Upload className="h-4 w-4 text-[#8D8A82]" />
-                <span className="text-sm text-[#8D8A82]">
-                  {imageFile ? imageFile.name : "Click to upload (max 5MB)"}
-                </span>
-              </div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-              />
-              {currentImage && (
-                <div className="relative mt-3 inline-block">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+              {currentImage ? (
+                <div className="relative inline-block">
+                  <Image
                     src={currentImage}
                     alt="Preview"
-                    className="h-20 w-20 rounded-full object-cover"
+                    width={96}
+                    height={96}
+                    unoptimized
+                    className="h-24 w-24 rounded-xl object-cover border border-[rgba(84,82,77,0.12)]"
                   />
                   <button
                     type="button"
                     onClick={removeImage}
-                    className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white"
+                    className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white shadow-md hover:bg-red-600 transition-colors"
                   >
                     <X className="h-3 w-3" />
                   </button>
+                  <div className="mt-2">
+                    <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-[rgba(84,82,77,0.12)] bg-white px-3 py-1.5 text-xs text-[#8D8A82] transition-colors hover:bg-[#F5F3EE] hover:text-[#54524D]">
+                      <Pencil className="h-3 w-3" />
+                      Change photo
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
                 </div>
+              ) : (
+                <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[rgba(84,82,77,0.15)] bg-[#FAFAF8] px-4 py-6 transition-colors hover:border-[#7C8472]/40 hover:bg-[#7C8472]/5">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#7C8472]/10">
+                    <ImageIcon className="h-5 w-5 text-[#7C8472]" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-medium text-[#54524D]">
+                      Click to upload photo
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-[#8D8A82]">
+                      JPG, PNG or WebP. Max 5MB.
+                    </p>
+                  </div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                </label>
               )}
             </div>
 
@@ -302,10 +323,12 @@ export default function TestimonialsContent() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
                   {t.image_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={t.image_url}
                       alt={t.username}
+                      width={40}
+                      height={40}
+                      unoptimized
                       className="h-10 w-10 rounded-full object-cover"
                     />
                   ) : (

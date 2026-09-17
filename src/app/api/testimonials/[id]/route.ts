@@ -12,7 +12,7 @@ export async function PATCH(
   if (auth.error) return auth.error
 
   const contentType = request.headers.get("content-type") || ""
-  let updateData: Record<string, unknown> = {}
+  const updateData: Record<string, unknown> = {}
 
   if (contentType.includes("multipart/form-data")) {
     const formData = await request.formData()
@@ -63,7 +63,10 @@ export async function PATCH(
     }
   } else {
     const body = await request.json()
-    updateData = body
+    const allowedFields = ["message", "username", "role", "visible"]
+    for (const key of allowedFields) {
+      if (key in body) updateData[key] = body[key]
+    }
   }
 
   const { data, error } = await auth.supabase

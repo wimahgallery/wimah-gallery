@@ -9,6 +9,7 @@ import {
   DollarSign,
   HelpCircle,
   CalendarDays,
+  FileText,
   ExternalLink,
   LogOut,
 } from "lucide-react";
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/admin/events", label: "Events", icon: CalendarDays },
   { href: "/admin/pricing", label: "Pricing", icon: DollarSign },
   { href: "/admin/faqs", label: "FAQ", icon: HelpCircle },
+  { href: "/admin/blogs", label: "Blog", icon: FileText },
 ];
 
 export default function DashboardLayout({

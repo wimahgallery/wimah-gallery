@@ -36,6 +36,7 @@ export const siteConfig = {
     { href: "#album", label: "Album" },
     { href: "#pricing", label: "Harga" },
     { href: "#faq", label: "FAQ" },
+    { href: "/blog", label: "Blog" },
   ] as NavItem[],
 };
 

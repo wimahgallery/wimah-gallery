@@ -4,11 +4,15 @@ import { uploadImage } from "@/lib/imagekit"
 import { v4 as uuid } from "uuid"
 import { parsePagination, paginatedResponse, requireAuth } from "@/lib/api-helpers"
 
+function sanitizeSearch(input: string): string {
+  return input.replace(/[%_,]/g, (char) => `\\${char}`)
+}
+
 export async function GET(request: Request) {
   const supabase = await createClient()
   const { searchParams } = new URL(request.url)
   const { page, limit, from, to } = parsePagination(searchParams)
-  const search = searchParams.get("search")?.trim() || ""
+  const search = sanitizeSearch(searchParams.get("search")?.trim() || "")
 
   let query = supabase
     .from("events")

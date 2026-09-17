@@ -45,6 +45,22 @@ export interface Faq {
   created_at: string
 }
 
+export interface Blog {
+  id: string
+  title: string
+  slug: string
+  excerpt: string | null
+  content: Record<string, unknown> | null
+  cover_image_url: string | null
+  cover_image_file_id: string | null
+  author: string
+  category: string | null
+  published: boolean
+  visible: boolean
+  sort_order: number
+  created_at: string
+}
+
 export interface PaginatedResponse<T> {
   data: T[]
   total: number

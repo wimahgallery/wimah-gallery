@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useEffect, useState } from "react"
+import Image from "next/image"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import useEmblaCarousel from "embla-carousel-react"
@@ -23,10 +24,11 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: Testimonial; 
       <p className="mb-4 sm:mb-6 text-xs sm:text-sm leading-relaxed text-text-secondary">&ldquo;{testimonial.message}&rdquo;</p>
       <div className="flex items-center gap-3">
         {testimonial.image_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={testimonial.image_url}
             alt={testimonial.username}
+            width={40}
+            height={40}
             className="h-8 w-8 sm:h-10 sm:w-10 rounded-full object-cover"
           />
         ) : (
