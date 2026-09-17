@@ -1,7 +1,12 @@
 import type { MetadataRoute } from "next";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
@@ -31,16 +36,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const supabase = await createClient();
-  const { data: blogs } = await supabase
+  const { data: blogs, error } = await supabase
     .from("blogs")
-    .select("slug, updated_at, created_at")
+    .select("slug, created_at")
     .eq("published", true)
     .eq("visible", true);
 
+  if (error) {
+    console.error("Sitemap blog fetch error:", error.message);
+  }
+
   const blogPages = (blogs ?? []).map((blog) => ({
     url: `${BASE_URL}/blog/${blog.slug}`,
-    lastModified: new Date(blog.updated_at || blog.created_at),
+    lastModified: new Date(blog.created_at),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
