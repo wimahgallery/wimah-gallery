@@ -34,7 +34,7 @@ const TABS = [
     key: "mingle_booth",
     label: "Mingle Booth",
     icon: Users,
-    desc: "Candid moments, per hour",
+    desc: "Candid moments, file only",
   },
 ] as const;
 
