@@ -11,7 +11,16 @@ export async function PATCH(
 
   const body = await request.json()
 
-  const allowedFields = ["type", "hours", "price", "features", "sort_order", "visible"]
+  const allowedFields = [
+    "type",
+    "hours",
+    "price",
+    "discount",
+    "print_count_limit",
+    "favorite",
+    "sort_order",
+    "visible",
+  ]
   const updateData: Record<string, unknown> = {}
   for (const key of allowedFields) {
     if (key in body) updateData[key] = body[key]

@@ -55,6 +55,7 @@ const typeLabels: Record<string, string> = {
   file_only: "File Only",
   limited_print: "Limited Print",
   unlimited_print: "Unlimited Print",
+  mingle_booth: "Mingle Booth",
 };
 
 function formatPrice(price: number) {
@@ -84,14 +85,18 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
   }, [index]);
 
   const hasDiscount = pkg.discount > 0;
+  const hourText = `${pkg.hours} Hour${pkg.hours === 1 ? "" : "s"}`;
+  const isMingle = pkg.type === "mingle_booth";
+  const cardBg = isMingle ? "bg-white" : "bg-surface";
+  const cardHoverBg = isMingle ? "hover:bg-white" : "hover:bg-surface-secondary";
 
   return (
     <div
       ref={ref}
       className={`group relative rounded-2xl border p-2.5 sm:p-4 lg:p-5 transition-[transform,colors] duration-500 hover:scale-[1.02] active:scale-[0.98] ${
         pkg.favorite
-          ? "border-[#D4A853]/40 bg-surface shadow-[0_8px_32px_rgba(212,168,83,0.12)] hover:border-[#D4A853]/60 hover:shadow-[0_12px_40px_rgba(212,168,83,0.18)]"
-          : "border-border bg-surface hover:border-accent/20 hover:bg-surface-secondary hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)]"
+          ? `border-[#D4A853]/40 ${cardBg} shadow-[0_8px_32px_rgba(212,168,83,0.12)] hover:border-[#D4A853]/60 hover:shadow-[0_12px_40px_rgba(212,168,83,0.18)]`
+          : `border-border ${cardBg} hover:border-accent/20 ${cardHoverBg} hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)]`
       }`}
     >
       {pkg.favorite && (
@@ -109,7 +114,7 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
       )}
 
       <h3 className="mb-0.5 font-heading text-sm sm:text-base lg:text-lg font-normal text-text-primary">
-        {pkg.hours} Hours
+        {hourText}
       </h3>
       {pkg.print_count_limit != null && (
         <p className="mb-1.5 sm:mb-3 text-[10px] sm:text-xs text-text-secondary">
@@ -139,7 +144,7 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
       </div>
 
       <a
-        href={`${siteConfig.whatsappLink}?text=${encodeURIComponent(`Halo WIMAH Photobooth\n\nSaya tertarik ingin booking paket ${typeLabels[pkg.type] || pkg.type} ${pkg.hours} hours untuk Acara saya.\n\nTanggal Acara:\nVenue / Lokasi:\nJenis Acara: (Wedding/ Birthday/ Corporate/ dll)\n\nMohon informasi mengenai ketersediaan tanggal dan proses booking.\n\nTerima kasih.`)}`}
+        href={`${siteConfig.whatsappLink}?text=${encodeURIComponent(`Halo WIMAH Photobooth\n\nSaya tertarik ingin booking paket ${typeLabels[pkg.type] || pkg.type} ${hourText.toLowerCase()} untuk Acara saya.\n\nTanggal Acara:\nVenue / Lokasi:\nJenis Acara: (Wedding/ Birthday/ Corporate/ dll)\n\nMohon informasi mengenai ketersediaan tanggal dan proses booking.\n\nTerima kasih.`)}`}
         target="_blank"
         rel="noopener noreferrer"
         className={`flex w-full items-center justify-center gap-1.5 rounded-lg border py-1.5 sm:py-2.5 text-[10px] sm:text-xs font-semibold transition-[transform,colors] duration-300 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 ${
@@ -166,6 +171,7 @@ export default function Pricing() {
   const allPackages = response?.data ?? [];
   const visiblePackages = allPackages.filter((p) => p.visible);
   const filteredPackages = visiblePackages.filter((p) => p.type === activeTab);
+  const mingleBoothPackages = visiblePackages.filter((p) => p.type === "mingle_booth");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -383,20 +389,46 @@ export default function Pricing() {
           </div>
         )}
 
-        {/* Mingle Booth - Coming Soon */}
-        <section aria-label="Mingle Booth - Coming Soon" className="mt-12 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:p-14 text-center">
-          <div className="mb-3 sm:mb-4 inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-3 py-1">
-            <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase text-accent">
-              Coming Soon
-            </span>
-          </div>
-          <h3 className="font-heading text-xl sm:text-2xl lg:text-3xl font-normal text-text-primary mb-2">
-            Mingle Booth
-          </h3>
-          <p className="mx-auto max-w-[400px] text-xs sm:text-sm text-text-secondary leading-relaxed">
-            A new way to capture candid moments at your event. Stay tuned!
-          </p>
-        </section>
+        {/* Mingle Booth */}
+        {isLoading ? (
+          <div
+            className="mt-12 sm:mt-20 h-40 sm:h-52 animate-pulse rounded-2xl sm:rounded-3xl bg-[#E8E3D8]/30"
+            aria-hidden="true"
+          />
+        ) : mingleBoothPackages.length > 0 ? (
+          <section aria-label="Mingle Booth" className="mt-12 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:p-14 text-center">
+            <div className="mb-3 sm:mb-4 inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-3 py-1">
+              <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase text-accent">
+                Per Hour
+              </span>
+            </div>
+            <h3 className="font-heading text-xl sm:text-2xl lg:text-3xl font-normal text-text-primary mb-2">
+              Mingle Booth
+            </h3>
+            <p className="mx-auto max-w-[400px] text-xs sm:text-sm text-text-secondary leading-relaxed">
+              A new way to capture candid moments at your event.
+            </p>
+            <div className="mx-auto mt-6 sm:mt-10 grid max-w-3xl grid-cols-1 gap-3 text-left sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+              {mingleBoothPackages.map((pkg, i) => (
+                <PackageCard key={pkg.id} pkg={pkg} index={i} />
+              ))}
+            </div>
+          </section>
+        ) : (
+          <section aria-label="Mingle Booth - Coming Soon" className="mt-12 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:p-14 text-center">
+            <div className="mb-3 sm:mb-4 inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-3 py-1">
+              <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase text-accent">
+                Coming Soon
+              </span>
+            </div>
+            <h3 className="font-heading text-xl sm:text-2xl lg:text-3xl font-normal text-text-primary mb-2">
+              Mingle Booth
+            </h3>
+            <p className="mx-auto max-w-[400px] text-xs sm:text-sm text-text-secondary leading-relaxed">
+              A new way to capture candid moments at your event. Stay tuned!
+            </p>
+          </section>
+        )}
 
         {/* What's Included */}
         <section aria-label="Yang Termasuk" className="mt-8 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-4 sm:p-8 lg:p-12">

@@ -19,9 +19,14 @@ const TABS = [
   { key: "file_only", label: "File Only" },
   { key: "limited_print", label: "Limited Print" },
   { key: "unlimited_print", label: "Unlimited Print" },
+  { key: "mingle_booth", label: "Mingle Booth" },
 ] as const
 
 type TabKey = (typeof TABS)[number]["key"]
+
+function formDefaults(tab: TabKey): PricingPackageInput {
+  return { hours: tab === "mingle_booth" ? 1 : 2, price: 0, discount: 0, print_count_limit: 0 }
+}
 
 export default function PricingContent() {
   const [activeTab, setActiveTab] = useState<TabKey>("file_only")
@@ -47,12 +52,12 @@ export default function PricingContent() {
 
   const addForm = useForm<PricingPackageInput>({
     resolver: zodResolver(pricingPackageSchema),
-    defaultValues: { hours: 2, price: 0, discount: 0, print_count_limit: 0 },
+    defaultValues: formDefaults(activeTab),
   })
 
   const addMutation = useAdminPricingAdd(activeTab, filteredPackages.length, {
     onSuccess: () => {
-      addForm.reset({ hours: 2, price: 0, discount: 0, print_count_limit: 0 })
+      addForm.reset(formDefaults(activeTab))
       setShowAdd(false)
       setError("")
       setPage(1)
@@ -82,6 +87,7 @@ export default function PricingContent() {
   }
 
   const showPrintLimit = activeTab === "limited_print"
+  const hoursLabel = activeTab === "mingle_booth" ? "Per Jam" : "Hours"
 
   return (
     <div className="space-y-6">
@@ -92,12 +98,12 @@ export default function PricingContent() {
         </p>
       </div>
 
-      <div className="flex gap-1 rounded-lg border border-[rgba(84,82,77,0.12)] bg-white p-1">
+      <div className="grid grid-cols-2 gap-1 rounded-lg border border-[rgba(84,82,77,0.12)] bg-white p-1 sm:grid-cols-4">
         {TABS.map((tab) => (
           <button
             key={tab.key}
             onClick={() => { setActiveTab(tab.key); setShowAdd(false); setError("") }}
-            className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors duration-300duration-300 ${activeTab === tab.key ? "bg-[#7C8472] text-[#F5F3EE]" : "text-[#8D8A82] hover:text-[#54524D]"}`}
+            className={`rounded-md px-2 py-2 text-xs font-medium transition-colors duration-300 sm:px-4 sm:text-sm ${activeTab === tab.key ? "bg-[#7C8472] text-[#F5F3EE]" : "text-[#8D8A82] hover:text-[#54524D]"}`}
           >
             {tab.label}
           </button>
@@ -125,7 +131,7 @@ export default function PricingContent() {
             </label>
           </div>
           <button
-            onClick={() => { setShowAdd(!showAdd); addForm.reset({ hours: 2, price: 0, discount: 0, print_count_limit: 0 }); setError("") }}
+            onClick={() => { setShowAdd(!showAdd); addForm.reset(formDefaults(activeTab)); setError("") }}
             className="inline-flex items-center gap-1.5 rounded-lg bg-[#7C8472] px-3 py-1.5 text-xs font-semibold text-[#F5F3EE] transition-colors duration-300hover:bg-[#5F6558]"
           >
             {showAdd ? <X className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
@@ -137,7 +143,7 @@ export default function PricingContent() {
           <form onSubmit={addForm.handleSubmit((data) => addMutation.mutate(data))} className="border-b border-[rgba(84,82,77,0.08)] bg-[#F5F3EE]/50 px-5 py-4">
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <div>
-                <label className="mb-1 block text-xs font-medium text-[#54524D]">Hours</label>
+                <label className="mb-1 block text-xs font-medium text-[#54524D]">{hoursLabel}</label>
                 <input
                   type="number"
                   {...addForm.register("hours", { valueAsNumber: true })}
@@ -210,6 +216,7 @@ export default function PricingContent() {
                 key={pkg.id}
                 pkg={pkg}
                 showPrintLimit={showPrintLimit}
+                hoursLabel={hoursLabel}
                 isFirst={i === 0}
                 isLast={i === filteredPackages.length - 1}
                 onToggleVisible={(vis) => updateMutation.mutate({ id: pkg.id, updates: { visible: vis } })}
@@ -231,6 +238,7 @@ export default function PricingContent() {
 function PackageRow({
   pkg,
   showPrintLimit,
+  hoursLabel,
   isFirst,
   isLast,
   onToggleVisible,
@@ -241,6 +249,7 @@ function PackageRow({
 }: {
   pkg: PricingPackage
   showPrintLimit: boolean
+  hoursLabel: string
   isFirst: boolean
   isLast: boolean
   onToggleVisible: (v: boolean) => void
@@ -289,7 +298,7 @@ function PackageRow({
         })}>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <label className="mb-1 block text-xs font-medium text-[#54524D]">Hours</label>
+              <label className="mb-1 block text-xs font-medium text-[#54524D]">{hoursLabel}</label>
               <input
                 type="number"
                 {...editForm.register("hours", { valueAsNumber: true })}
