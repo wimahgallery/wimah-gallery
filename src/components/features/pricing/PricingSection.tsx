@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { siteConfig } from "@/lib/config";
-import { Star, Crown, Zap, ChevronDown, Check } from "lucide-react";
+import { Star, Crown, Zap, ChevronDown, Check, Users } from "lucide-react";
 import { WhatsApp } from "@/components/ui/WhatsAppIcon";
 import { usePublicPricing } from "@/hooks/queries/use-pricing";
 import type { PricingPackage } from "@/types";
@@ -29,6 +29,12 @@ const TABS = [
     label: "Unlimited Print",
     icon: Crown,
     desc: "Unlimited prints",
+  },
+  {
+    key: "mingle_booth",
+    label: "Mingle Booth",
+    icon: Users,
+    desc: "Candid moments, per hour",
   },
 ] as const;
 
@@ -86,17 +92,14 @@ function PackageCard({ pkg, index }: { pkg: PricingPackage; index: number }) {
 
   const hasDiscount = pkg.discount > 0;
   const hourText = `${pkg.hours} Hour${pkg.hours === 1 ? "" : "s"}`;
-  const isMingle = pkg.type === "mingle_booth";
-  const cardBg = isMingle ? "bg-white" : "bg-surface";
-  const cardHoverBg = isMingle ? "hover:bg-white" : "hover:bg-surface-secondary";
 
   return (
     <div
       ref={ref}
       className={`group relative rounded-2xl border p-2.5 sm:p-4 lg:p-5 transition-[transform,colors] duration-500 hover:scale-[1.02] active:scale-[0.98] ${
         pkg.favorite
-          ? `border-[#D4A853]/40 ${cardBg} shadow-[0_8px_32px_rgba(212,168,83,0.12)] hover:border-[#D4A853]/60 hover:shadow-[0_12px_40px_rgba(212,168,83,0.18)]`
-          : `border-border ${cardBg} hover:border-accent/20 ${cardHoverBg} hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)]`
+          ? "border-[#D4A853]/40 bg-surface shadow-[0_8px_32px_rgba(212,168,83,0.12)] hover:border-[#D4A853]/60 hover:shadow-[0_12px_40px_rgba(212,168,83,0.18)]"
+          : "border-border bg-surface hover:border-accent/20 hover:bg-surface-secondary hover:shadow-[0_8px_32px_rgba(124,132,114,0.06)]"
       }`}
     >
       {pkg.favorite && (
@@ -171,7 +174,6 @@ export default function Pricing() {
   const allPackages = response?.data ?? [];
   const visiblePackages = allPackages.filter((p) => p.visible);
   const filteredPackages = visiblePackages.filter((p) => p.type === activeTab);
-  const mingleBoothPackages = visiblePackages.filter((p) => p.type === "mingle_booth");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -221,7 +223,7 @@ export default function Pricing() {
             Choose the perfect package for your event.
           </p>
           <p className="mt-3 sm:mt-4 font-heading text-lg sm:text-xl lg:text-2xl font-normal text-text-primary">
-            Photobooth
+            Pricing
           </p>
         </div>
 
@@ -387,47 +389,6 @@ export default function Pricing() {
               </div>
             )}
           </div>
-        )}
-
-        {/* Mingle Booth */}
-        {isLoading ? (
-          <div
-            className="mt-12 sm:mt-20 h-40 sm:h-52 animate-pulse rounded-2xl sm:rounded-3xl bg-[#E8E3D8]/30"
-            aria-hidden="true"
-          />
-        ) : mingleBoothPackages.length > 0 ? (
-          <section aria-label="Mingle Booth" className="mt-12 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:p-14 text-center">
-            <div className="mb-3 sm:mb-4 inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-3 py-1">
-              <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase text-accent">
-                Per Hour
-              </span>
-            </div>
-            <h3 className="font-heading text-xl sm:text-2xl lg:text-3xl font-normal text-text-primary mb-2">
-              Mingle Booth
-            </h3>
-            <p className="mx-auto max-w-[400px] text-xs sm:text-sm text-text-secondary leading-relaxed">
-              A new way to capture candid moments at your event.
-            </p>
-            <div className="mx-auto mt-6 sm:mt-10 grid max-w-3xl grid-cols-1 gap-3 text-left sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
-              {mingleBoothPackages.map((pkg, i) => (
-                <PackageCard key={pkg.id} pkg={pkg} index={i} />
-              ))}
-            </div>
-          </section>
-        ) : (
-          <section aria-label="Mingle Booth - Coming Soon" className="mt-12 sm:mt-20 rounded-2xl sm:rounded-3xl border border-border bg-surface p-6 sm:p-10 lg:p-14 text-center">
-            <div className="mb-3 sm:mb-4 inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-3 py-1">
-              <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase text-accent">
-                Coming Soon
-              </span>
-            </div>
-            <h3 className="font-heading text-xl sm:text-2xl lg:text-3xl font-normal text-text-primary mb-2">
-              Mingle Booth
-            </h3>
-            <p className="mx-auto max-w-[400px] text-xs sm:text-sm text-text-secondary leading-relaxed">
-              A new way to capture candid moments at your event. Stay tuned!
-            </p>
-          </section>
         )}
 
         {/* What's Included */}
