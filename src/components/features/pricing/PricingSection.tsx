@@ -370,6 +370,7 @@ export default function Pricing() {
         />
         <div className="absolute inset-0 bg-accent/5 blur-3xl" aria-hidden="true" />
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+          {/* Photobooth */}
           <div ref={titleRef} className="mb-6 sm:mb-16 text-center">
             <p className="mb-2 sm:mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
               Packages
@@ -460,31 +461,21 @@ export default function Pricing() {
 
           {/* Desktop: Photobooth packages grid */}
           {renderGrid(filteredPackages)}
-        </div>
-      </section>
 
-      {/* Mingle Booth section */}
-      <section
-        id="mingle-booth"
-        className="relative pb-10 sm:pb-20 lg:pb-32 texture-diagonal"
-      >
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-background via-surface/30 to-background"
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-accent/5 blur-3xl" aria-hidden="true" />
-        <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <div ref={mingleTitleRef} className="mb-6 sm:mb-12 text-center">
+          {/* Mingle Booth */}
+          <div ref={mingleTitleRef} className="mt-10 sm:mt-20 mb-6 sm:mb-12 text-center">
             <p className="font-heading text-lg sm:text-xl lg:text-2xl font-normal text-text-primary">
               Mingle Booth
             </p>
           </div>
 
-          {/* Grid (all screen sizes) */}
-          {renderGrid(
-            minglePackages,
-            "grid gap-2 sm:gap-4 grid-cols-2 lg:grid-cols-4",
-          )}
+          {/* Mobile/Tablet: Accordion (same layout as Photobooth) */}
+          <div className="mb-5 sm:mb-12 lg:hidden">
+            {renderAccordion([MINGLE_TAB])}
+          </div>
+
+          {/* Desktop: Grid */}
+          {renderGrid(minglePackages)}
         </div>
       </section>
 
