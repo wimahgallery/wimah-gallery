@@ -474,19 +474,9 @@ export default function Pricing() {
         />
         <div className="absolute inset-0 bg-accent/5 blur-3xl" aria-hidden="true" />
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <div
-            ref={mingleTitleRef}
-            className="mb-6 sm:mb-12 rounded-2xl sm:rounded-3xl border border-border bg-surface px-4 py-8 sm:px-8 sm:py-12 text-center"
-          >
-            <p className="mb-2 sm:mb-4 text-xs font-medium tracking-[0.2em] uppercase text-accent">
-              Packages
-            </p>
-            <h2 className="mb-3 sm:mb-5 font-heading text-[24px] sm:text-[36px] lg:text-[44px] font-normal text-text-primary">
-              Mingle <span className="font-elegant italic text-accent">Booth</span>
-            </h2>
-            <p className="mx-auto max-w-[480px] text-xs sm:text-base text-text-secondary leading-relaxed">
-              Candid moments captured throughout your event — digital gallery
-              only, no prints.
+          <div ref={mingleTitleRef} className="mb-6 sm:mb-12 text-center">
+            <p className="font-heading text-lg sm:text-xl lg:text-2xl font-normal text-text-primary">
+              Mingle Booth
             </p>
           </div>
 
