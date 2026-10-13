@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "@/hooks/keys"
+import { getApiErrorMessage } from "@/lib/utils"
 import type { FaqInput } from "@/lib/schemas"
 
 interface UseAdminFaqsOptions {
@@ -17,8 +18,7 @@ export function useAdminFaqsCreate(options?: UseAdminFaqsOptions) {
         body: JSON.stringify({ ...data, sort_order: sortOrder }),
       })
       if (!res.ok) {
-        const body = await res.json()
-        throw new Error(body.error || "Failed to create")
+        throw new Error(await getApiErrorMessage(res, "Failed to create"))
       }
     },
     onSuccess: () => {
@@ -39,8 +39,7 @@ export function useAdminFaqsUpdate(options?: UseAdminFaqsOptions) {
         body: JSON.stringify(data),
       })
       if (!res.ok) {
-        const body = await res.json()
-        throw new Error(body.error || "Failed to update")
+        throw new Error(await getApiErrorMessage(res, "Failed to update"))
       }
     },
     onSuccess: () => {

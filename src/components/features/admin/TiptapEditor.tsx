@@ -84,8 +84,8 @@ function ImageUploadButton({ editor }: { editor: Editor }) {
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    if (file.size > 5 * 1024 * 1024) {
-      alert("Image must be less than 5MB")
+    if (file.size > 4 * 1024 * 1024) {
+      alert("Image must be less than 4MB")
       return
     }
 
@@ -129,8 +129,8 @@ async function handleImageFile(
   editor: Editor,
   setUploading: (v: boolean) => void
 ) {
-  if (file.size > 5 * 1024 * 1024) {
-    alert("Image must be less than 5MB")
+  if (file.size > 4 * 1024 * 1024) {
+    alert("Image must be less than 4MB")
     return
   }
   setUploading(true)

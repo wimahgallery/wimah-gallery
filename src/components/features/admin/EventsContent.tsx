@@ -92,8 +92,8 @@ export default function EventsContent() {
     const file = e.target.files?.[0]
     if (!file) return
 
-    if (file.size > 5 * 1024 * 1024) {
-      setFormError("Image must be under 5MB")
+    if (file.size > 4 * 1024 * 1024) {
+      setFormError("Image must be under 4MB")
       return
     }
 
@@ -270,7 +270,7 @@ export default function EventsContent() {
                     Click to upload event image
                   </p>
                   <p className="mt-0.5 text-[11px] text-[#8D8A82]">
-                    JPG, PNG or WebP. Max 5MB. Square ratio recommended.
+                    JPG, PNG or WebP. Max 4MB. Square ratio recommended.
                   </p>
                 </div>
                 <input

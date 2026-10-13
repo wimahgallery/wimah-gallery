@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "@/hooks/keys"
+import { getApiErrorMessage } from "@/lib/utils"
 import type { PricingPackageInput } from "@/lib/schemas"
 
 interface UseAdminPricingOptions {
@@ -32,8 +33,7 @@ export function useAdminPricingAdd(
         body: JSON.stringify(body),
       })
       if (!res.ok) {
-        const json = await res.json()
-        throw new Error(json.error || "Failed to add")
+        throw new Error(await getApiErrorMessage(res, "Failed to add"))
       }
     },
     onSuccess: () => {

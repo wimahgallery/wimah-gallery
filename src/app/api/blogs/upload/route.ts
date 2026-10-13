@@ -17,8 +17,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 })
   }
 
-  if (file.size > 5 * 1024 * 1024) {
-    return NextResponse.json({ error: "File must be less than 5MB" }, { status: 400 })
+  if (file.size > 4 * 1024 * 1024) {
+    return NextResponse.json({ error: "File must be less than 4MB" }, { status: 400 })
   }
 
   if (!ALLOWED_MIMES.includes(file.type)) {

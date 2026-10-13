@@ -139,8 +139,8 @@ export default function BlogsContent() {
   function handleCoverChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    if (file.size > 5 * 1024 * 1024) {
-      setFormError("Image must be less than 5MB")
+    if (file.size > 4 * 1024 * 1024) {
+      setFormError("Image must be less than 4MB")
       return
     }
     setCoverFile(file)
@@ -385,7 +385,7 @@ export default function BlogsContent() {
                       Click to upload cover image
                     </p>
                     <p className="mt-0.5 text-[11px] text-[#8D8A82]">
-                      JPG, PNG or WebP. Max 5MB.
+                      JPG, PNG or WebP. Max 4MB.
                     </p>
                   </div>
                   <input

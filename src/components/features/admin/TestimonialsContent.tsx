@@ -77,8 +77,8 @@ export default function TestimonialsContent() {
     const file = e.target.files?.[0]
     if (!file) return
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError("Image must be under 5MB")
+    if (file.size > 4 * 1024 * 1024) {
+      setError("Image must be under 4MB")
       return
     }
 
@@ -259,7 +259,7 @@ export default function TestimonialsContent() {
                       Click to upload photo
                     </p>
                     <p className="mt-0.5 text-[11px] text-[#8D8A82]">
-                      JPG, PNG or WebP. Max 5MB.
+                      JPG, PNG or WebP. Max 4MB.
                     </p>
                   </div>
                   <input

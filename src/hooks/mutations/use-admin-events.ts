@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "@/hooks/keys"
+import { getApiErrorMessage } from "@/lib/utils"
 
 interface UseAdminEventsOptions {
   onSuccess?: () => void
@@ -13,8 +14,7 @@ export function useAdminEventsCreate(options?: UseAdminEventsOptions) {
     mutationFn: async (formData: FormData) => {
       const res = await fetch("/api/events", { method: "POST", body: formData })
       if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || "Failed to save")
+        throw new Error(await getApiErrorMessage(res, "Failed to save"))
       }
       return res.json()
     },
@@ -33,8 +33,7 @@ export function useAdminEventsUpdate(options?: UseAdminEventsOptions) {
     mutationFn: async ({ id, formData }: { id: string; formData: FormData }) => {
       const res = await fetch(`/api/events/${id}`, { method: "PATCH", body: formData })
       if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || "Failed to save")
+        throw new Error(await getApiErrorMessage(res, "Failed to save"))
       }
       return res.json()
     },

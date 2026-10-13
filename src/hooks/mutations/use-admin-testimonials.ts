@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "@/hooks/keys"
+import { getApiErrorMessage } from "@/lib/utils"
 
 interface UseAdminTestimonialsOptions {
   onSuccess?: () => void
@@ -12,8 +13,7 @@ export function useAdminTestimonialsCreate(options?: UseAdminTestimonialsOptions
     mutationFn: async (formData: FormData) => {
       const res = await fetch("/api/testimonials", { method: "POST", body: formData })
       if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || "Failed to create")
+        throw new Error(await getApiErrorMessage(res, "Failed to create"))
       }
     },
     onSuccess: () => {
@@ -30,8 +30,7 @@ export function useAdminTestimonialsUpdate(options?: UseAdminTestimonialsOptions
     mutationFn: async ({ id, formData }: { id: string; formData: FormData }) => {
       const res = await fetch(`/api/testimonials/${id}`, { method: "PATCH", body: formData })
       if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || "Failed to update")
+        throw new Error(await getApiErrorMessage(res, "Failed to update"))
       }
     },
     onSuccess: () => {
