@@ -37,7 +37,7 @@ const MINGLE_TAB = {
   key: "mingle_booth",
   label: "Mingle Booth",
   icon: Users,
-  desc: "Candid moments, file only",
+  desc: "File only",
 } as const;
 
 const TABS = [...PHOTOBOOTH_TABS, MINGLE_TAB];
@@ -383,7 +383,7 @@ export default function Pricing() {
               Choose the perfect package for your event.
             </p>
             <p className="mt-3 sm:mt-4 font-heading text-lg sm:text-xl lg:text-2xl font-normal text-text-primary">
-              Photobooth
+              Photo Booth
             </p>
           </div>
 
